@@ -1,0 +1,14 @@
+File addFile = "Add.java";
+
+Test addTest = {
+	console = "The sum of 1 and 2 is 3";
+};
+
+main() {
+	boolean success = addFile.run(addTest);
+	if(success) {
+		print addTest.success;
+	} else {
+		print addTest.failure;
+	}
+}
