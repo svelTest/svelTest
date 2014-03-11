@@ -1,0 +1,44 @@
+IMPORT Add.java;
+
+INT addSuccessCounter = 0;
+
+MAIN() {
+	FUNCTION myAddFunction = {"add", (INT, INT)};
+	PARAM oneTwo = (1, 2);
+	OUTPUT three = 3;
+	
+	TESTCASE simpleTestCase = {oneTwo, three};
+
+	COMMENT
+	TEST simpleAddTest = {myAddFunction, simpleTestCase, addSuccess, onFailure);
+	
+	simpleAddTest.TESTfunction;
+
+	TESTCASE failingTestCase = {(40, 8594), 5};
+	
+	testcase[] testCases = {simpleTestCase, failingTestCase};
+	testCases.add({3, 4}, 7);
+
+	TEST multipleAddTest = {myAddFunction, testCases, addSuccess, onFailure);
+	multipleAddTest.TESTfunction;
+
+	PARAM noParams = ();
+	OUTPUT systemOut = {SYSOUTkeyword, "Hello world"};
+	TESTCASE sysoutTestCase = {noParams, systemOut};
+
+	TEST programTest = {MAINkeyword, sysoutTestCase, mainSuccess, onFailure};
+	programTest.TESTfunction;
+}
+
+void addSuccess() {
+	PRINT(TESTCASEkeyword + " passed!");
+	addSuccessCounter++;
+}
+
+void mainSuccess() {
+	PRINT("main passed");
+}
+
+void onFailure() {
+	PRINT(FUNCTIONkeyword + " failed with test case " + TESTCASEkeyword);
+}
