@@ -2,8 +2,17 @@
 	#include <stdio.h>
 %}
 
-file		"File"
-test		"Test"
+import		"import"
+test		"test"
+int		"int"
+function	"function"
+param		"param"
+output		"output"
+testcase	"testcase"
+SYSOUT		"SYSOUT"
+MAIN		"MAIN"
+TESTCASE	"TESTCASE"
+FUNCTION	"FUNCTION"
 main		"main()"
 boolean		"boolean"
 if		"if"
@@ -14,14 +23,24 @@ stringLiteral	\"[^\"]*\"
 variable	[a-zA-z_][a-zA-z0-9_]*
 number		[0-9]+
 notvalid	[0-9]+[a-zA-z0-9_]*
+comment		\/\*[^\/\*]*\*\/
 delim		[ \t\n]
 ws		{delim}+
 
 %%
 
-{file}		{ printf("FILE"); }
+{import}	{ printf("IMPORT"); }
 {test}		{ printf("TEST"); }
-{main}		{ printf("MAIN"); }
+{int}		{ printf("INT"); }
+{function}	{ printf("FUNCTION"); }
+{param}		{ printf("PARAM"); }
+{output}	{ printf("OUTPUT"); }
+{testcase}	{ printf("TESTCASE"); }
+{SYSOUT}	{ printf("SYSOUTkeyword"); }
+{MAIN}		{ printf("MAINkeyword"); }
+{TESTCASE}	{ printf("TESTCASEkeyword"); }
+{FUNCTION}	{ printf("FUNCTIONkeyword"); }
+{main}		{ printf("MAIN()"); }
 {boolean}	{ printf("BOOLEAN"); }
 {if}		{ printf("IF"); }
 {else}		{ printf("ELSE"); }
@@ -32,8 +51,9 @@ ws		{delim}+
 
 {number}	{ printf("%s", yytext); }
 {notvalid}	{ printf("NOT VALID"); }
-{delim}		{ /* skip blanks */ }
-\n|.		{ printf(" "); }
+{comment}	{ printf("COMMENT"); }
+{delim}		{ printf("%s", yytext); /* will eventually want to skip blanks */ }
+\n|.		{ printf("%s", yytext); }
 
 %%
 
