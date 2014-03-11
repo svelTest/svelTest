@@ -4,6 +4,7 @@
 
 import		"import"
 test		"test"
+test_func	"test()"
 int		"int"
 function	"function"
 param		"param"
@@ -31,6 +32,7 @@ ws		{delim}+
 
 {import}	{ printf("IMPORT"); }
 {test}		{ printf("TEST"); }
+{test_func}	{ printf("TESTfunction"); }
 {int}		{ printf("INT"); }
 {function}	{ printf("FUNCTION"); }
 {param}		{ printf("PARAM"); }
