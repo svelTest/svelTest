@@ -1,0 +1,16 @@
+import HelloWorld.java;
+
+main() {
+	param noParams = ();
+	output systemOut = {SYSOUT, "Hello World"};
+	testcase sysoutTestCase = {noParams, systemOut};
+
+	test programTest = {MAIN, sysoutTestCase, mainSuccess, onFailure};
+	programTest.test();
+}
+
+void mainSuccess() {
+}
+
+void onFailure() {
+}
