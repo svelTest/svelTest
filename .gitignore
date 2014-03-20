@@ -1,9 +1,8 @@
 # Ignore local notes file
 notes.txt
 
-# Ignore files created by running non-class version of lexer/parser
+# Ignore files created by running lexer/parser
 parser.out
 parsetab.py
-
-# Ignore files created by running the class version of lexer/parser
 *parsetab.py
+*.pyc

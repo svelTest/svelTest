@@ -37,10 +37,9 @@ class SvelLexer:
 	}
 	# Lists of token names. always required
 	tokens = [
-		#'STRINGLITERAL',
 		'ID',
 		'NUMBER',
-		#'COMMENT',
+		'COMMENT',
 	] + list(reserved.values())
 
 	# reg exps for simple tokens must be of form t_TOKENNAME
@@ -59,6 +58,9 @@ class SvelLexer:
 		r'\d+'
 		t.value = int(t.value)
 		return t
+
+	# regular expression from http://ostermiller.org/findcomment.html
+	t_ignore_COMMENT = r'(/\*([^*]|[\n]|(\*+([^*/]|[\n])))*\*+/)|(//.*)'
 
 	# define newline rule to track line numbers
 	def t_newline(self, t):
