@@ -1,3 +1,3 @@
 .PHONY: clean
 clean:
-	rm -f *parsetab.py parser.out *~ 
+	rm -f *parsetab.py parser.out *.pyc *~ 
