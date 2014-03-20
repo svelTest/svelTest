@@ -12,7 +12,7 @@
 #import sys
 #sys.path.insert(0,"../..")
 import os, sys
-lib_path = os.path.join('ply-3.4')
+lib_path = os.path.join('../ply-3.4')
 sys.path.append(lib_path)
 
 import readline
