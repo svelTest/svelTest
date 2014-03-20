@@ -7,13 +7,20 @@ svel.build()
 
 # provide some data
 data = '''
+// Testing this type of comment
 import HelloWorld.java;
+
+/* Testing this type of comment */
 void mainSuccess() {
 	
 }
 void onFailure(){
 	
 }
+/** Testing this type of comment
+* Testing
+* Testing
+*/
 main() {
 	param noParams = ();
 	output systemOut = {SYSOUT, "Hello World"};
