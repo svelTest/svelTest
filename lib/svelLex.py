@@ -1,10 +1,7 @@
 # ---------------------------------------------------------
-# calclex.py
+# svelLex.py
 #
-# tokenizer for simple expression evaluator for numbers
-# and +,-,*,/
-#
-# from www.dabeaz.com/ply/ply.html
+# tokenizer for svelTest programs
 # ---------------------------------------------------------
 
 # be able to go into the ply directory to get to the 
