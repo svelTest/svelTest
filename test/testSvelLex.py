@@ -1,3 +1,12 @@
+# get to lib for svelLex file
+import os, sys
+lib_path = os.path.join('../lib')
+sys.path.append(lib_path)
+
+# get to ply
+lib_path = os.path.join('../lib/ply-3.4')
+sys.path.append(lib_path)
+
 # import SvelLexer class
 from svelLex import SvelLexer
 
