@@ -7,3 +7,5 @@ parsetab.py
 
 # Ignore files created by running the class version of lexer/parser
 *parsetab.py
+
+.vagrant/*
