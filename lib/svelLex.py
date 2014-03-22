@@ -1,10 +1,7 @@
 # ---------------------------------------------------------
-# calclex.py
+# svelLex.py
 #
-# tokenizer for simple expression evaluator for numbers
-# and +,-,*,/
-#
-# from www.dabeaz.com/ply/ply.html
+# tokenizer for svelTest programs
 # ---------------------------------------------------------
 
 # be able to go into the ply directory to get to the 
@@ -37,13 +34,59 @@ class SvelLexer:
 	}
 	# Lists of token names. always required
 	tokens = [
-		#'STRINGLITERAL',
 		'ID',
 		'NUMBER',
-		#'COMMENT',
+		'STRING',
+		'COMMENT',
+		'PLUS',
+		'MINUS',
+		'TIMES',
+		'DIVIDE',
+		'LPAREN',
+		'RPAREN',
+		'ASSIGN',
+		'SEMICOLON',
+		'COLON',
+		'PERIOD',
+		'COMMA',
+		'LBRACE',
+		'RBRACE',
+		'LBRACKET',
+		'RBRACKET',
+		'GR_OP',
+		'LS_OP',
+		'GE_OP',
+		'LE_OP',
+		'AND',
+		'OR',
+		'EQ',
+		'NEQ',
 	] + list(reserved.values())
 
 	# reg exps for simple tokens must be of form t_TOKENNAME
+	t_PLUS 		= r'\+'
+	t_MINUS		= r'-'
+	t_TIMES		= r'\*'
+	t_DIVIDE	= r'/'
+	t_LPAREN	= r'\('
+	t_RPAREN	= r'\)'
+	t_ASSIGN	= r'='
+	t_SEMICOLON = r';'
+	t_COLON		= r':'
+	t_PERIOD	= r'\.'
+	t_COMMA		= r','
+	t_LBRACE 	= r'{'
+	t_RBRACE 	= r'}'
+	t_LBRACKET	= r'\['
+	t_RBRACKET	= r'\]'
+	t_GR_OP		= r'>'
+	t_LS_OP		= r'<' 		
+	t_GE_OP		= r'>='
+	t_LE_OP		= r'<='
+	t_AND		= r'&&'
+	t_OR 		= r'\|\|'
+	t_EQ 		= r'=='
+	t_NEQ 		= r'!='
 
 	# reg exp rule with some action code
 	def t_ID(self, t):
@@ -55,10 +98,16 @@ class SvelLexer:
 		return t
 
 	def t_NUMBER(self, t):
-		# TODO: may not work for 0?
 		r'\d+'
 		t.value = int(t.value)
 		return t
+
+	def t_STRING(self, t):
+		r'"[^"]*"'
+		return t
+
+	# regular expression from http://ostermiller.org/findcomment.html
+	t_ignore_COMMENT = r'(/\*([^*]|[\n]|(\*+([^*/]|[\n])))*\*+/)|(//.*)'
 
 	# define newline rule to track line numbers
 	def t_newline(self, t):
