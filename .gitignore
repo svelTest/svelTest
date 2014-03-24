@@ -6,3 +6,6 @@ parser.out
 parsetab.py
 *parsetab.py
 *.pyc
+
+# Ignore vagrant metadata
+.vagrant/*
