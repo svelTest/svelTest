@@ -17,26 +17,37 @@ import ply.lex as lex
 class SvelLexer: 
 	# set up reserved words
 	reserved = {
-		'import' : 'IMPORT',
-		'test' : 'TEST',
 		'int' : 'INT',
-		'function' : 'FUNCTION',
-		'param' : 'PARAM',
+		'double' : 'DOUBLE',
+		'char' : 'CHAR',
+		'string' : 'STRING',
+		'funct' : 'FUNCT',
 		'output' : 'OUTPUT',
-		'testcase' : 'TESTCASE',
-		'sysout' : 'SYSOUT',
+		'input' : 'INPUT',
+		'file' : 'FILE',
 		'main' : 'MAIN',
 		'boolean' : 'BOOLEAN',
 		'if' : 'IF',
 		'else' : 'ELSE',
 		'while' : 'WHILE',
+		'for' : 'FOR',
 		'print' : 'PRINT',
+		'true' : 'TRUE',
+		'false' : 'FALSE',
+		'void' : 'VOID',
+		'assert' : 'ASSERT',
+		'break' : 'BREAK',
+		'continue' : 'CONTINUE',
+		'return' : 'RETURN',
 	}
+
 	# Lists of token names. always required
 	tokens = [
+		'RES_LANG',
 		'ID',
 		'NUMBER',
-		'STRING',
+		'STRINGLITERAL',
+		'CHARACTERLITERAL',
 		'COMMENT',
 		'PLUS',
 		'MINUS',
@@ -46,7 +57,6 @@ class SvelLexer:
 		'RPAREN',
 		'ASSIGN',
 		'SEMICOLON',
-		'COLON',
 		'PERIOD',
 		'COMMA',
 		'LBRACE',
@@ -72,7 +82,6 @@ class SvelLexer:
 	t_RPAREN	= r'\)'
 	t_ASSIGN	= r'='
 	t_SEMICOLON = r';'
-	t_COLON		= r':'
 	t_PERIOD	= r'\.'
 	t_COMMA		= r','
 	t_LBRACE 	= r'{'
@@ -89,6 +98,11 @@ class SvelLexer:
 	t_NEQ 		= r'!='
 
 	# reg exp rule with some action code
+	def t_RES_LANG(self, t):
+		r'j_int|j_double|j_float|j_byte|j_char|j_String|j_boolean|j_long'
+		t.type = 'RES_LANG'
+		return t
+
 	def t_ID(self, t):
 		r'[a-zA-Z_][a-zA-Z0-9_]*'
 		# searches reserved for t.value
@@ -102,8 +116,12 @@ class SvelLexer:
 		t.value = int(t.value)
 		return t
 
-	def t_STRING(self, t):
+	def t_STRINGLITERAL(self, t):
 		r'"[^"]*"'
+		return t
+
+	def t_CHARACTERLITERAL(self, t):
+		r'\'[^\']*\''
 		return t
 
 	# regular expression from http://ostermiller.org/findcomment.html
