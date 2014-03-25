@@ -22,8 +22,22 @@ parser = svelYacc.getParser()
 
 # provide some data
 data = '''
+//tests Hello.java
+boolean helloWorldTest() {
+	file helloFile = "../Hello.java";
+	funct helloMain = {main, (j_String[]), helloFile};
+	input in = ();
+	output out = "Hello World!";
+
+	return helloMain.assert(in, out);
+}
+
 main() {
-    testcase sysoutTestCase = {noParams, systemOut};
+	if(helloWorldTest()) {
+		print "Hello World passed!";
+	} else {
+		print "Hello World failed.";
+	}
 }
 '''
 

@@ -16,27 +16,22 @@ svel.build()
 
 # provide some data
 data = '''
-// Testing this type of comment
-import HelloWorld.java;
+//tests Hello.java
+boolean helloWorldTest() {
+	file helloFile = "../Hello.java";
+	funct helloMain = {main, (j_String[]), helloFile};
+	input in = ();
+	output out = "Hello World!";
 
-/* Testing this type of comment */
-void mainSuccess() {
-	
+	return helloMain.assert(in, out);
 }
-void onFailure(){
-	
-}
-/** Testing this type of comment
-* Testing
-* Testing
-*/
+
 main() {
-	param noParams = ();
-	output systemOut = {SYSOUT, "Hello World"};
-	testcase sysoutTestCase = {noParams, systemOut};
-
-	test programTest = {MAIN, sysoutTestCase, mainSuccess, onFailure};
-	programTest.test();
+	if(helloWorldTest()) {
+		print "Hello World passed!";
+	} else {
+		print "Hello World failed.";
+	}
 }
 '''
 
