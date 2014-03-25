@@ -31,9 +31,15 @@ class SvelLexer:
 		'else' : 'ELSE',
 		'while' : 'WHILE',
 		'print' : 'PRINT',
+		'true' : 'TRUE',
+		'false' : 'FALSE',
+		'void' : 'VOID',
+		'assert' : 'ASSERT'
 	}
+
 	# Lists of token names. always required
 	tokens = [
+		'RES_LANG',
 		'ID',
 		'NUMBER',
 		'STRING',
@@ -89,6 +95,11 @@ class SvelLexer:
 	t_NEQ 		= r'!='
 
 	# reg exp rule with some action code
+	def t_RES_LANG(self, t):
+		r'j_int|j_double|j_float|j_byte|j_char|j_String|j_boolean|j_long'
+		t.type = 'RES_LANG'
+		return t
+
 	def t_ID(self, t):
 		r'[a-zA-Z_][a-zA-Z0-9_]*'
 		# searches reserved for t.value
