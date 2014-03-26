@@ -59,6 +59,7 @@ def p_function_def(p):
         p[0] = "void " + p[2] + " " + p[3] + " " + p[4]
     else:
         p[0] = "main(" + p[3] + ") " + p[5]
+        print "Got to main"
 
 def p_function_expr(p):
     '''
@@ -135,6 +136,7 @@ def p_stmt(p):
          | jump_stmt
     '''
     p[0] = p[1]
+    print p[0]
 
 def p_expression_stmt(p):
     '''
@@ -157,7 +159,6 @@ def p_expression(p):
 def p_assignment_expr(p):
     '''
     assignment_expr : FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA ID RBRACE
-    				| FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN RPAREN COMMA ID RBRACE
     				| type ID ASSIGN LBRACE assignment_expr RBRACE
     				| type ID ASSIGN assignment_expr
                     | logical_OR_expr
@@ -274,7 +275,7 @@ def p_prefix_expr(p):
     
 def p_postfix_expr(p):
     '''
-    postfix_expr : primary_expr
+    postfix_expr : secondary_expr
                  | postfix_expr PLUS PLUS
                  | postfix_expr MINUS MINUS
     '''
@@ -285,23 +286,29 @@ def p_postfix_expr(p):
     else:
         p[0] = p[1] + "--"
     
+def p_secondary_expr(p):
+    '''
+    secondary_expr : function_call
+                   | LPAREN reserved_languages_list RPAREN
+                   | LPAREN expression RPAREN
+                   | LBRACE identifier_list RBRACE
+                   | primary_expr
+    '''
+    if p[1] == "(":
+        p[0] = "(" + p[2] + ")"
+    elif p[1] == "{":
+        p[0] = "{" + p[2] + "}" 
+    else:
+        p[0] = p[1]
+
 def p_primary_expr(p):
     '''
     primary_expr : ID
                  | STRINGLITERAL
                  | constant
-                 | function_call
-                 | LPAREN reserved_languages_list RPAREN
-                 | LPAREN expression RPAREN
-                 | LBRACE identifier_list RBRACE
-                 | identifier_list
     '''
-    if len(p) == 2:
-        p[0] = p[1]
-    elif p[1] == "(":
-        p[0] = "(" + p[2] + ")"
-    else:
-        p[0] = "{" + p[2] + "}"  
+    p[0] = p[1]
+     
 
 def p_function_call(p):
     '''
@@ -338,8 +345,8 @@ def p_reserved_language_keyword(p):
 
 def p_identifier_list(p):
     '''
-    identifier_list : primary_expr
-                    | identifier_list COMMA primary_expr
+    identifier_list : expression
+                    | identifier_list COMMA expression
     '''
     if len(p) == 2:
         p[0] = p[1]
