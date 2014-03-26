@@ -25,7 +25,7 @@ data = '''
 //tests Hello.java
 boolean helloWorldTest() {
 	file helloFile = "../Hello.java";
-	funct helloMain = {main, (j_String[]), helloFile};
+	funct helloMain = {__main__, (j_String[]), helloFile};
 	input in = ();
 	output out = "Hello World!";
 

@@ -26,6 +26,7 @@ class SvelLexer:
 		'input' : 'INPUT',
 		'file' : 'FILE',
 		'main' : 'MAIN',
+		'__main__' : '__MAIN__',
 		'boolean' : 'BOOLEAN',
 		'if' : 'IF',
 		'else' : 'ELSE',

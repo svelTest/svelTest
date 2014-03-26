@@ -108,7 +108,7 @@ def p_parameter(p):
     if len(p) == 3:
         p[0] = p[1] + " " + p[1]
     else:
-        p[0] = p[1]
+        p[0] = ""
 
 def p_brack_stmt(p):
     '''
@@ -135,7 +135,10 @@ def p_stmt(p):
          | jump_stmt
          | empty
     '''
-    p[0] = p[1]
+    if p[1] == None:
+    	p[0] = ""
+    else:
+    	p[0] = p[1]
 
 def p_expression_stmt(p):
     '''
@@ -148,16 +151,23 @@ def p_expression(p):
     expression : assignment_expr
                | empty
     '''
-    p[0] = p[1]
+    if p[1] == None:
+    	p[0] = ""
+    else:
+    	p[0] = p[1]
     
+# TODO: FUNCT is janky
 def p_assignment_expr(p):
     '''
-    assignment_expr : type ID ASSIGN assignment_expr
+    assignment_expr : FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA ID RBRACE
+    				| type ID ASSIGN assignment_expr
                     | type ID ASSIGN LBRACE assignment_expr RBRACE 
                     | PRINT assignment_expr
                     | logical_OR_expr
     '''
-    if len(p) == 5:
+    if len(p) == 12:
+    	p[0] = "funct " + p[2] + " = {" + p[5] + ", (" + p[8] + "), " + p[11] + "}" 
+    elif len(p) == 5:
         p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4]
     elif len(p) == 7:
         p[0] = p[1] + " " + p[2] + " = {" + p[4] + " }"
@@ -165,6 +175,12 @@ def p_assignment_expr(p):
         p[0] = "print " + p[2]
     else:
         p[0] = p[1]
+def p_funct_name(p):
+	'''
+	funct_name : __MAIN__ 
+			   | ID
+	'''
+	p[0] = p[1]
 
 def p_logical_OR_expr(p):
     '''
@@ -313,10 +329,14 @@ def p_reserved_languages_list(p):
 
 def p_reserved_language_keyword(p):
     '''
-    reserved_language_keyword : RES_LANG
+    reserved_language_keyword : RES_LANG LBRACKET RBRACKET
+    						  | RES_LANG
                               | empty
     '''
-    p[0] = p[1]
+    if p[1] == None:
+    	p[0] = ""
+    else:
+    	p[0] = p[1]
 
 def p_identifier_list(p):
     '''
@@ -341,7 +361,7 @@ def p_constant(p):
              | TRUE
              | FALSE
     '''
-    p[0] = p[1]
+    p[0] = str(p[1])
     
 def p_ifelse_stmt(p):
     '''
