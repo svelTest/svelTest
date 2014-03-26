@@ -133,12 +133,8 @@ def p_stmt(p):
          | ifelse_stmt
          | loop_stmt
          | jump_stmt
-         | empty
     '''
-    if p[1] == None:
-    	p[0] = ""
-    else:
-    	p[0] = p[1]
+    p[0] = p[1]
 
 def p_expression_stmt(p):
     '''
@@ -148,7 +144,8 @@ def p_expression_stmt(p):
     
 def p_expression(p):
     '''
-    expression : assignment_expr
+    expression : PRINT assignment_expr
+    		   | assignment_expr
                | empty
     '''
     if p[1] == None:
@@ -160,13 +157,15 @@ def p_expression(p):
 def p_assignment_expr(p):
     '''
     assignment_expr : FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA ID RBRACE
+    				| FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN RPAREN COMMA ID RBRACE
+    				| type ID ASSIGN LBRACE assignment_expr RBRACE
     				| type ID ASSIGN assignment_expr
-                    | type ID ASSIGN LBRACE assignment_expr RBRACE 
-                    | PRINT assignment_expr
                     | logical_OR_expr
     '''
     if len(p) == 12:
-    	p[0] = "funct " + p[2] + " = {" + p[5] + ", (" + p[8] + "), " + p[11] + "}" 
+    	p[0] = "funct " + p[2] + " = {" + p[5] + ", (" + p[8] + "), " + p[11] + "}"
+    elif len(p) == 11:
+    	p[0] = "funct " + p[2] + " = {" + p[5] + ", (), " + p[11] + "}" 
     elif len(p) == 5:
         p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4]
     elif len(p) == 7:
@@ -331,7 +330,6 @@ def p_reserved_language_keyword(p):
     '''
     reserved_language_keyword : RES_LANG LBRACKET RBRACKET
     						  | RES_LANG
-                              | empty
     '''
     if p[1] == None:
     	p[0] = ""
@@ -340,19 +338,13 @@ def p_reserved_language_keyword(p):
 
 def p_identifier_list(p):
     '''
-    identifier_list : identifier
-                    | identifier_list COMMA identifier
+    identifier_list : primary_expr
+                    | identifier_list COMMA primary_expr
     '''
     if len(p) == 2:
         p[0] = p[1]
     else:
         p[0] = p[1] + ", " + p[3]
-
-def p_identifier(p):
-    '''
-    identifier : primary_expr
-    '''
-    p[0] = p[1]
 
 def p_constant(p):
     '''
