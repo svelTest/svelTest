@@ -50,13 +50,13 @@ def p_external_declaration(p):
 def p_function_def(p):
     '''
     function_def : type function_expr brack_stmt
-                 | VOID ID function_expr brack_stmt
+                 | VOID function_expr brack_stmt
                  | MAIN LPAREN param_list RPAREN brack_stmt
     '''
-    if len(p) == 4:
+    if p[1] == "void":
+        p[0] = "void " + p[2] + " " + p[3]
+    elif len(p) == 4:
         p[0] = p[1] + " " + p[2] + " " + p[3]
-    elif len(p) == 5:
-        p[0] = "void " + p[2] + " " + p[3] + " " + p[4]
     else:
         p[0] = "main(" + p[3] + ") " + p[5]
         print "Got to main"
