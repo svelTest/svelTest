@@ -81,7 +81,7 @@ class SvelLexer:
 	t_LPAREN	= r'\('
 	t_RPAREN	= r'\)'
 	t_ASSIGN	= r'='
-	t_SEMICOLON = r';'
+	t_SEMICOLON 	= r';'
 	t_PERIOD	= r'\.'
 	t_COMMA		= r','
 	t_LBRACE 	= r'{'
