@@ -31,15 +31,15 @@ boolean helloWorldTest() {
 
 	return helloMain.assert(in, out);
 }
-
-main() {
-	if(helloWorldTest()) {
-		print "Hello World passed!";
-	} else {
-		print "Hello World failed.";
-	}
-}
 '''
+#main() {
+#	if(helloWorldTest()) {
+#		print "Hello World passed!";
+#	} else {
+#		print "Hello World failed.";
+#	}
+#}
+#'''
 
 # print the results of parsing
 print parser.parse(data, lexer=svel.get_lexer())
