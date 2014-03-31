@@ -356,7 +356,6 @@ def p_identifier_list(p):
 def p_constant(p):
     '''
     constant : NUMBER
-             | CHARACTERLITERAL
              | TRUE
              | FALSE
     '''

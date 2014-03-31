@@ -48,7 +48,6 @@ class SvelLexer:
 		'ID',
 		'NUMBER',
 		'STRINGLITERAL',
-		'CHARACTERLITERAL',
 		'COMMENT',
 		'PLUS',
 		'MINUS',
@@ -119,10 +118,6 @@ class SvelLexer:
 
 	def t_STRINGLITERAL(self, t):
 		r'"[^"]*"'
-		return t
-
-	def t_CHARACTERLITERAL(self, t):
-		r'\'[^\']*\''
 		return t
 
 	# regular expression from http://ostermiller.org/findcomment.html
