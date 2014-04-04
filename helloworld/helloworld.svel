@@ -1,0 +1,5 @@
+// some commments
+
+main() {
+	print "Hello World!";
+}
