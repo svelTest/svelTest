@@ -5,6 +5,7 @@ sys.path.append(lib_path)
 from svelLexHelloWorld import SvelLexer
 from node import Node
 import svelYaccHelloWorld
+from svelTraverse import SvelTraverse
 
 # get and build lexer
 svel = SvelLexer()
@@ -21,4 +22,7 @@ main() {
 }
 '''
 
-print parser.parse(data, lexer=svel.get_lexer())
+ast = parser.parse(data, lexer=svel.get_lexer())
+print ast
+
+print SvelTraverse(ast).get_code()
