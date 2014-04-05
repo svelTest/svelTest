@@ -48,7 +48,7 @@ def p_external_declaration(p):
     if len(p) == 2:
         p[0] = Node('external_declaration', [p[1]])
     else:
-        p[0] = Node('external_declaration', [p[1], p[2]])
+        p[0] = Node('external_declaration', [p[1]], p[2])
 
 def p_function_def(p):
     '''
