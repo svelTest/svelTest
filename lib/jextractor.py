@@ -11,7 +11,7 @@ class Jextractor(object):
     def getMethodSignature(self, file, name, params):
         regexp_params = ""
         for p in params:
-            strip_p = p.split("_")[1]; # strip type from j_type
+            strip_p = p.split("_")[1] # strip type from j_type
             # regexp for parameters - 0 or more spaces, followed by type, 
             # followed by 1 or more spaces, followed by a comma 
             regexp_params += "[ ]*%s[ ]\+.*," % (strip_p)
