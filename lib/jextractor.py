@@ -33,8 +33,8 @@ class Jextractor(object):
     '''
     def getMethodRetType(self, file, name, params):
         sig = self.getMethodSignature(file, name, params)
-        sigArray = sig.split(" ");
-        i = 0;
+        sigArray = sig.split(" ")
+        i = 0
         while i < len(sigArray):
             if sigArray[i].startswith(name):
                 break
