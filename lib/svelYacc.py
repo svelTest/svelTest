@@ -48,7 +48,7 @@ def p_external_declaration(p):
     if len(p) == 2:
         p[0] = Node('external_declaration', [p[1]])
     else:
-        p[0] = Node('translation_unit', [p[1], p[2]])
+        p[0] = Node('external_declaration', [p[1], p[2]])
 
 def p_function_def(p):
     '''
@@ -80,16 +80,6 @@ def p_type(p):
         p[0] = Node('type', [], p[1])
     else:
         p[0] = Node('type', [], p[1].leaf + p[2] + p[3])
-
-def p_reslang_type(p):
-    '''
-    reslang_type : RES_LANG
-                | RES_LANG LBRACKET RBRACKET
-    '''
-    if len(p) == 2:
-        p[0] = Node('reslang_type', [], p[1])
-    else:
-        p[0] = Node('reslang_type', [], p[1].leaf + p[2] + p[3])
 
 def p_param_list(p):
     '''
@@ -242,7 +232,6 @@ def p_multiplicative_expr(p):
 def p_secondary_expr(p):
     '''
     secondary_expr : primary_expr
-                   | LPAREN reserved_languages_list RPAREN
                    | LPAREN expression RPAREN
                    | LBRACE identifier_list RBRACE
     '''
@@ -296,8 +285,10 @@ def p_reserved_language_keyword(p):
     						  | RES_LANG
                               | empty
     '''
-    p[0] = Node('reserved_languages_keyword', [p[1]])
-    # TODO: arrays
+    if len(p) == 4:
+        p[0] = Node('reserved_languages_keyword', [], str(p[1]) + "[]")
+    else:
+        p[0] = Node('reserved_languages_keyword', [], p[1])
 
 def p_identifier_list(p):
     '''
