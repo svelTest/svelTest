@@ -52,7 +52,7 @@ class Testsuite(object):
 			}
 		}
 		'''	
-
+		# 6: call assert() with inline input/output 
 		test_6 = '''
 		main() {
 			file helloFile = "java_files/Hello.java";
@@ -61,19 +61,40 @@ class Testsuite(object):
 		}
 		'''
 
+		# 7: full Hello World test
 		test_7 = '''
-		void helloWorldTest(int a) {
-			int x = 3;
+		void helloWorldTest() {
 			file helloFile = "../Hello.java";
 			funct helloMain = {__main__, (), helloFile};
 			input in = ();
 			output out = "Hello World!";
-			add(x, a);
 			helloMain.assert(in, out);
 		}
 		'''
 
-		self.cases = [test_0, test_1, test_2, test_3, test_4, test_5, test_6, test_7]
+		# 8: for loop
+		test_8 = '''
+		int increment(int x) {
+			int result = 0;
+			for (int i = 0; i < x; i=i+1) {
+				result = result + i;
+			}
+			return result;
+		}
+		'''
+
+		# 9: for loop with postfix expression -- this should throw a syntax error!
+		test_9 = '''
+		int increment(int x) {
+			int result = 0;
+			for (int i = 0; i < x; i++) {
+				result = result + i;
+			}
+			return result;
+		}
+		'''
+
+		self.cases = [test_0, test_1, test_2, test_3, test_4, test_5, test_6, test_7, test_8, test_9]
 
 	def get(self, i):
 		return self.cases[i]
