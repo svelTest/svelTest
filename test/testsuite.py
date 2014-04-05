@@ -54,6 +54,14 @@ class Testsuite(object):
 		'''	
 
 		test_6 = '''
+		main() {
+			file helloFile = "java_files/Hello.java";
+			funct helloMain = {__main__, (j_String[]), helloFile};
+			helloMain.assert((), "Hello World!");
+		}
+		'''
+
+		test_7 = '''
 		void helloWorldTest(int a) {
 			int x = 3;
 			file helloFile = "../Hello.java";
@@ -65,7 +73,7 @@ class Testsuite(object):
 		}
 		'''
 
-		self.cases = [test_0, test_1, test_2, test_3, test_4, test_5, test_6]
+		self.cases = [test_0, test_1, test_2, test_3, test_4, test_5, test_6, test_7]
 
 	def get(self, i):
 		return self.cases[i]
