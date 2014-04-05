@@ -18,8 +18,10 @@ class Node(object):
 				s += indent + self.leaf.traverse(i+1)
 			else:
 				s += indent + str(self.leaf)
-		for children in self.children:
-			s += indent + children.traverse(i+1)
+		for child in self.children:
+			if isinstance(child, basestring):
+				print child
+			s += indent + child.traverse(i+1)
 		return s
 
 	def __str__(self):

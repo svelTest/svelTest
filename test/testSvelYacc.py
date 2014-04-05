@@ -20,26 +20,27 @@ svel.build()
 # get parser
 parser = svelYacc.getParser()
 
-# provide some data
-data = '''
-//tests Hello.java
-boolean helloWorldTest() {
-	file helloFile = "../Hello.java";
-	funct helloMain = {__main__, (j_String[]), helloFile};
-	input in = ();
-	output out = "Hello World!";
+from testsuite import Testsuite
+ts = Testsuite()
 
-	return helloMain.assert(in, out);
-}
-'''
-#main() {
-#	if(helloWorldTest()) {
-#		print "Hello World passed!";
-#	} else {
-#		print "Hello World failed.";
-#	}
-#}
-#'''
+# If run with no arguments -- test all cases in testsuite
+# $ python testSvelYacc.py
+if len(sys.argv) == 1:
+	cases = ts.getAll()
+	i = 0;
+	for case in cases:
+		print 80*'='
+		print '#%d test code: \n %s \n' % (i, case)
+		print parser.parse(case, lexer=svel.get_lexer())
+		i = i + 1
 
-# print the results of parsing
-print parser.parse(data, lexer=svel.get_lexer())
+# If run with arguments -- test those case numbers in testsuite
+# $ python testSvelYacc.py 0 3
+else:
+	i = 1;
+	while i < len(sys.argv):
+		case = ts.get(int(sys.argv[i]))
+		print 80*'='
+		print '#%s test code: \n %s \n' % (sys.argv[i], case)
+		print parser.parse(case, lexer=svel.get_lexer())
+		i = i + 1
