@@ -27,8 +27,8 @@ precedence = (
     ('left','TIMES','DIVIDE'),  
 )
 
-def getParser():
-    return yacc.yacc()
+def getParser(**kwargs):
+    return yacc.yacc(**kwargs)
 
 def p_translation_unit(p):
     '''

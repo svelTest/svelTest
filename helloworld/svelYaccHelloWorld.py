@@ -23,8 +23,8 @@ tokens = SvelLexer.tokens
 precedence = (
 )
 
-def getParser():
-    return yacc.yacc()
+def getParser(**kwargs):
+    return yacc.yacc(**kwargs)
 
 def p_main_stmt(p):
     '''
