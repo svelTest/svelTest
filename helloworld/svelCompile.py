@@ -11,8 +11,10 @@ lib_path = os.path.join('ply-3.4')
 sys.path.append(lib_path)
 
 from svelLexHelloWorld import SvelLexer
+import ply.lex as lex
 from node import Node
 import svelYaccHelloWorld
+import ply.yacc as yacc
 from svelTraverse import SvelTraverse
 
 def compile(argv):
@@ -32,12 +34,12 @@ def compile(argv):
 		print e
 
 
-	# get and build lexer
+	# get and build lexer; errorlog=lex.NullLogger() removes PLY warnings
 	svel = SvelLexer()
-	svel.build()
+	svel.build(errorlog=lex.NullLogger())
 
-	# get parser
-	parser = svelYaccHelloWorld.getParser()
+	# get parser; errorlog=yacc.NullLogger() removes PLY warnings
+	parser = svelYaccHelloWorld.getParser(errorlog=yacc.NullLogger())
 
 	# parse the data into an abstract syntax tree
 	ast = parser.parse(source_code, lexer=svel.get_lexer())
@@ -47,15 +49,16 @@ def compile(argv):
 
 	# set the name of the compiled code file
 	# e.g. if they compiled helloworld.svel, they'll get helloworld.py
-	code_file = input_filename + ".py"
+	output_filename = input_filename + ".py"
 
 	# try to write compiled code to appropriate file
 	# refuse to overwrite existing file by same name
-	if(not os.path.isfile(code_file)):
-		output = open(code_file, 'w')
-		output.write(compiled_code)
+	if(not os.path.isfile(output_filename)):
+		output_file = open(output_filename, 'w')
+		output_file.write(compiled_code)
+		print "Success: compiled to " + output_filename
 	else:
-		sys.exit("Error: Refusing to overwrite " + code_file + "\nPlease either delete it or rename your source file")
+		sys.exit("Error: Refusing to overwrite " + output_filename + "\nPlease either delete it or rename your source file")
 
 if __name__ == '__main__':
 	compile(sys.argv)
