@@ -29,9 +29,31 @@ def getParser(**kwargs):
 def p_main_stmt(p):
     '''
     main_stmt : MAIN LPAREN RPAREN LBRACE print_stmt RBRACE
+              | MAIN LPAREN RPAREN LBRACE file_stmt if_else_loop RBRACE
     '''
     #p[0] = "main() {\n" + p[5] + "\n}"
-    p[0] = Node("main_stmt", [p[5]], "main");
+    if len(p) == 7:
+        p[0] = Node("main_stmt", [p[5]], "main");
+    else:
+        p[0] = Node("main_stmt", [p[5], p[6]], "main")
+
+def p_file_stmt(p):
+    '''
+    file_stmt : FILE ID ASSIGN STRINGLITERAL SEMICOLON
+    '''
+    p[0] = Node("file_stmt", [Node("ID", [], p[2]), Node("STRINGLITERAL", [], p[4])], "file")
+
+def p_if_else_loop(p):
+    '''
+    if_else_loop : IF LPAREN ID PERIOD ASSERT RPAREN brack_stmt ELSE brack_stmt
+    '''
+    p[0] = Node("if_else_loop", [Node("ID", [], p[3]), p[7], p[9]], "if-else")
+
+def p_brack_stmt(p):
+    '''
+    brack_stmt : LBRACE print_stmt RBRACE
+    '''
+    p[0] = Node("brack_stmt", [p[2]], "bracketed-statement")
 
 def p_print_stmt(p):
     '''

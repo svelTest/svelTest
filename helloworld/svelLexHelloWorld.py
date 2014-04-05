@@ -19,6 +19,10 @@ class SvelLexer:
 	reserved = {
 		'main' : 'MAIN',
 		'print' : 'PRINT',
+		'file' : 'FILE',
+		'if' : 'IF',
+		'else' : 'ELSE',
+		'assert' : 'ASSERT',
 	}
 
 	# Lists of token names. always required
@@ -30,6 +34,9 @@ class SvelLexer:
 		'SEMICOLON',
 		'LBRACE',
 		'RBRACE',
+		'ID',
+		'ASSIGN',
+		'PERIOD',
 	] + list(reserved.values())
 
 	# reg exps for simple tokens must be of form t_TOKENNAME
@@ -38,6 +45,8 @@ class SvelLexer:
 	t_SEMICOLON 	= r';'
 	t_LBRACE 	= r'{'
 	t_RBRACE 	= r'}'
+	t_ASSIGN = r'='
+	t_PERIOD = r'\.'
 
 	def t_ID(self, t):
 		r'[a-zA-Z_][a-zA-Z0-9_]*'
