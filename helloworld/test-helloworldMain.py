@@ -8,7 +8,7 @@ import ply.lex as lex
 from node import Node
 import svelYaccHelloWorld
 import ply.yacc as yacc
-from svelTraverse import SvelTraverse
+from svelTraverseHelloWorld import SvelTraverse
 
 
 # get and build lexer; errorlog=lex.NullLogger() removes PLY warnings

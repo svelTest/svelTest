@@ -7,15 +7,21 @@
 # =============================================================================
 
 import os, sys
-lib_path = os.path.join('ply-3.4')
+
+# path to ply-3.4
+lib_path = os.path.join('../lib/ply-3.4')
 sys.path.append(lib_path)
 
-from svelLexHelloWorld import SvelLexer
+# path to lex/yacc/traverse files
+lib_path = os.path.join('../lib/')
+sys.path.append(lib_path)
+
+from svelLex import SvelLexer
 import ply.lex as lex
 from node import Node
-import svelYaccHelloWorld
+import svelYacc
 import ply.yacc as yacc
-from svelTraverseHelloWorld import SvelTraverse
+from svelTraverse import SvelTraverse
 
 def compile(argv):
 	# TODO: else if no arguments provided
@@ -39,7 +45,7 @@ def compile(argv):
 	svel.build(errorlog=lex.NullLogger())
 
 	# get parser; errorlog=yacc.NullLogger() removes PLY warnings
-	parser = svelYaccHelloWorld.getParser(errorlog=yacc.NullLogger())
+	parser = svelYacc.getParser(errorlog=yacc.NullLogger())
 
 	# parse the data into an abstract syntax tree
 	ast = parser.parse(source_code, lexer=svel.get_lexer())

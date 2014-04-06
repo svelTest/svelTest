@@ -1,0 +1,5 @@
+// output: "hello, world"
+
+main() {
+    print "hello, world";
+}
