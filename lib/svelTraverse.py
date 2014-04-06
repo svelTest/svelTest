@@ -91,11 +91,32 @@ class SvelTraverse(object):
 	# TODO: go through entire parameter list
 	def _param_list(self, tree, flags=None):
 		print "===> svelTraverse: param_list"
-		return self.walk(tree.children[0])
+
+		line = ""
+
+		# if there's another parameter
+		if len(tree.children) == 2:
+			line += self.walk(tree.children[0])
+			line += ', '
+			line += self.walk(tree.children[1])
+
+		else: # last parameter in list
+			line += self.walk(tree.children[0])
+
+		return line
 
 	def _parameter(self, tree, flags=None):
 		print "===> svelTraverse: parameter"
-		return self.walk(tree.children[0])
+
+		# if empty --> _empty
+		if tree.leaf == None:
+			return self.walk(tree.children[0])
+
+		# TODO: add entry to symbol table
+		# type = self.walk(tree.children[0])
+
+		# put ID in code
+		return tree.leaf
 
 	def _empty(self, tree, flags=None):
 		print "===> svelTraverse: empty"
