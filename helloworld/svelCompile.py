@@ -15,7 +15,7 @@ import ply.lex as lex
 from node import Node
 import svelYaccHelloWorld
 import ply.yacc as yacc
-from svelTraverse import SvelTraverse
+from svelTraverseHelloWorld import SvelTraverse
 
 def compile(argv):
 	# TODO: else if no arguments provided
