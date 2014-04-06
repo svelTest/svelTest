@@ -8,7 +8,6 @@ the given the input and output
 '''
 
 import os, sys, subprocess
-from jcreator import Jcreator
 from jfileutil import *
 
 class Funct(object):
@@ -19,14 +18,168 @@ class Funct(object):
         params - array of reslang keywords
     '''
     def __init__(self, name, params, file):
-        self.file = file
-        self.name = name
-        self.params = []
+        self.name = name   # name of the Java method to test
+        self.file = file   # file where the Java method lives
+        self.params = []   # list of its parameter types
         for p in params:
             self.params += [p.split("_")[1]] # strip type from j_type
-        self.cwd = os.getcwd()
-        self.sig = self.getSignature()
-        self.retype = self.getReType()
+
+        self.sig = self.getSignature() # (string) full Java method signature
+        self.retype = self.getRetype() # return type
+
+        self.jsvelClass = "Svel" + name
+        self.jsvelHelper = self.createJHelperFile()
+
+        print 90 * "="
+        # Compile Svel<methodName>.java
+        print "Compiling %s..." % (self.jsvelHelper)
+        if self.compileJSvelHelper() == -1:
+            print "Exit."
+            return
+    '''
+
+    Asserts if the actual output matches the expected output, given an input array
+        inputs -    test input values
+        output -    corresponding test output value
+    '''
+    def _assert(self, inputValues, outputValue):
+
+        # Run the compiled Svel<methodname> program
+        print "Running %s...\n" % (self.jsvelHelper)
+        process = self.runJSvelHelper(inputValues, outputValue)
+        # TODO: file cleanup
+
+        # Testing System.out.print output
+        if self.retype == "void":
+            if outputValue in process.stdout.read():
+                print "Test passed"
+                return True
+            else:
+                print "Test failed"
+                return False
+
+        # Testing a return value
+        else:
+            if "true" in process.stdout.read():
+                print "Test passed"
+                return True
+            else:
+                print "Test failed"
+                return False
+
+    def runJSvelHelper(self, inputValues, outputValue):
+        inputstr = ""
+        for input in inputValues:
+            inputstr += str(input) + " "
+        process = subprocess.Popen('java %s %s %s' % (self.jsvelClass, inputstr, str(outputValue)), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
+
+        return process
+
+    '''
+    Compiles the svel Java helper program that calls and checks the method to test. 
+    Program takes in args <actual parameters> <expected output> (ie input and output)
+    (see constructJHelperCode()).
+    '''
+    def compileJSvelHelper(self):
+        process = subprocess.Popen("javac %s.java" % (self.jsvelClass), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
+        err = process.stderr.read()
+        if err:
+            print 'Error compiling %s.java\n' % (self.jsvelClass)
+            print err
+            return -1
+
+        return process
+
+    '''
+    Creates and writes to the svel Java helper file
+    '''
+    def createJHelperFile(self):
+        absPath = getAbsPath(self.file)
+        array = absPath.split("/")[0:-1]
+        absPath = ""
+        for dir in array:
+            absPath += dir + "/"
+        absPath += "Svel%s.java" % (self.name)
+        svel = open(absPath, "w")
+
+        jcode = self.constructJHelperCode()
+        svel.write(jcode)
+        svel.close()
+        #print "Created %s:\n%s" % (absPath, jcode)
+
+        return absPath
+
+    '''
+    Constructs the Java source code for the svel Java helper file, which
+    calls and checks the method to test
+    
+    For example, Sveladd.java looks something like this
+    public class Svel {
+        public static void main(String[] args) {
+            int _0 = Integer.parseInt(args[0]); // reads args passed svel's Java program
+            int _1 = Integer.parseInt(args[1]);
+            int expected = Integer.parseInt(args[2]);
+
+            int actual = Add.add(_0, _1);
+
+            System.out.println(expected == actual);
+        }
+    }
+
+    To run the program :
+    $ java Svel 1 1 2
+    '''
+    def constructJHelperCode(self):
+        jtypes = {
+            "int"       : "Integer",
+            "double"    : "Double",
+            "float"     : "Float",
+            "char"      : "Character",
+            "byte"      : "Byte",
+            "long"      : "Long",
+            "String"    : "String"
+        }
+
+        body = ""
+        paramsStr = "" # string of variables to pass into the method to test
+
+        i = 0;
+        for param in self.params:
+            # create string assigning variables to the parsed type from the command line
+            # int _0 = Integer.parseInt(args[0]);
+            paramCap = param.capitalize()
+            var = "_" + str(i)
+            if not param.startswith("String"):
+                body += "\t\t%s %s = %s.parse%s(args[%d]);\n" % (param, var, jtypes[param], paramCap, i)
+            else:
+                body += "\t\t%s %s = args;\n" % (param, var)
+            
+            paramsStr += var + ", " # paramStr : "_0, _1, ..."
+            i += 1
+
+        paramsStr = paramsStr[0:-2]   # strip the ending ", "; becomes "_0, _1"
+
+        body += "\n"
+
+        if self.retype != "void":
+            retypeCap  = self.retype.capitalize()
+            body += "\t\t%s expected = %s.parse%s(args[%d]);\n" % (self.retype, jtypes[self.retype], retypeCap, i)
+            body += "\n"
+            body += "\t\t%s actual = %s.%s(%s);\n" % (self.retype, getClassName(self.file), self.name, paramsStr)
+            body += "\t\tSystem.out.println(expected == actual);"
+
+        else:
+            body += "\t\t%s.%s(%s);\n" % (getClassName(self.file), self.name, paramsStr)
+
+        jcode = '''
+public class Svel%s {
+    public static void main(String[] args) 
+    {
+%s
+    }
+}''' % (self.name, body)
+
+        return jcode
 
     '''
     Gets the method signature to test from the specified file.
@@ -50,7 +203,7 @@ class Funct(object):
     '''
     Gets the return type of the method to test.
     '''
-    def getReType(self):
+    def getRetype(self):
         if (self.sig):
             sig = self.sig
         else:
@@ -65,57 +218,20 @@ class Funct(object):
         # return type will be the word on the left side of the method name
         return sigArray[i - 1]
 
-    '''
-    Asserts if the actual output matches the expected output, given an input array
-        inputs -    test input values
-        output -    corresponding test output value
-    '''
-    def _assert(self, inputs, output):
-        jcreator = Jcreator(self.file, self.name, self.params, self.retype)
-        jsvelPath = jcreator.createJavaFile()
 
-        # Name of the new Java class -- Svel<methodName>
-        jsvel = getClassName(jsvelPath)
-        
-        print 90 * "="
-        # Compile Svel<methodName>.java
-        print "Compiling %s..." % (jsvelPath)
-        process = subprocess.Popen("javac %s.java" % (jsvel), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
-        err = process.stderr.read()
-        if err:
-            print 'Error compiling %s.java\n' % (jsvel)
-            print err
-            return
+def tests():
+    _1 = Funct("add", ["j_int", "j_int"], "../test/java_files/Add.java")
+    _1_inputs = [[1, 1], [0, 5], [134, 57]]
+    _1_outputs = [2, 5, 191]
+    
+    i = 0
+    while i < len(_1_outputs):
+        _1._assert(_1_inputs[i], _1_outputs[i])
+        i += 1
 
-        # Run the compiled Svel<methodname> program
-        print "Running %s...\n" % (jsvelPath)
-        inputstr = ""
-        for input in inputs:
-            inputstr += str(input) + " "
-        process = subprocess.Popen('java %s %s %s' % (jsvel, inputstr, str(output)), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
-
-        # TODO: file cleanup
-
-        # Testing System.out.print output
-        if self.retype == "void":
-            if output in process.stdout.read():
-                print "Test passed"
-            else:
-                print "Test failed"
-
-        # Testing a return value
-        else:
-            if "true" in process.stdout.read():
-                print "Test passed"
-            else:
-                print "Test failed"
-
-def examples():
-    ex_1 = Funct("add", ["j_int", "j_int"], "../test/java_files/Add.java")
-    ex_1._assert([1, 1], 2)
-    ex_2 = Funct("main", ["j_String[]"], "../test/java_files/HelloWorld.java")
-    ex_2._assert([], "Hello World")
+    _2 = Funct("main", ["j_String[]"], "../test/java_files/HelloWorld.java")
+    _2._assert([], "Hello World")
 
 if __name__ == "__main__":
-    examples()
+    tests()
 
