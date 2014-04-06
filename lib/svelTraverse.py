@@ -74,7 +74,8 @@ class SvelTraverse(object):
 
 		# if external var declaration
 		else:
-			return self.walk(tree.children[0]) + " " + tree.leaf
+			return ""
+			#return self.walk(tree.children[0]) + " " + tree.leaf
 
 	# TODO: handle non-main fcns; parameter list with multiple parameters
 	def _function_def(self, tree, flags=None):
