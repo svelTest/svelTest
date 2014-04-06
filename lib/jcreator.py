@@ -103,7 +103,7 @@ public class Svel%s {
         svel = open(absPath, "w")
         svel.write(self.code)
         svel.close()
-        print "Created %s:\n%s" % (absPath, self.code)
+        #print "Created %s:\n%s" % (absPath, self.code)
 
         return absPath
     
