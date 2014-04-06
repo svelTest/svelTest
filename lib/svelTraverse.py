@@ -1,7 +1,17 @@
 class SvelTraverse(object):
 
 	def __init__(self, tree):
+
+		# scope/indentation level
 		self.level = 0
+
+		# symbol table (dict)
+		self.symbols = {}
+
+		# value table (dict)
+		self.values = {}
+
+		# run
 		self.code = self.beginning() + self.walk(tree) + self.end()
 
 	# --------------
@@ -70,7 +80,7 @@ class SvelTraverse(object):
 			line += "):\n    "
 			line += self.walk(tree.children[1])
 			return line
-			
+
 		elif tree.children[0].leaf == "VOID": # return void
 			print "returns VOID"
 		else: # function returning a type
@@ -157,17 +167,37 @@ class SvelTraverse(object):
 		if tree.leaf == "print":
 			return tree.leaf + " " + tree.children[0].leaf
 
-	'''
-		TODO: add methods for these...
-			reslang_type
-			reserved_languages_list
-			reserved_language_keyword
-			identifier_list
-			ifelse_stmt
-			loop_stmt
-			jump_stmt
-			funct_name
-	'''
+	def _reslang_type(self, tree, flags=None):
+		print "===> svelTraverse: reslang_type"
+		return self.walk(tree.children[0])
+
+	def _reserved_languages_list(self, tree, flags=None):
+		print "===> svelTraverse: reserved_languages_list"
+		return self.walk(tree.children[0])
+
+	def _reserved_languages_keyword(self, tree, flags=None):
+		print "===> svelTraverse: _reserved_languages_keyword"
+		return self.walk(tree.children[0])
+
+	def _identifier_list(self, tree, flags=None):
+		print "===> svelTraverse: _identifier_list"
+		return self.walk(tree.children[0])
+
+	def _ifelse_stmt(self, tree, flags=None):
+		print "===> svelTraverse: _ifelse_stmt"
+		return self.walk(tree.children[0])
+
+	def _loop_stmt(self, tree, flags=None):
+		print "===> svelTraverse: _loop_stmt"
+		return self.walk(tree.children[0])
+
+	def _jump_stmt(self, tree, flags=None):
+		print "===> svelTraverse: _jump_stmt"
+		return self.walk(tree.children[0])
+
+	def _funct_name(self, tree, flags=None):
+		print "===> svelTraverse: _funct_name"
+		return self.walk(tree.children[0])
 
 	# -----------------
 	# OLD (from helloworld/svelTraverse.py) TODO: delete
