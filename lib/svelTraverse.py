@@ -44,6 +44,116 @@ class SvelTraverse(object):
 	# handle grammar nodes
 	# --------------------
 
+	# so far it only works for test/hello.svel example
+
+	# TODO: handle else case (see grammar)
+	def _translation_unit(self, tree, flags=None):
+		print "===> svelTraverse: translation_unit"
+		if len(tree.children) == 1:
+			return self.walk(tree.children[0])
+		elif len(tree.children) == 2:
+			return self.walk(tree.children[0]) + "\n" + self.walk(tree.children[1])
+
+	# TODO: handle else case (see grammar)
+	def _external_declaration(self, tree, flags=None):
+		print "===> svelTraverse: external_declaration"
+		return self.walk(tree.children[0])
+
+	# TODO: handle non-main fcns; parameter list with multiple parameters
+	def _function_def(self, tree, flags=None):
+		print "===> svelTraverse: function_def"
+		if len(tree.children) == 2: # main
+			return self.walk(tree.children[0]) + self.walk(tree.children[1])
+		elif tree.children[0].leaf == "VOID": # return void
+			print "returns VOID"
+		else: # function returning a type
+			print "returns" + tree.children[0].leaf
+
+		return self.walk(tree.children[1])
+
+	# TODO: go through entire parameter list
+	def _param_list(self, tree, flags=None):
+		print "===> svelTraverse: param_list"
+		return self.walk(tree.children[0])
+
+	def _parameter(self, tree, flags=None):
+		print "===> svelTraverse: parameter"
+		return self.walk(tree.children[0])
+
+	def _empty(self, tree, flags=None):
+		print "===> svelTraverse: empty"
+		return ""
+
+	def _type(self, tree, flags=None):
+		print "===> svelTraverse: type"
+		return tree.leaf
+
+	def _brack_stmt(self, tree, flags=None):
+		print "===> svelTraverse: brack_stmt"
+		return self.walk(tree.children[0])
+
+	def _stmts(self, tree, flags=None):
+		print "===> svelTraverse: stmts"
+		return self.walk(tree.children[0])
+
+	def _stmt(self, tree, flags=None):
+		print "===> svelTraverse: stmt"
+		return self.walk(tree.children[0])
+
+	# expressions...
+	def _expression_stmt(self, tree, flags=None):
+		print "===> svelTraverse: expression_stmt"
+		return self.walk(tree.children[0])
+
+	def _expression(self, tree, flags=None):
+		print "===> svelTraverse: expression"
+		return self.walk(tree.children[0])
+
+	def _assignment_expr(self, tree, flags=None):
+		print "===> svelTraverse: assignment_expr"
+		return self.walk(tree.children[0])
+
+	def _logical_OR_expr(self, tree, flags=None):
+		print "===> svelTraverse: logical_OR_expr"
+		return self.walk(tree.children[0])
+
+	def _logical_AND_expr(self, tree, flags=None):
+		print "===> svelTraverse: logical_AND_expr"
+		return self.walk(tree.children[0])
+
+	def _equality_expr(self, tree, flags=None):
+		print "===> svelTraverse: equality_expr"
+		return self.walk(tree.children[0])
+
+	def _relational_expr(self, tree, flags=None):
+		print "===> svelTraverse: relational_expr"
+		return self.walk(tree.children[0])
+
+	def _additive_expr(self, tree, flags=None):
+		print "===> svelTraverse: additive_expr"
+		return self.walk(tree.children[0])
+
+	def _multiplicative_expr(self, tree, flags=None):
+		print "===> svelTraverse: multiplicative_expr"
+		return self.walk(tree.children[0])
+
+	def _secondary_expr(self, tree, flags=None):
+		print "===> svelTraverse: secondary_expr"
+		return self.walk(tree.children[0])
+
+	def _primary_expr(self, tree, flags=None):
+		print "===> svelTraverse: primary_expr"
+		return self.walk(tree.children[0])
+
+	def _function_call(self, tree, flags=None):
+		print "===> svelTraverse: function_call"
+		if tree.leaf == "print":
+			return tree.leaf + " " + tree.children[0].leaf
+
+	# -----------------
+	# OLD! TODO: delete
+	# -----------------
+
 	# TODO: indenting; scoping
 	def _main_stmt(self, tree, flags=None):
 		line = "def main():"
