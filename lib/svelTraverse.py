@@ -48,7 +48,7 @@ class SvelTraverse(object):
 		return "import os, sys\n"
 
 	def end(self):
-		return "\nif __name__ == '__main__': \n    main()"
+		return "\nif __name__ == '__main__':\n    main()"
 
 	# --------------------
 	# handle grammar nodes
@@ -83,11 +83,14 @@ class SvelTraverse(object):
 
 		# TODO: use the format function to do indenting
 		if len(tree.children) == 2: # main
-
 			line = "def main("
 			line += self.walk(tree.children[0])
-			line += "):\n    "
+			line += "):\n"
+
+			self.level_up()
 			line += self.walk(tree.children[1])
+
+			self.level_down()
 
 		elif tree.children[0].leaf == "VOID":
 			# TODO: do something with the return type?
@@ -97,7 +100,10 @@ class SvelTraverse(object):
 			line += "("
 			line += self.walk(tree.children[1])
 			line += "):\n"
+
+			self.level_up()
 			line += self.walk(tree.children[2])
+			self.level_down()
 
 		else: # function returning a type
 			# TODO: do something with the return type?
@@ -108,7 +114,10 @@ class SvelTraverse(object):
 			line += "("
 			line += self.walk(tree.children[1])
 			line += "):\n"
+
+			self.level_up()
 			line += self.walk(tree.children[2])
+			self.level_down()
 
 		return line
 
@@ -160,7 +169,7 @@ class SvelTraverse(object):
 
 	def _stmt(self, tree, flags=None):
 		print "===> svelTraverse: stmt"
-		return self.walk(tree.children[0])
+		return self.format(self.walk(tree.children[0]))
 
 	# expressions...
 	def _expression_stmt(self, tree, flags=None):
@@ -209,8 +218,12 @@ class SvelTraverse(object):
 
 	def _function_call(self, tree, flags=None):
 		print "===> svelTraverse: function_call"
+
+		line = ""
 		if tree.leaf == "print":
-			return tree.leaf + " " + tree.children[0].leaf
+			line += tree.leaf + " " + tree.children[0].leaf
+
+		return line
 
 	def _reslang_type(self, tree, flags=None):
 		print "===> svelTraverse: reslang_type"
@@ -295,10 +308,12 @@ class SvelTraverse(object):
 		line = self.format(line)
 		return line + self.walk(tree.children[0]) + '\n'
 
+	'''
 	def _brack_stmt(self, tree, flags=None):
 		line = self.walk(tree.children[0])
 		line = self.format(line)
 		return line
+	'''
 
 	def _file_stmt(self, tree, flags=None):
 		line = "if(not os.path.isfile("
