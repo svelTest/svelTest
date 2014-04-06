@@ -38,7 +38,7 @@ class SvelTraverse(object):
 		return "import os, sys\n"
 
 	def end(self):
-		return "if __name__ == '__main__': \n    main()"
+		return "\nif __name__ == '__main__': \n    main()"
 
 	# --------------------
 	# handle grammar nodes
@@ -63,7 +63,14 @@ class SvelTraverse(object):
 	def _function_def(self, tree, flags=None):
 		print "===> svelTraverse: function_def"
 		if len(tree.children) == 2: # main
-			return self.walk(tree.children[0]) + self.walk(tree.children[1])
+
+			# TODO: use the format function to do indenting
+			line = "def main("
+			line += self.walk(tree.children[0])
+			line += "):\n    "
+			line += self.walk(tree.children[1])
+			return line
+			
 		elif tree.children[0].leaf == "VOID": # return void
 			print "returns VOID"
 		else: # function returning a type
@@ -150,8 +157,20 @@ class SvelTraverse(object):
 		if tree.leaf == "print":
 			return tree.leaf + " " + tree.children[0].leaf
 
+	'''
+		TODO: add methods for these...
+			reslang_type
+			reserved_languages_list
+			reserved_language_keyword
+			identifier_list
+			ifelse_stmt
+			loop_stmt
+			jump_stmt
+			funct_name
+	'''
+
 	# -----------------
-	# OLD! TODO: delete
+	# OLD (from helloworld/svelTraverse.py) TODO: delete
 	# -----------------
 
 	# TODO: indenting; scoping
