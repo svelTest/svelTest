@@ -67,26 +67,49 @@ class SvelTraverse(object):
 	# TODO: handle else case (see grammar)
 	def _external_declaration(self, tree, flags=None):
 		print "===> svelTraverse: external_declaration"
-		return self.walk(tree.children[0])
+
+		# if function_def
+		if tree.leaf == None:
+			return self.walk(tree.children[0])
+
+		# if external var declaration
+		else:
+			return self.walk(tree.children[0]) + " " + tree.leaf
 
 	# TODO: handle non-main fcns; parameter list with multiple parameters
 	def _function_def(self, tree, flags=None):
 		print "===> svelTraverse: function_def"
+
+		# TODO: use the format function to do indenting
 		if len(tree.children) == 2: # main
 
-			# TODO: use the format function to do indenting
 			line = "def main("
 			line += self.walk(tree.children[0])
 			line += "):\n    "
 			line += self.walk(tree.children[1])
-			return line
 
-		elif tree.children[0].leaf == "VOID": # return void
+		elif tree.children[0].leaf == "VOID":
+			# TODO: do something with the return type?
 			print "returns VOID"
-		else: # function returning a type
-			print "returns" + tree.children[0].leaf
+			line = "def "
+			line += tree.leaf
+			line += "("
+			line += self.walk(tree.children[1])
+			line += "):\n"
+			line += self.walk(tree.children[2])
 
-		return self.walk(tree.children[1])
+		else: # function returning a type
+			# TODO: do something with the return type?
+			# type is in tree.children[0]
+			print "returns" + tree.children[0].leaf
+			line = "def "
+			line += tree.leaf
+			line += "("
+			line += self.walk(tree.children[1])
+			line += "):\n"
+			line += self.walk(tree.children[2])
+
+		return line
 
 	# TODO: go through entire parameter list
 	def _param_list(self, tree, flags=None):
