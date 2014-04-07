@@ -165,7 +165,19 @@ class SvelTraverse(object):
 
 	def _stmts(self, tree, flags=None):
 		print "===> svelTraverse: stmts"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if len(tree.children) == 2:
+			# consecutive stmts
+			line += self.walk(tree.children[0])
+			line += '\n'
+			line += self.walk(tree.children[1])
+
+		else:
+			# stmt or brack_stmt
+			line += self.walk(tree.children[0])
+
+		return line
 
 	def _stmt(self, tree, flags=None):
 		print "===> svelTraverse: stmt"
@@ -182,6 +194,22 @@ class SvelTraverse(object):
 
 	def _assignment_expr(self, tree, flags=None):
 		print "===> svelTraverse: assignment_expr"
+
+		# TODO: handle FUNCT!
+		if tree.leaf == None:
+			# logical_OR_expression
+			return self.walk(tree.children[0])
+
+		elif len(tree.children) == 2:
+			# initial declaration w/ assignment
+			# TODO: do something with the type (symbol table)
+			return tree.leaf + " = " + str(self.walk(tree.children[1]))
+
+		elif len(tree.children) == 1:
+			# assignment
+			return tree.leaf + " = " + str(self.walk(tree.children[0]))
+
+
 		return self.walk(tree.children[0])
 
 	def _logical_OR_expr(self, tree, flags=None):
@@ -214,6 +242,11 @@ class SvelTraverse(object):
 
 	def _primary_expr(self, tree, flags=None):
 		print "===> svelTraverse: primary_expr"
+
+		if len(tree.children) == 0:
+			# is ID or function_call?
+			return tree.leaf
+
 		return self.walk(tree.children[0])
 
 	def _function_call(self, tree, flags=None):
