@@ -54,9 +54,10 @@ class SvelTraverse(object):
 	# handle grammar nodes
 	# --------------------
 
-	# so far it only works for test/hello.svel example
+	# passes testsuite tests 0 and 1; works for hello.svel
 
-	# TODO: handle else case (see grammar)
+	# TODO: make sure that we return and are concatenating string types
+
 	def _translation_unit(self, tree, flags=None):
 		print "===> svelTraverse: translation_unit"
 		if len(tree.children) == 1:
@@ -64,7 +65,6 @@ class SvelTraverse(object):
 		elif len(tree.children) == 2:
 			return self.walk(tree.children[0]) + "\n" + self.walk(tree.children[1])
 
-	# TODO: handle else case (see grammar)
 	def _external_declaration(self, tree, flags=None):
 		print "===> svelTraverse: external_declaration"
 
@@ -77,7 +77,6 @@ class SvelTraverse(object):
 			return ""
 			#return self.walk(tree.children[0]) + " " + tree.leaf
 
-	# TODO: handle non-main fcns; parameter list with multiple parameters
 	def _function_def(self, tree, flags=None):
 		print "===> svelTraverse: function_def"
 
@@ -121,7 +120,6 @@ class SvelTraverse(object):
 
 		return line
 
-	# TODO: go through entire parameter list
 	def _param_list(self, tree, flags=None):
 		print "===> svelTraverse: param_list"
 
@@ -214,27 +212,112 @@ class SvelTraverse(object):
 
 	def _logical_OR_expr(self, tree, flags=None):
 		print "===> svelTraverse: logical_OR_expr"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if len(tree.children) == 2:
+			# logical_OR_expr OR logical_AND_expr
+			line += str(self.walk(tree.children[0]))
+			line += " or "
+			line += str(self.walk(tree.children[1]))
+
+		else:
+			# go to logical_AND_expr
+			assert(len(tree.children) == 1)
+
+			line += str(self.walk(tree.children[0]))
+
+		return line
 
 	def _logical_AND_expr(self, tree, flags=None):
 		print "===> svelTraverse: logical_AND_expr"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if len(tree.children) == 2:
+			# logical_AND_expr OR equality_expr
+			line += str(self.walk(tree.children[0]))
+			line += " and "
+			line += str(self.walk(tree.children[1]))
+
+		else:
+			# go to equality_expr
+			assert(len(tree.children) == 1)
+
+			line += str(self.walk(tree.children[0]))
+
+		return line
 
 	def _equality_expr(self, tree, flags=None):
 		print "===> svelTraverse: equality_expr"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if len(tree.children) == 2:
+			# equality_expr EQ/NEQ relational_expr
+			line += str(self.walk(tree.children[0]))
+			line += " " + tree.leaf + " "
+			line += str(self.walk(tree.children[1]))
+
+		else:
+			# go to relational_expr
+			assert(len(tree.children) == 1)
+
+			line += str(self.walk(tree.children[0]))
+
+		return line
 
 	def _relational_expr(self, tree, flags=None):
 		print "===> svelTraverse: relational_expr"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if len(tree.children) == 2:
+			# relational_expr LS_OP/LE_OP/GR_OP/GE_OP additive_expr
+			line += str(self.walk(tree.children[0]))
+			line += " " + tree.leaf + " "
+			line += str(self.walk(tree.children[1]))
+
+		else:
+			# go to additive_expr
+			assert(len(tree.children) == 1)
+
+			line += str(self.walk(tree.children[0]))
+
+		return line
+
 
 	def _additive_expr(self, tree, flags=None):
 		print "===> svelTraverse: additive_expr"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if len(tree.children) == 2:
+			# additive_expr PLUS/MINUS multiplicative_expr
+			line += str(self.walk(tree.children[0]))
+			line += " " + tree.leaf + " "
+			line += str(self.walk(tree.children[1]))
+
+		else:
+			# go to multiplicative_expr
+			assert(len(tree.children) == 1)
+
+			line += str(self.walk(tree.children[0]))
+
+		return line
 
 	def _multiplicative_expr(self, tree, flags=None):
 		print "===> svelTraverse: multiplicative_expr"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if len(tree.children) == 2:
+			# multiplicative_expr TIMES/DIVIDE secondary_expr
+			line += str(self.walk(tree.children[0]))
+			line += " " + tree.leaf + " "
+			line += str(self.walk(tree.children[1]))
+
+		else:
+			# go to multiplicative_expr
+			assert(len(tree.children) == 1)
+
+			line += str(self.walk(tree.children[0]))
+
+		return line
 
 	def _secondary_expr(self, tree, flags=None):
 		print "===> svelTraverse: secondary_expr"
@@ -244,7 +327,7 @@ class SvelTraverse(object):
 		print "===> svelTraverse: primary_expr"
 
 		if len(tree.children) == 0:
-			# is ID or function_call?
+			# if not function_call
 			return tree.leaf
 
 		return self.walk(tree.children[0])
