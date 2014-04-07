@@ -32,45 +32,54 @@ class Funct(object):
 
         print 90 * "="
         # Compile Svel<methodName>.java
-        print "Compiling %s..." % (self.jsvelHelper)
+        print "Compiling %s" % (self.jsvelHelper)
         if self.compileJSvelHelper() == -1:
-            print "Exit."
+            print "Compilation failed."
             return
-    '''
 
+    '''
     Asserts if the actual output matches the expected output, given an input array
         inputs -    test input values
         output -    corresponding test output value
     '''
     def _assert(self, inputValues, outputValue):
 
+        inputstr = ""
+        if len(inputValues) > 1:
+            for val in inputValues:
+                inputstr += str(val) + ", "
+            inputstr = inputstr[0:-2]
+        elif len(inputValues) == 1:
+            inputstr = str(inputValues)
+
         # Run the compiled Svel<methodname> program
-        print "Running %s...\n" % (self.jsvelHelper)
         process = self.runJSvelHelper(inputValues, outputValue)
         # TODO: file cleanup
 
         # Testing System.out.print output
         if self.retype == "void":
             if outputValue in process.stdout.read():
-                print "Test passed"
-                return True
+                message = "PASS"
             else:
-                print "Test failed"
-                return False
+                message = "FAIL"
 
         # Testing a return value
         else:
             if "true" in process.stdout.read():
-                print "Test passed"
-                return True
+                message = "PASS"
             else:
-                print "Test failed"
-                return False
+                message = "FAIL"
+
+
+        print "%s(%s)... %s %s" % (self.name, inputstr, 5*"\t", message)
+        if message == "PASSED":
+            return True
+        return False
 
     def runJSvelHelper(self, inputValues, outputValue):
         inputstr = ""
-        for input in inputValues:
-            inputstr += str(input) + " "
+        for val in inputValues:
+            inputstr += str(val) + " "
         process = subprocess.Popen('java %s %s %s' % (self.jsvelClass, inputstr, str(outputValue)), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
 
         return process
@@ -105,7 +114,6 @@ class Funct(object):
         jcode = self.constructJHelperCode()
         svel.write(jcode)
         svel.close()
-        #print "Created %s:\n%s" % (absPath, jcode)
 
         return absPath
 
@@ -221,7 +229,7 @@ public class Svel%s {
 
 def tests():
     _1 = Funct("add", ["j_int", "j_int"], "../test/java_files/Add.java")
-    _1_inputs = [[1, 1], [0, 5], [134, 57]]
+    _1_inputs = [[1, 1], [0, 5], [13, 57]]
     _1_outputs = [2, 5, 191]
     
     i = 0
