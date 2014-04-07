@@ -392,7 +392,32 @@ class SvelTraverse(object):
 
 	def _loop_stmt(self, tree, flags=None):
 		print "===> svelTraverse: _loop_stmt"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if len(tree.children) == 2:
+			# while
+			line += "while "
+			line += self.walk(tree.children[0])
+			line += ":\n"
+
+			self.level_up()
+			line += self.walk(tree.children[1])
+			self.level_down()
+
+		elif len(tree.children) == 4:
+			# for TODO: refactor -- very hack-y atm
+			line += self.walk(tree.children[0]) + '\n'
+			line += self.format("while ")
+			line += self.walk(tree.children[1])
+			line += ":\n"
+
+			self.level_up()
+			# TODO: insert statements inside the for loop
+			line += self.walk(tree.children[3]) + '\n'
+			line += self.format(self.walk(tree.children[2]))
+			self.level_down()
+
+		return line
 
 	def _jump_stmt(self, tree, flags=None):
 		print "===> svelTraverse: _jump_stmt"
