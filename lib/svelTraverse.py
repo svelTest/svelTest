@@ -45,10 +45,10 @@ class SvelTraverse(object):
 		self.level -= 1
 
 	def beginning(self):
-		return "import os, sys\n"
+		return "import os, sys\n\n"
 
 	def end(self):
-		return "\nif __name__ == '__main__':\n    main()"
+		return "\n\nif __name__ == '__main__':\n    main()"
 
 	# --------------------
 	# handle grammar nodes
@@ -63,7 +63,7 @@ class SvelTraverse(object):
 		if len(tree.children) == 1:
 			return self.walk(tree.children[0])
 		elif len(tree.children) == 2:
-			return self.walk(tree.children[0]) + "\n" + self.walk(tree.children[1])
+			return self.walk(tree.children[0]) + "\n\n" + self.walk(tree.children[1])
 
 	def _external_declaration(self, tree, flags=None):
 		print "===> svelTraverse: external_declaration"
@@ -359,7 +359,36 @@ class SvelTraverse(object):
 
 	def _ifelse_stmt(self, tree, flags=None):
 		print "===> svelTraverse: _ifelse_stmt"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if len(tree.children) == 2:
+			# if
+			line += "if "
+			line += self.walk(tree.children[0])
+			line += ":\n"
+
+			self.level_up()
+			line += self.walk(tree.children[1])
+			self.level_down()
+
+		elif len(tree.children) == 3:
+			# if-else
+			line += "if "
+			line += self.walk(tree.children[0])
+			line += ":\n"
+
+			self.level_up()
+			line += self.walk(tree.children[1]) + "\n"
+			self.level_down()
+
+			# need to format this line since it's not the beginning of the stmt
+			line += self.format("else:\n")
+
+			self.level_up()
+			line += self.walk(tree.children[2])
+			self.level_down()
+
+		return line
 
 	def _loop_stmt(self, tree, flags=None):
 		print "===> svelTraverse: _loop_stmt"
