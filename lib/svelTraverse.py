@@ -54,7 +54,7 @@ class SvelTraverse(object):
 	# handle grammar nodes
 	# --------------------
 
-	# passes testsuite tests 0 and 1; works for hello.svel
+	# passes testsuite tests 0, 1, 2, 3, 5, 8; works for hello.svel
 
 	# TODO: make sure that we return and are concatenating string types
 
@@ -421,7 +421,19 @@ class SvelTraverse(object):
 
 	def _jump_stmt(self, tree, flags=None):
 		print "===> svelTraverse: _jump_stmt"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if tree.leaf == 'break':
+			line = tree.leaf
+
+		elif tree.leaf == 'continue':
+			line = tree.leaf
+
+		elif tree.leaf == 'return':
+			line += "return "
+			line += self.walk(tree.children[0])
+
+		return line
 
 	def _funct_name(self, tree, flags=None):
 		print "===> svelTraverse: _funct_name"
