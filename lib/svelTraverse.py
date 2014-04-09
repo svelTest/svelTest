@@ -45,16 +45,16 @@ class SvelTraverse(object):
 		self.level -= 1
 
 	def beginning(self):
-		return "import os, sys\n"
+		return "import os, sys\n\n"
 
 	def end(self):
-		return "\nif __name__ == '__main__':\n    main()"
+		return "\n\nif __name__ == '__main__':\n    main()"
 
 	# --------------------
 	# handle grammar nodes
 	# --------------------
 
-	# passes testsuite tests 0 and 1; works for hello.svel
+	# passes testsuite tests 0, 1, 2, 3, 5, 8; works for hello.svel
 
 	# TODO: make sure that we return and are concatenating string types
 
@@ -63,7 +63,7 @@ class SvelTraverse(object):
 		if len(tree.children) == 1:
 			return self.walk(tree.children[0])
 		elif len(tree.children) == 2:
-			return self.walk(tree.children[0]) + "\n" + self.walk(tree.children[1])
+			return self.walk(tree.children[0]) + "\n\n" + self.walk(tree.children[1])
 
 	def _external_declaration(self, tree, flags=None):
 		print "===> svelTraverse: external_declaration"
@@ -359,15 +359,81 @@ class SvelTraverse(object):
 
 	def _ifelse_stmt(self, tree, flags=None):
 		print "===> svelTraverse: _ifelse_stmt"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if len(tree.children) == 2:
+			# if
+			line += "if "
+			line += self.walk(tree.children[0])
+			line += ":\n"
+
+			self.level_up()
+			line += self.walk(tree.children[1])
+			self.level_down()
+
+		elif len(tree.children) == 3:
+			# if-else
+			line += "if "
+			line += self.walk(tree.children[0])
+			line += ":\n"
+
+			self.level_up()
+			line += self.walk(tree.children[1]) + "\n"
+			self.level_down()
+
+			# need to format this line since it's not the beginning of the stmt
+			line += self.format("else:\n")
+
+			self.level_up()
+			line += self.walk(tree.children[2])
+			self.level_down()
+
+		return line
 
 	def _loop_stmt(self, tree, flags=None):
 		print "===> svelTraverse: _loop_stmt"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if len(tree.children) == 2:
+			# while
+			line += "while "
+			line += self.walk(tree.children[0])
+			line += ":\n"
+
+			self.level_up()
+			line += self.walk(tree.children[1])
+			self.level_down()
+
+		elif len(tree.children) == 4:
+			# for TODO: refactor -- very hack-y atm
+			line += self.walk(tree.children[0]) + '\n'
+			line += self.format("while ")
+			line += self.walk(tree.children[1])
+			line += ":\n"
+
+			self.level_up()
+			# TODO: insert statements inside the for loop
+			line += self.walk(tree.children[3]) + '\n'
+			line += self.format(self.walk(tree.children[2]))
+			self.level_down()
+
+		return line
 
 	def _jump_stmt(self, tree, flags=None):
 		print "===> svelTraverse: _jump_stmt"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if tree.leaf == 'break':
+			line = tree.leaf
+
+		elif tree.leaf == 'continue':
+			line = tree.leaf
+
+		elif tree.leaf == 'return':
+			line += "return "
+			line += self.walk(tree.children[0])
+
+		return line
 
 	def _funct_name(self, tree, flags=None):
 		print "===> svelTraverse: _funct_name"
