@@ -245,6 +245,7 @@ def p_primary_expr(p):
     primary_expr : ID
                  | STRINGLITERAL
                  | NUMBER
+                 | DECIMAL
                  | TRUE
                  | FALSE
                  | function_call
