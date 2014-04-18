@@ -81,6 +81,12 @@ def p_type(p):
     else:
         p[0] = Node('type', [], p[1].leaf + p[2] + p[3])
 
+def p_ref_type(p):
+    '''
+    ref_type : ID LBRACKET primary_expr RBRACKET
+    '''
+    p[0] = Node('ref_type', [Node('primary_expr', [], p[1]), Node('primary_expr', [], p[3])])
+
 def p_param_list(p):
     '''
     param_list : param_list COMMA parameter
@@ -143,7 +149,7 @@ def p_expression(p):
 def p_assignment_expr(p):
     '''
     assignment_expr : FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
-    				| type ID ASSIGN assignment_expr
+                    | type ID ASSIGN assignment_expr
                     | ID ASSIGN assignment_expr
                     | logical_OR_expr
     '''
@@ -249,6 +255,7 @@ def p_primary_expr(p):
                  | TRUE
                  | FALSE
                  | function_call
+                 | ref_type
     '''
     if not isinstance(p[1], basestring) and not isinstance(p[1], int) and not isinstance(p[1], float) and not isinstance(p[1], bool):
         p[0] = Node('primary_expr', [p[1]])
@@ -283,7 +290,7 @@ def p_reserved_languages_list(p):
 def p_reserved_language_keyword(p):
     '''
     reserved_language_keyword : RES_LANG LBRACKET RBRACKET
-    						  | RES_LANG
+                              | RES_LANG
                               | empty
     '''
     if len(p) == 4:
