@@ -114,7 +114,7 @@ class SvelLexer:
 		return t
 
 	def t_DECIMAL(self, t):
-		r'\d+\.?\d*'
+		r'\d+\.\d*'
 		t.value = float(t.value)
 		return t
 

@@ -43,10 +43,10 @@ class Testsuite(object):
 		}
 		'''	
 
-		# 5: while loop, assignment expression without type
+		# 5: while loop, double, assignment expression without type
 		test_5 = '''
 		main() {
-			int i = 0;
+			double i = 0.0;
 			while(i < 10) {
 				i = i + 1;
 			}
@@ -94,11 +94,31 @@ class Testsuite(object):
 		}
 		'''
 
-		self.cases = [test_0, test_1, test_2, test_3, test_4, test_5, test_6, test_7, test_8, test_9]
+		# 10: simple array initialization and access
+		test_10 = '''
+		void arrays(int x, int y, int z) {
+			int[] a = {x, y, z};
+			int b = a[1];
+		}
+		'''
+
+		# 11: more adv array initialization and access
+		test_11 = '''
+		void createInputArray() {
+			input[] in = {0, 1, 2};
+			output[] out = {0, 1, 2};
+			for (int i = 0; i < 3; i=i+1) {
+				if (in[i] != out[i]) {
+					break;
+				}
+			}
+		}
+		'''
+
+		self.cases = [test_0, test_1, test_2, test_3, test_4, test_5, test_6, test_7, test_8, test_9, test_10, test_11]
 
 	def get(self, i):
 		return self.cases[i]
 
 	def getAll(self):
 		return self.cases
-
