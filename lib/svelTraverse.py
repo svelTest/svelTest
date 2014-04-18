@@ -321,7 +321,21 @@ class SvelTraverse(object):
 
 	def _secondary_expr(self, tree, flags=None):
 		print "===> svelTraverse: secondary_expr"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if tree.leaf == None:
+			# -> primary_expr
+			line += str(self.walk(tree.children[0]))
+
+		elif tree.leaf == '(':
+			# -> LPAREN expression RPAREN
+			line += '(' + str(self.walk(tree.children[0])) + ')'
+
+		elif tree.leaf == '{':
+			# -> LBRACE identifier_list RBRACE
+			line += '[' + str(self.walk(tree.children[0])) + ']'
+
+		return line
 
 	def _primary_expr(self, tree, flags=None):
 		print "===> svelTraverse: primary_expr"
