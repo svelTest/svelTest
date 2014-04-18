@@ -26,12 +26,13 @@ class Funct(object):
 
         self.sig = self.getSignature() # (string) full Java method signature
         self.retype = self.getRetype() # return type
+        self.jsvelClass = "Svel" + name # name of svel's helper Java class/file
 
-        self.jsvelClass = "Svel" + name
+        # Create Svel<name>.java file
         self.jsvelHelper = self.createJHelperFile()
 
+        # Compile Svel<name>.java
         print 90 * "="
-        # Compile Svel<methodName>.java
         print "Compiling %s" % (self.jsvelHelper)
         if self.compileJSvelHelper() == -1:
             print "Compilation failed."
@@ -45,7 +46,9 @@ class Funct(object):
     def _assert(self, inputValues, outputValue):
 
         inputstr = ""
-        if len(inputValues) > 1:
+        if not isinstance(inputValues, list):
+            inputstr += str(inputValues)
+        elif len(inputValues) > 1:
             for val in inputValues:
                 inputstr += str(val) + ", "
             inputstr = inputstr[0:-2]
@@ -78,8 +81,11 @@ class Funct(object):
 
     def runJSvelHelper(self, inputValues, outputValue):
         inputstr = ""
-        for val in inputValues:
-            inputstr += str(val) + " "
+        if not isinstance(inputValues, list):
+            inputstr += str(inputValues)
+        else:
+            for val in inputValues:
+                inputstr += str(val) + " "
         process = subprocess.Popen('java %s %s %s' % (self.jsvelClass, inputstr, str(outputValue)), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
 
         return process
