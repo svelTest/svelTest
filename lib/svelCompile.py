@@ -9,11 +9,7 @@
 import os, sys
 
 # path to ply-3.4
-lib_path = os.path.join('../lib/ply-3.4')
-sys.path.append(lib_path)
-
-# path to lex/yacc/traverse files
-lib_path = os.path.join('../lib/')
+lib_path = os.path.join('ply-3.4')
 sys.path.append(lib_path)
 
 from svelLex import SvelLexer
