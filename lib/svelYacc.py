@@ -318,7 +318,7 @@ def p_loop_stmt(p):
     if len(p) == 6:
         p[0] = Node('loop_stmt', [p[3], p[5]])
     else:
-        p[0] = Node('loop_stmt', [p[3], p[5], p[7]])
+        p[0] = Node('loop_stmt', [p[3], p[5], p[7], p[9]])
 
 def p_jump_stmt(p):
     '''
