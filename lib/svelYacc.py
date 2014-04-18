@@ -242,7 +242,7 @@ def p_secondary_expr(p):
                    | LBRACE identifier_list RBRACE
     '''
     if len(p) == 4:
-        p[0] = Node('secondary_expr', [p[2]])
+        p[0] = Node('secondary_expr', [p[2]], p[1])
     else:
         p[0] = Node('secondary_expr', [p[1]])
 
