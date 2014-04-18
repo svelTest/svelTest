@@ -47,6 +47,7 @@ class SvelLexer:
 		'RES_LANG',
 		'ID',
 		'NUMBER',
+		'DECIMAL',
 		'STRINGLITERAL',
 		'COMMENT',
 		'PLUS',
@@ -110,6 +111,11 @@ class SvelLexer:
 		# 	if found, sets t.type to t.VALUE 
 		# 	otherwise sets t.type to ID
 		t.type = self.reserved.get(t.value, 'ID')
+		return t
+
+	def t_DECIMAL(self, t):
+		r'\d+\.?\d*'
+		t.value = float(t.value)
 		return t
 
 	def t_NUMBER(self, t):
