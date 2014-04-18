@@ -323,6 +323,7 @@ class SvelTraverse(object):
 		print "===> svelTraverse: secondary_expr"
 
 		line = ""
+		print tree.leaf
 		if tree.leaf == None:
 			# -> primary_expr
 			line += str(self.walk(tree.children[0]))
@@ -369,7 +370,17 @@ class SvelTraverse(object):
 
 	def _identifier_list(self, tree, flags=None):
 		print "===> svelTraverse: _identifier_list"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if len(tree.children) == 1:
+			# -> expression
+			line += str(self.walk(tree.children[0]))
+
+		elif len(tree.children) == 2:
+			# -> identifier_list COMMA expression
+			line += str(self.walk(tree.children[0])) + ', ' + str(self.walk(tree.children[1]))
+
+		return line
 
 	def _ifelse_stmt(self, tree, flags=None):
 		print "===> svelTraverse: _ifelse_stmt"
