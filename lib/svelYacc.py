@@ -1,8 +1,15 @@
-# ---------------------------------------------------------
+# =============================================================================
 # svelYacc.py
 #
-# parser for svelTest programs
-# ---------------------------------------------------------
+# Parser for svelTest programs: takes a token stream and creates an 
+# abstract syntax tree
+# 
+# -----------------------------------------------------------------------------
+# Columbia University, Spring 2014
+# COMS 4115: Programming Languages & Translators, Prof. Aho
+#     svelTest team:
+#     Emily Hsia, Kaitlin Huben, Josh Lieberman, Chris So, Mandy Swinton
+# =============================================================================
 
 # import lexer
 from svelLex import SvelLexer
@@ -145,7 +152,8 @@ def p_expression_stmt(p):
 def p_expression(p):
     '''
     expression : assignment_expr
-               | empty
+                | type ID
+                | empty
     '''
     p[0] = Node('expression', [p[1]])
     
@@ -241,7 +249,6 @@ def p_multiplicative_expr(p):
 def p_secondary_expr(p):
     '''
     secondary_expr : primary_expr
-                   | LPAREN expression RPAREN
                    | LPAREN identifier_list RPAREN
                    | LBRACE identifier_list RBRACE
     '''
@@ -355,6 +362,7 @@ def p_error(p):
         print "Syntax error around line number \n %d : %s " % (p.lineno, p.value) 
 
 
+# if svelYacc invoked directly, parse user's input
 if __name__ == '__main__':
     # get and build lexer
     svel = SvelLexer()
@@ -362,15 +370,29 @@ if __name__ == '__main__':
 
     parser = getParser()
 
-    # loop to get user input
-    while True:
-        # print prompt and gather input
+    # if user just ran "python svelYacc.py", start input loop
+    if(len(sys.argv) == 1):
+        # loop to get user input
+        while True:
+            # print prompt and gather input
+            try:
+                line = raw_input("Enter a string to parse\n")
+
+            # if Ctrl-D, exit
+            except EOFError:
+                break
+
+            # otherwise, tokenize the string
+            print parser.parse(line, lexer=svel.get_lexer())
+
+    # otherwise, try to read user's file (e.g. they ran something like
+    # "python svelLex.py helloworld.svel")
+    else:
+        # try to open the file
         try:
-            line = raw_input("Enter a string to parse\n")
+            data = open(sys.argv[1]).read()
+        except IOERROR, e:
+            print e
 
-        # if Ctrl-D, exit
-        except EOFError:
-            break
-
-        # otherwise, tokenize the string
-        print parser.parse(line, lexer=svel.get_lexer())
+        # tokenize the file
+        print parser.parse(data, lexer=svel.get_lexer())

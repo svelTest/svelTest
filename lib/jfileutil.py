@@ -1,6 +1,14 @@
-'''
-Provides helper functions to get information from file paths
-'''
+# =============================================================================
+# jfileutil.py
+# 
+# Provides helper functions to get information from file paths
+#
+# -----------------------------------------------------------------------------
+# Columbia University, Spring 2014
+# COMS 4115: Programming Languages & Translators, Prof. Aho
+#     svelTest team:
+#     Emily Hsia, Kaitlin Huben, Josh Lieberman, Chris So, Mandy Swinton
+# =============================================================================
 
 import os
 
