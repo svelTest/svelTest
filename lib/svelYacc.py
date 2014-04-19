@@ -165,8 +165,7 @@ def p_assignment_expr(p):
 def p_funct_name(p):
     '''
     funct_name : __MAIN__
-                | ID
-                | STRINGLITERAL
+                | primary_expr
     '''
     p[0] = Node('funct_name', [], p[1])
 
