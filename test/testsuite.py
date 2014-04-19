@@ -115,7 +115,18 @@ class Testsuite(object):
 		}
 		'''
 
-		self.cases = [test_0, test_1, test_2, test_3, test_4, test_5, test_6, test_7, test_8, test_9, test_10, test_11]
+		# 12: declare input type with ()
+		test_12 = '''
+		boolean testAdd() {
+			file addFile = "java_files/Add.java";
+			funct addFunct = {"add", (j_int, j_int), addFile};
+			input in = (3, 4);
+			output out = 7;
+			return addFunct.assert(in, out);
+		}
+		'''
+
+		self.cases = [test_0, test_1, test_2, test_3, test_4, test_5, test_6, test_7, test_8, test_9, test_10, test_11, test_12]
 
 	def get(self, i):
 		return self.cases[i]
