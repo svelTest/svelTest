@@ -176,16 +176,31 @@ if __name__ == "__main__":
 
 	# build the lexer
 	svel.build()
+
+	# if user just ran "python svelLex.py", start input loop
+	if(len(sys.argv) == 1):
  
- 	# loop to get user input
-	while True:
-		# print prompt and gather input
+	 	# loop to get user input
+		while True:
+			# print prompt and gather input
+			try:
+				line = raw_input("Enter a string to tokenize\n")
+
+			# if Ctrl-D, exit
+			except EOFError:
+				break
+
+			# otherwise, tokenize the string
+			print svel.tok_str(line)
+
+	# otherwise, try to read user's file (e.g. they ran something like
+	# "python svelLex.py helloworld.svel")
+	else:
+		# try to open the file
 		try:
-			line = raw_input("Enter a string to tokenize\n")
+			data = open(sys.argv[1]).read()
+		except IOERROR, e:
+			print e
 
-		# if Ctrl-D, exit
-		except EOFError:
-			break
-
-		# otherwise, tokenize the string
-		print svel.tok_str(line)
+		# tokenize the file
+		print svel.tok_str(data)
