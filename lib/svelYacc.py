@@ -85,7 +85,7 @@ def p_ref_type(p):
     '''
     ref_type : ID LBRACKET primary_expr RBRACKET
     '''
-    p[0] = Node('ref_type', [Node('primary_expr', [], p[1]), Node('primary_expr', [], p[3])])
+    p[0] = Node('ref_type', [Node('primary_expr', [], p[1]), p[3]])
 
 def p_param_list(p):
     '''
