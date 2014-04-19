@@ -357,7 +357,16 @@ class SvelTraverse(object):
 
 		line = ""
 		if tree.leaf == "print":
+			# -> PRINT primary_expr
 			line += tree.leaf + " " + tree.children[0].leaf
+
+		elif len(tree.children) == 2:
+			# -> ID PERIOD ASSERT LPAREN identifier_list RPAREN
+			line += tree.leaf + ".assert(" + self.walk(tree.children[1]) +")"
+
+		elif len(tree.children) == 1:
+			# -> ID LPAREN identifier_list RPAREN
+			line += tree.leaf + "(" + self.walk(tree.children[0]) + ")"[]
 
 		return line
 
