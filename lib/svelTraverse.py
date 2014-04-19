@@ -371,16 +371,26 @@ class SvelTraverse(object):
 		line += ']'
 		return line		
 
-	def _reslang_type(self, tree, flags=None):
-		print "===> svelTraverse: reslang_type"
-		return self.walk(tree.children[0])
-
 	def _reserved_languages_list(self, tree, flags=None):
 		print "===> svelTraverse: reserved_languages_list"
-		return self.walk(tree.children[0])
+		
+		line = ""
+		if len(tree.children) == 1:
+			# -> reserved_language_keyword
+			line += self.walk(tree.children[0])
+
+		elif len(tree.children) == 2:
+			# -> reserved_languages_list COMMA reserved_language_keyword
+			line += self.walk(tree.children[0]) + ", " + self.walk(tree.children[1])
+
+		return line
 
 	def _reserved_languages_keyword(self, tree, flags=None):
 		print "===> svelTraverse: _reserved_languages_keyword"
+		
+		if isinstance(tree.leaf, basestring):
+			return tree.leaf
+
 		return self.walk(tree.children[0])
 
 	def _identifier_list(self, tree, flags=None):
@@ -393,7 +403,7 @@ class SvelTraverse(object):
 
 		elif len(tree.children) == 2:
 			# -> identifier_list COMMA expression
-			line += str(self.walk(tree.children[0])) + ', ' + str(self.walk(tree.children[1]))
+			line += str(self.walk(tree.children[0])) + ", " + str(self.walk(tree.children[1]))
 
 		return line
 
