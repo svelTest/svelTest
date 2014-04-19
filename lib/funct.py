@@ -1,11 +1,18 @@
-'''
-Python Funct class representing the svel funct primitive; contains the assert() method
-
-assert() : creates new Svel Java file with extracted
-method to test, compiles the file, and runs it to test 
-the given the input and output
-
-'''
+# =============================================================================
+# funct.py
+# 
+# Python Funct class representing the svel funct primitive; contains the 
+# assert() method
+#
+# assert() : creates new Svel Java file with extracted method to test, compiles 
+# the file, and runs it to test the given the input and output
+#
+# -----------------------------------------------------------------------------
+# Columbia University, Spring 2014
+# COMS 4115: Programming Languages & Translators, Prof. Aho
+#     svelTest team:
+#     Emily Hsia, Kaitlin Huben, Josh Lieberman, Chris So, Mandy Swinton
+# =============================================================================
 
 import os, sys, subprocess
 from jfileutil import *

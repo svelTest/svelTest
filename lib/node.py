@@ -1,3 +1,15 @@
+# =============================================================================
+# node.py
+# 
+# Node class represents a node of the abstract syntax tree
+#
+# -----------------------------------------------------------------------------
+# Columbia University, Spring 2014
+# COMS 4115: Programming Languages & Translators, Prof. Aho
+#     svelTest team:
+#     Emily Hsia, Kaitlin Huben, Josh Lieberman, Chris So, Mandy Swinton
+# =============================================================================
+
 class Node(object):
 
 	def __init__(self, type, children=None, leaf=None, token=None):

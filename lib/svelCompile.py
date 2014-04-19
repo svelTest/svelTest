@@ -1,9 +1,17 @@
 # =============================================================================
-# Main compiler
-# Usage: python svelCompile.py <file_to_compile>.svel
-#
-# Output: A file named <file_to_compile>.py
+# svelCompile.py
+# 
+# Main compiler for svelTest programs
+#     Input:  A svelTest program (<file_to_compile>.svel)
+#     Usage:  python svelCompile.py <file_to_compile>.svel
+#     Output: A file named <file_to_compile>.py
 # NOTE: If <file_to_compile>.py already exists, compiler does not overwrite
+#
+# -----------------------------------------------------------------------------
+# Columbia University, Spring 2014
+# COMS 4115: Programming Languages & Translators, Prof. Aho
+#     svelTest team:
+#     Emily Hsia, Kaitlin Huben, Josh Lieberman, Chris So, Mandy Swinton
 # =============================================================================
 
 import os, sys

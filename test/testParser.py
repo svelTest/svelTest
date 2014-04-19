@@ -1,3 +1,18 @@
+# =============================================================================
+# testParser.py
+# 
+# Runs testsuite test cases on parser
+# Usage: python testParser.py [test case #]*
+#    python testParser.py: will run all test cases
+#    python testParser.py x: will run test case x
+#
+# -----------------------------------------------------------------------------
+# Columbia University, Spring 2014
+# COMS 4115: Programming Languages & Translators, Prof. Aho
+#     svelTest team:
+#     Emily Hsia, Kaitlin Huben, Josh Lieberman, Chris So, Mandy Swinton
+# =============================================================================
+
 # get to lib for svelLex file
 import os, sys
 lib_path = os.path.join('../lib')
