@@ -385,22 +385,23 @@ class SvelTraverse(object):
 		
 		line = ""
 		if len(tree.children) == 1:
-			# -> reserved_language_keyword
+			# -> reserved_languages_keyword
 			line += self.walk(tree.children[0])
 
 		elif len(tree.children) == 2:
-			# -> reserved_languages_list COMMA reserved_language_keyword
+			# -> reserved_languages_list COMMA reserved_languages_keyword
 			line += self.walk(tree.children[0]) + ", " + self.walk(tree.children[1])
 
 		return line
 
 	def _reserved_languages_keyword(self, tree, flags=None):
-		print "===> svelTraverse: _reserved_languages_keyword"
+		print "===> svelTraverse: reserved_languages_keyword"
 		
 		if isinstance(tree.leaf, basestring):
+			print tree.leaf
 			return tree.leaf
 
-		return self.walk(tree.children[0])
+		return "[]"
 
 	def _identifier_list(self, tree, flags=None):
 		print "===> svelTraverse: _identifier_list"
