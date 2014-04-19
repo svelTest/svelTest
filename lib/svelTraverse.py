@@ -1,3 +1,15 @@
+# =============================================================================
+# svelTraverse.py
+#
+# Tree-walker for svelTest programs: takes an abstract syntax tree and 
+# attempts to traverse it to produce the target .py program
+# 
+# -----------------------------------------------------------------------------
+# Columbia University, Spring 2014
+# COMS 4115: Programming Languages & Translators, Prof. Aho
+#     svelTest team:
+#     Emily Hsia, Kaitlin Huben, Josh Lieberman, Chris So, Mandy Swinton
+# =============================================================================
 class SvelTraverse(object):
 
 	def __init__(self, tree):
