@@ -219,7 +219,19 @@ class SvelTraverse(object):
 		elif len(tree.children) == 2:
 			# initial declaration w/ assignment
 			# TODO: do something with the type (symbol table)
-			return tree.leaf + " = " + str(self.walk(tree.children[1]))
+			if self.walk(tree.children[0]) == "file":
+				line = "if(not os.path.isfile("
+				line += self.walk(tree.children[1]) + ")):\n"
+				
+				next_line = "sys.exit('Cannot find "
+				self.level_up()
+				next_line = self.format(next_line)
+				self.level_down()
+				next_line += self.walk(tree.children[1]) + "')"
+
+				return line + next_line + '\n'
+			else:
+				return tree.leaf + " = " + str(self.walk(tree.children[1]))
 
 		elif len(tree.children) == 1:
 			# assignment
@@ -517,75 +529,6 @@ class SvelTraverse(object):
 			return "\"main\""
 
 		return tree.leaf
-
-	# -----------------
-	# OLD (from helloworld/svelTraverse.py) TODO: delete
-	# -----------------
-
-	# TODO: indenting; scoping
-	def _main_stmt(self, tree, flags=None):
-		line = "def main():"
-		line = self.format(line)
-		line += '\n'
-
-		# enter scope
-		self.level_up()
-
-		if len(tree.children) == 1:
-			line += self.walk(tree.children[0])
-		else:
-			line += self.walk(tree.children[0]) + self.walk(tree.children[1])
-
-		
-		# leave scope
-		self.level_down()
-		return line
-
-	# hardcoding in the comparison for now - iIknow it's wrong
-	# just wanted to get something going
-	def _if_else_loop(self, tree, flags=None):
-		line = "os.system(\"python printhelloworld.py > output.txt\")\n"
-		line2 = "output = open(\"output.txt\").read()\n"
-		line3 = "if output == \"Hello, World!\\n\":\n"
-		line5 = "else:\n"
-
-		line = self.format(line)
-		line2 = self.format(line2)
-		line3 = self.format(line3)
-		line5 = self.format(line5)
-
-		self.level_up()
-
-		line4 = self.walk(tree.children[1])
-		line6 = self.walk(tree.children[2])
-
-		self.level_down()
-
-		return line + line2 + line3 + line4 + line5 + line6
-
-
-	def _print_stmt(self, tree, flags=None):
-		line = "print "
-		line = self.format(line)
-		return line + self.walk(tree.children[0]) + '\n'
-
-	'''
-	def _brack_stmt(self, tree, flags=None):
-		line = self.walk(tree.children[0])
-		line = self.format(line)
-		return line
-	'''
-
-	def _file_stmt(self, tree, flags=None):
-		line = "if(not os.path.isfile("
-		line = self.format(line)
-		line += self.walk(tree.children[1]) + ")):\n"
-		
-		next_line = "    sys.exit('Cannot find "
-		next_line = self.format(next_line)
-		next_line += self.walk(tree.children[1]) + "')"
-
-		return line + next_line + '\n'
 
 	def _STRINGLITERAL(self, tree, flags=None):
 		return tree.leaf
