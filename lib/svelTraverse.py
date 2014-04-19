@@ -200,8 +200,8 @@ class SvelTraverse(object):
 
 		elif len(tree.children) == 3:
 			# FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
-			return tree.leaf + " = Funct(\"" + self.walk(tree.children[0]) + \
-				"\", [" + self.walk(tree.children[1]) + \
+			return tree.leaf + " = Funct(" + self.walk(tree.children[0]) + \
+				", [" + self.walk(tree.children[1]) + \
 				"], " + self.walk(tree.children[2]) + ")"
 
 		elif len(tree.children) == 2:
@@ -335,6 +335,7 @@ class SvelTraverse(object):
 
 		elif tree.leaf == '(':
 			# -> LPAREN expression RPAREN
+			# -> LPAREN identifier_list RPAREN
 			line += '(' + str(self.walk(tree.children[0])) + ')'
 
 		elif tree.leaf == '{':
@@ -501,7 +502,7 @@ class SvelTraverse(object):
 		print "===> svelTraverse: _funct_name"
 
 		if tree.leaf == "__main__":
-			return "main"
+			return "\"main\""
 
 		return tree.leaf
 
