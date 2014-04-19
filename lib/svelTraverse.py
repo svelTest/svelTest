@@ -227,9 +227,14 @@ class SvelTraverse(object):
 				self.level_up()
 				next_line = self.format(next_line)
 				self.level_down()
-				next_line += self.walk(tree.children[1]) + "')"
+				next_line += self.walk(tree.children[1]) + "')\n"
 
-				return line + next_line + '\n'
+				# this line serves as pseudo-symbol table until we get one
+				# TODO: actually use symbol table
+				janky_line = tree.leaf + "=" + self.walk(tree.children[1])
+				janky_line = self.format(janky_line)
+
+				return line + next_line + janky_line + '\n'
 			else:
 				return tree.leaf + " = " + str(self.walk(tree.children[1]))
 
@@ -387,7 +392,7 @@ class SvelTraverse(object):
 
 		elif len(tree.children) == 2:
 			# -> ID PERIOD ASSERT LPAREN identifier_list RPAREN
-			line += tree.leaf + ".assert(" + self.walk(tree.children[1]) +")"
+			line += tree.leaf + "._assert(" + self.walk(tree.children[1]) +")"
 
 		elif len(tree.children) == 1:
 			# -> ID LPAREN identifier_list RPAREN

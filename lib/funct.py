@@ -82,7 +82,7 @@ class Funct(object):
 
 
         print "%s(%s)... %s %s" % (self.name, inputstr, 5*"\t", message)
-        if message == "PASSED":
+        if message == "PASS":
             return True
         return False
 
