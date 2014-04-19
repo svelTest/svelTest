@@ -200,9 +200,9 @@ class SvelTraverse(object):
 
 		elif len(tree.children) == 3:
 			# FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
-			return tree.leaf + " = Funct(" + self.walk(tree.children[0]) + \
-				", " + self.walk(tree.children[1]) + \
-				", " + self.walk(tree.children[2]) + ")"
+			return tree.leaf + " = Funct(\"" + self.walk(tree.children[0]) + \
+				"\", [" + self.walk(tree.children[1]) + \
+				"], " + self.walk(tree.children[2]) + ")"
 
 		elif len(tree.children) == 2:
 			# initial declaration w/ assignment
@@ -398,10 +398,12 @@ class SvelTraverse(object):
 		print "===> svelTraverse: reserved_languages_keyword"
 		
 		if isinstance(tree.leaf, basestring):
-			print tree.leaf
-			return tree.leaf
+			# -> RES_LANG LBRACKET RBRACKET
+			# -> RES_LANG
+			return "\"" + tree.leaf + "\""
 
-		return "[]"
+		# -> empty
+		return self.walk(tree.leaf)
 
 	def _identifier_list(self, tree, flags=None):
 		print "===> svelTraverse: _identifier_list"
@@ -497,6 +499,10 @@ class SvelTraverse(object):
 
 	def _funct_name(self, tree, flags=None):
 		print "===> svelTraverse: _funct_name"
+
+		if tree.leaf == "__main__":
+			return "main"
+
 		return tree.leaf
 
 	# -----------------
