@@ -287,7 +287,7 @@ def p_reserved_languages_list(p):
     else:
         p[0] = Node('reserved_languages_list', [p[1], p[3]])
 
-def p_reserved_language_keyword(p):
+def p_reserved_languages_keyword(p):
     '''
     reserved_language_keyword : RES_LANG LBRACKET RBRACKET
                               | RES_LANG
