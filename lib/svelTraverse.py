@@ -57,7 +57,10 @@ class SvelTraverse(object):
 		self.level -= 1
 
 	def beginning(self):
-		return "import os, sys\nfrom funct import Funct\n\n"
+		imports = "import os, sys\n"
+		imports += "lib_path = os.path.join('bundles')\nsys.path.append(lib_path)\n"
+		imports += "from funct import Funct\n\n"
+		return imports
 
 	def end(self):
 		return "\n\nif __name__ == '__main__':\n    main()"
