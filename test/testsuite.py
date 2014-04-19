@@ -11,6 +11,7 @@ class Testsuite(object):
 
 		# 1: equality, additive, multiplicative, and relational expressions
 		test_1 = '''
+		int k = 0;
 		main() {
 			int x = 1;
 			int y = 2;
