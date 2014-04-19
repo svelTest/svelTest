@@ -34,8 +34,19 @@ def compile(argv):
 	else:
 		sys.exit("Usage: python svelCompile.py <file_to_compile>.svel")
 
-	# get name of input file to use later
-	input_filename = input_file.split(".")[0]
+	# split at "/" to get to actual file name (if relative path)
+	# TODO: handle for Windows \
+	input_parts = input_file.split("/")
+
+	# get name of input file to use later (last in array split at /)
+	input_filename = input_parts[len(input_parts) - 1].split(".")[0]
+
+
+	# set the name of the compiled code file
+	# e.g. if they compiled helloworld.svel, they'll get helloworld.py
+	output_filename = input_filename + ".py"
+	if(os.path.isfile(output_filename)):
+		sys.exit("Error: Refusing to overwrite " + output_filename + "\nPlease either delete it or rename your source file")
 
 	# try to open source code
 	try:
@@ -57,18 +68,11 @@ def compile(argv):
 	# walk the tree and get the compiled code
 	compiled_code = SvelTraverse(ast).get_code()
 
-	# set the name of the compiled code file
-	# e.g. if they compiled helloworld.svel, they'll get helloworld.py
-	output_filename = input_filename + ".py"
+	output_file = open(output_filename, 'w')
+	output_file.write(compiled_code)
 
-	# try to write compiled code to appropriate file
-	# refuse to overwrite existing file by same name
-	if(not os.path.isfile(output_filename)):
-		output_file = open(output_filename, 'w')
-		output_file.write(compiled_code)
-		print "Success: compiled to " + output_filename
-	else:
-		sys.exit("Error: Refusing to overwrite " + output_filename + "\nPlease either delete it or rename your source file")
+	#TODO: catch errors with writing
+	print "Success: compiled to " + output_filename
 
 if __name__ == '__main__':
 	compile(sys.argv)
