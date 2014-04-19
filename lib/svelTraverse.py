@@ -323,7 +323,6 @@ class SvelTraverse(object):
 		print "===> svelTraverse: secondary_expr"
 
 		line = ""
-		print tree.leaf
 		if tree.leaf == None:
 			# -> primary_expr
 			line += str(self.walk(tree.children[0]))
@@ -342,7 +341,8 @@ class SvelTraverse(object):
 		print "===> svelTraverse: primary_expr"
 
 		if len(tree.children) == 0:
-			# if not function_call
+			# if not function_call or ref_type
+			print tree.leaf
 			return tree.leaf
 
 		return self.walk(tree.children[0])
@@ -355,6 +355,16 @@ class SvelTraverse(object):
 			line += tree.leaf + " " + tree.children[0].leaf
 
 		return line
+
+	def _ref_type(self, tree, flags=None):
+		print "===> svelTraverse: ref_type"
+
+		line = ""
+		line += self.walk(tree.children[0])
+		line += '['
+		line += str(self.walk(tree.children[1]))
+		line += ']'
+		return line		
 
 	def _reslang_type(self, tree, flags=None):
 		print "===> svelTraverse: reslang_type"
