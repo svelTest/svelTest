@@ -48,6 +48,8 @@ def p_external_declaration(p):
     '''
     if len(p) == 2:
         p[0] = Node('external_declaration', [p[1]])
+    elif len(p) == 4:
+        p[0] = Node('external_declaration', [p[1]], p[2])
     else:
         p[0] = Node('external_declaration', [p[1], p[4]], p[2])
 
