@@ -1,3 +1,6 @@
+# for exceptions
+import sys
+
 class SvelTraverse(object):
 
 	def __init__(self, tree):
@@ -5,21 +8,24 @@ class SvelTraverse(object):
 		# scope/indentation level
 		self.level = 0
 
-		# symbol table (dict)
+		# keep track of variables in scope
+		self.scopes = [[]]
+
+		# symbol table: var --> type
 		self.symbols = {}
 
-		# value table (dict)
+		# value table: var --> value
 		self.values = {}
 
 		# run
 		self.code = self.beginning() + self.walk(tree) + self.end()
 
 	# --------------
-	# helper methods
+	# util methods
 	# --------------
 
 	def walk(self, tree, flags=None):
-		''' call appropriate method based on node type '''
+		''' call appropriate method based on the node type '''
 		if isinstance(tree, list):
 			for item in tree:
 				walk(item, flags)
@@ -29,6 +35,7 @@ class SvelTraverse(object):
 		return method(tree, flags)
 
 	def get_code(self):
+		''' return the generated python code'''
 		return self.code
 
 	def format(self, line = ""):
@@ -39,15 +46,52 @@ class SvelTraverse(object):
 	def level_up(self):
 		''' +1 indent; TODO: create new scope '''
 		self.level += 1
+		# keep track of variables in scope. for each new variable, add to this list
+		# on exit, go through this list and remove from symbols and values
+		# variable name should be str(scope) + var_name
+
+		# symbol table: str(scope) + var_name ==> type?
+		# value table: str(scope) + var_name ==> value
+		#  is this too slow? - every variable access is a string concat
+
+		# add new list of variables for this scope
+		self.scopes.append([])
 
 	def level_down(self):
 		''' -1 indent; TODO: remove old scope '''
+		print self.scopes
+		print self.symbols
+		print self.values
+
+		# get rid of variables from symbol and value tables
+		for var in self.scopes[self.level]:
+			del self.symbols[var]
+
+			# replace with stored value
+			if (str(self.level) + var) in self.symbols:
+				self.symbols[var] = self.symbols[str(self.level) + var]
+				del self.symbols[str(self.level) + var]
+
+			if var in self.values:
+				del self.values[var]
+
+				# replace
+				if(str(self.level) + var) in self.values:
+					self.values[var] = self.values[str(self.level) + var]
+					del self.values[str(self.level) + var]
+
+		# remove level entry in scopes list
+		del self.scopes[self.level]
+
+		# decrement level
 		self.level -= 1
 
 	def beginning(self):
-		return "import os, sys\nfrom funct import Funct\n\n"
+		''' static code segments inserted before generated code '''
+		return "import os, sys\n\n"
 
 	def end(self):
+		''' static code segments inserted after generated code '''
 		return "\n\nif __name__ == '__main__':\n    main()"
 
 	# --------------------
@@ -55,33 +99,35 @@ class SvelTraverse(object):
 	# --------------------
 
 	# passes testsuite tests 0, 1, 2, 3, 5, 8; works for hello.svel
-
-	# TODO: make sure that we return and are concatenating string types
+	# TODO: make sure that we return and are concatenating string types; assert?
 
 	def _translation_unit(self, tree, flags=None):
 		print "===> svelTraverse: translation_unit"
 		if len(tree.children) == 1:
+			# -> external_declaration
 			return self.walk(tree.children[0])
+
 		elif len(tree.children) == 2:
+			# -> translation_unit external_declaration
 			return self.walk(tree.children[0]) + "\n\n" + self.walk(tree.children[1])
 
 	def _external_declaration(self, tree, flags=None):
 		print "===> svelTraverse: external_declaration"
 
-		# if function_def
 		if tree.leaf == None:
+			# -> function_def
 			return self.walk(tree.children[0])
 
-		# if external var declaration
 		else:
+			# TODO: handle the global var declaration
 			return ""
 			#return self.walk(tree.children[0]) + " " + tree.leaf
 
 	def _function_def(self, tree, flags=None):
 		print "===> svelTraverse: function_def"
 
-		# TODO: use the format function to do indenting
-		if len(tree.children) == 2: # main
+		if len(tree.children) == 2:
+			# -> MAIN LPAREN param_list RPAREN brack_stmt
 			line = "def main("
 			line += self.walk(tree.children[0])
 			line += "):\n"
@@ -92,8 +138,7 @@ class SvelTraverse(object):
 			self.level_down()
 
 		elif tree.children[0].leaf == "VOID":
-			# TODO: do something with the return type?
-			print "returns VOID"
+			# -> VOID ID LPAREN param_list RPAREN brack_stmt
 			line = "def "
 			line += tree.leaf
 			line += "("
@@ -104,10 +149,10 @@ class SvelTraverse(object):
 			line += self.walk(tree.children[2])
 			self.level_down()
 
-		else: # function returning a type
+		else:
+			# -> type ID LPAREN param_list RPAREN brack_stmt
 			# TODO: do something with the return type?
 			# type is in tree.children[0]
-			print "returns" + tree.children[0].leaf
 			line = "def "
 			line += tree.leaf
 			line += "("
@@ -124,14 +169,14 @@ class SvelTraverse(object):
 		print "===> svelTraverse: param_list"
 
 		line = ""
-
-		# if there's another parameter
 		if len(tree.children) == 2:
+			# -> param_list COMMA param
 			line += self.walk(tree.children[0])
 			line += ', '
 			line += self.walk(tree.children[1])
 
-		else: # last parameter in list
+		else:
+			# -> param
 			line += self.walk(tree.children[0])
 
 		return line
@@ -139,14 +184,14 @@ class SvelTraverse(object):
 	def _parameter(self, tree, flags=None):
 		print "===> svelTraverse: parameter"
 
-		# if empty --> _empty
 		if tree.leaf == None:
+			# -> empty
 			return self.walk(tree.children[0])
 
 		# TODO: add entry to symbol table
 		# type = self.walk(tree.children[0])
 
-		# put ID in code
+		# -> type ID
 		return tree.leaf
 
 	def _empty(self, tree, flags=None):
@@ -155,10 +200,14 @@ class SvelTraverse(object):
 
 	def _type(self, tree, flags=None):
 		print "===> svelTraverse: type"
+
+		# TODO: differentiate the array type
 		return tree.leaf
 
 	def _brack_stmt(self, tree, flags=None):
 		print "===> svelTraverse: brack_stmt"
+
+		# -> LBRACE stmts RBRACE
 		return self.walk(tree.children[0])
 
 	def _stmts(self, tree, flags=None):
@@ -166,13 +215,14 @@ class SvelTraverse(object):
 
 		line = ""
 		if len(tree.children) == 2:
-			# consecutive stmts
+			# -> stmts stmt
 			line += self.walk(tree.children[0])
 			line += '\n'
 			line += self.walk(tree.children[1])
 
 		else:
-			# stmt or brack_stmt
+			# -> stmt
+			# -> brack_stmt
 			line += self.walk(tree.children[0])
 
 		return line
@@ -181,7 +231,6 @@ class SvelTraverse(object):
 		print "===> svelTraverse: stmt"
 		return self.format(self.walk(tree.children[0]))
 
-	# expressions...
 	def _expression_stmt(self, tree, flags=None):
 		print "===> svelTraverse: expression_stmt"
 		return self.walk(tree.children[0])
@@ -195,39 +244,99 @@ class SvelTraverse(object):
 
 		# TODO: handle FUNCT!
 		if tree.leaf == None:
-			# logical_OR_expression
+			# -> logical_OR_expression
 			return self.walk(tree.children[0])
 
-		elif len(tree.children) == 3:
-			# FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
-			return tree.leaf + " = Funct(" + self.walk(tree.children[0]) + \
-				", [" + self.walk(tree.children[1]) + \
-				"], " + self.walk(tree.children[2]) + ")"
+		else:
 
-		elif len(tree.children) == 2:
-			# initial declaration w/ assignment
-			# TODO: do something with the type (symbol table)
-			return tree.leaf + " = " + str(self.walk(tree.children[1]))
+			variable_name = tree.leaf
 
-		elif len(tree.children) == 1:
-			# assignment
-			return tree.leaf + " = " + str(self.walk(tree.children[0]))
+			# keep track of this variable's scope
+			self.scopes[self.level].append(tree.leaf)
 
+			if len(tree.children) == 2:
+				# -> type ID ASSIGN assignment_expr
+				variable_type = str(self.walk(tree.children[0]))
+				variable_value = str(self.walk(tree.children[1]))
+
+				# add variable to symbol and value table
+				self.assignment_helper(variable_name, variable_value, variable_type)
+
+				return variable_name + " = " + variable_value
+
+			elif len(tree.children) == 1:
+				# -> ID ASSIGN assignment_expr
+				variable_value = str(self.walk(tree.children[0]))
+
+				# add variable to symbol and value table
+				self.assignment_helper(variable_name, variable_value)
+
+				return variable_name + " = " + variable_value
 
 		return self.walk(tree.children[0])
 
+	def assignment_helper(self, var, var_value=None, var_type=None):
+		# no type means --> case 2
+		# no value means --> case 0
+		# both means --> case 1
+
+		# case 0: declaration of new variable (just type, no value)
+			# int x;
+		# case 1: declaration of new variable and assignment of value (DEFAULT VAL?)
+			# int x = 0; (x doesn't exist yet)
+			# int x = 0; (x already exists --> new scope or throw error)
+		# case 2: assignment of value to existing variable (value may or may not have existed)
+			# x = 0; (x in symbol table)
+			# x = 0; (x not in symbol table --> throw error)
+
+		# TODO: rethink scoping
+
+		# inner var w/ same name as var in outer scope
+		if var_type and var in self.symbols:
+			raise Exception("Variable '" + var + "' is already defined in this scope.")
+
+			''' TODO: move this
+			self.symbols[str(self.level) + var] = self.symbols[var]
+			self.symbols[var] = var_type
+			
+			# update value table
+			if var_value and var in self.values:
+				self.values[str(self.level) + var] = self.values[var]
+				self.values[var] = var_value
+			elif var_value:
+				self.values[var] = var_value
+			'''
+		
+		# new var declaration
+		elif var_type:
+			self.symbols[var] = var_type
+
+			if var_value:
+				self.values[var] = var_value
+
+		# assign value to existing var
+		else:
+			if var in self.symbols:
+				self.symbols[str(self.level) + var] = self.symbols[var]
+
+				if var in self.values:
+					self.values[var] = var_value
+			else:
+				raise Exception("Declare variable '" + var + "' before use.")
+
+				
 	def _logical_OR_expr(self, tree, flags=None):
 		print "===> svelTraverse: logical_OR_expr"
 
 		line = ""
 		if len(tree.children) == 2:
-			# logical_OR_expr OR logical_AND_expr
+			# -> logical_OR_expr OR logical_AND_expr
 			line += str(self.walk(tree.children[0]))
 			line += " or "
 			line += str(self.walk(tree.children[1]))
 
 		else:
-			# go to logical_AND_expr
+			# -> logical_AND_expr
 			assert(len(tree.children) == 1)
 
 			line += str(self.walk(tree.children[0]))
@@ -239,13 +348,13 @@ class SvelTraverse(object):
 
 		line = ""
 		if len(tree.children) == 2:
-			# logical_AND_expr OR equality_expr
+			# -> logical_AND_expr OR equality_expr
 			line += str(self.walk(tree.children[0]))
 			line += " and "
 			line += str(self.walk(tree.children[1]))
 
 		else:
-			# go to equality_expr
+			# -> equality_expr
 			assert(len(tree.children) == 1)
 
 			line += str(self.walk(tree.children[0]))
@@ -257,14 +366,14 @@ class SvelTraverse(object):
 
 		line = ""
 		if len(tree.children) == 2:
-			# equality_expr EQ/NEQ relational_expr
+			# -> equality_expr EQ/NEQ relational_expr
 			line += str(self.walk(tree.children[0]))
 			line += " " + tree.leaf + " "
 			line += str(self.walk(tree.children[1]))
 
 		else:
-			# go to relational_expr
-			assert(len(tree.children) == 1)
+			# -> relational_expr
+			assert(len(tree.children) == 1) # TODO: is this necessary?
 
 			line += str(self.walk(tree.children[0]))
 
@@ -275,13 +384,13 @@ class SvelTraverse(object):
 
 		line = ""
 		if len(tree.children) == 2:
-			# relational_expr LS_OP/LE_OP/GR_OP/GE_OP additive_expr
+			# -> relational_expr LS_OP/LE_OP/GR_OP/GE_OP additive_expr
 			line += str(self.walk(tree.children[0]))
 			line += " " + tree.leaf + " "
 			line += str(self.walk(tree.children[1]))
 
 		else:
-			# go to additive_expr
+			# -> additive_expr
 			assert(len(tree.children) == 1)
 
 			line += str(self.walk(tree.children[0]))
@@ -294,13 +403,13 @@ class SvelTraverse(object):
 
 		line = ""
 		if len(tree.children) == 2:
-			# additive_expr PLUS/MINUS multiplicative_expr
+			# -> additive_expr PLUS/MINUS multiplicative_expr
 			line += str(self.walk(tree.children[0]))
 			line += " " + tree.leaf + " "
 			line += str(self.walk(tree.children[1]))
 
 		else:
-			# go to multiplicative_expr
+			# -> multiplicative_expr
 			assert(len(tree.children) == 1)
 
 			line += str(self.walk(tree.children[0]))
@@ -312,13 +421,13 @@ class SvelTraverse(object):
 
 		line = ""
 		if len(tree.children) == 2:
-			# multiplicative_expr TIMES/DIVIDE secondary_expr
+			# -> multiplicative_expr TIMES/DIVIDE secondary_expr
 			line += str(self.walk(tree.children[0]))
 			line += " " + tree.leaf + " "
 			line += str(self.walk(tree.children[1]))
 
 		else:
-			# go to multiplicative_expr
+			# -> multiplicative_expr
 			assert(len(tree.children) == 1)
 
 			line += str(self.walk(tree.children[0]))
@@ -335,7 +444,6 @@ class SvelTraverse(object):
 
 		elif tree.leaf == '(':
 			# -> LPAREN expression RPAREN
-			# -> LPAREN identifier_list RPAREN
 			line += '(' + str(self.walk(tree.children[0])) + ')'
 
 		elif tree.leaf == '{':
@@ -348,63 +456,37 @@ class SvelTraverse(object):
 		print "===> svelTraverse: primary_expr"
 
 		if len(tree.children) == 0:
-			# if not function_call or ref_type
+			# if not function_call
 			return tree.leaf
 
+		# -> function_call
 		return self.walk(tree.children[0])
 
 	def _function_call(self, tree, flags=None):
 		print "===> svelTraverse: function_call"
 
+		# TODO: finish this;
+
 		line = ""
 		if tree.leaf == "print":
-			# -> PRINT primary_expr
 			line += tree.leaf + " " + tree.children[0].leaf
 
-		elif len(tree.children) == 2:
-			# -> ID PERIOD ASSERT LPAREN identifier_list RPAREN
-			line += tree.leaf + ".assert(" + self.walk(tree.children[1]) +")"
-
-		elif len(tree.children) == 1:
-			# -> ID LPAREN identifier_list RPAREN
-			line += tree.leaf + "(" + self.walk(tree.children[0]) + ")"
-
 		return line
 
-	def _ref_type(self, tree, flags=None):
-		print "===> svelTraverse: ref_type"
+	# TODO: implement
+	def _reslang_type(self, tree, flags=None):
+		print "===> svelTraverse: reslang_type"
+		return self.walk(tree.children[0])
 
-		line = ""
-		line += self.walk(tree.children[0])
-		line += '['
-		line += str(self.walk(tree.children[1]))
-		line += ']'
-		return line		
-
+	# TODO: implement
 	def _reserved_languages_list(self, tree, flags=None):
 		print "===> svelTraverse: reserved_languages_list"
-		
-		line = ""
-		if len(tree.children) == 1:
-			# -> reserved_languages_keyword
-			line += self.walk(tree.children[0])
+		return self.walk(tree.children[0])
 
-		elif len(tree.children) == 2:
-			# -> reserved_languages_list COMMA reserved_languages_keyword
-			line += self.walk(tree.children[0]) + ", " + self.walk(tree.children[1])
-
-		return line
-
+	# TODO: implement
 	def _reserved_languages_keyword(self, tree, flags=None):
-		print "===> svelTraverse: reserved_languages_keyword"
-		
-		if isinstance(tree.leaf, basestring):
-			# -> RES_LANG LBRACKET RBRACKET
-			# -> RES_LANG
-			return "\"" + tree.leaf + "\""
-
-		# -> empty
-		return self.walk(tree.leaf)
+		print "===> svelTraverse: _reserved_languages_keyword"
+		return self.walk(tree.children[0])
 
 	def _identifier_list(self, tree, flags=None):
 		print "===> svelTraverse: _identifier_list"
@@ -416,7 +498,7 @@ class SvelTraverse(object):
 
 		elif len(tree.children) == 2:
 			# -> identifier_list COMMA expression
-			line += str(self.walk(tree.children[0])) + ", " + str(self.walk(tree.children[1]))
+			line += str(self.walk(tree.children[0])) + ', ' + str(self.walk(tree.children[1]))
 
 		return line
 
@@ -425,7 +507,7 @@ class SvelTraverse(object):
 
 		line = ""
 		if len(tree.children) == 2:
-			# if
+			# -> IF LPAREN expression RPAREN brack_stmt
 			line += "if "
 			line += self.walk(tree.children[0])
 			line += ":\n"
@@ -435,7 +517,7 @@ class SvelTraverse(object):
 			self.level_down()
 
 		elif len(tree.children) == 3:
-			# if-else
+			# -> IF LPAREN expression RPAREN brack_stmt ELSE brack_stmt
 			line += "if "
 			line += self.walk(tree.children[0])
 			line += ":\n"
@@ -458,7 +540,7 @@ class SvelTraverse(object):
 
 		line = ""
 		if len(tree.children) == 2:
-			# while
+			# -> (while loop)
 			line += "while "
 			line += self.walk(tree.children[0])
 			line += ":\n"
@@ -468,7 +550,8 @@ class SvelTraverse(object):
 			self.level_down()
 
 		elif len(tree.children) == 4:
-			# for TODO: refactor -- very hack-y atm
+			# -> (for loop)
+			# TODO: refactor -- very hack-y atm
 			line += self.walk(tree.children[0]) + '\n'
 			line += self.format("while ")
 			line += self.walk(tree.children[1])
@@ -487,96 +570,21 @@ class SvelTraverse(object):
 
 		line = ""
 		if tree.leaf == 'break':
+			# -> break
 			line = tree.leaf
 
 		elif tree.leaf == 'continue':
+			# -> continue
 			line = tree.leaf
 
 		elif tree.leaf == 'return':
+			#-> return
 			line += "return "
 			line += self.walk(tree.children[0])
 
 		return line
 
+	# TODO: double-check implementation
 	def _funct_name(self, tree, flags=None):
 		print "===> svelTraverse: _funct_name"
-
-		if tree.leaf == "__main__":
-			return "\"main\""
-
-		return tree.leaf
-
-	# -----------------
-	# OLD (from helloworld/svelTraverse.py) TODO: delete
-	# -----------------
-
-	# TODO: indenting; scoping
-	def _main_stmt(self, tree, flags=None):
-		line = "def main():"
-		line = self.format(line)
-		line += '\n'
-
-		# enter scope
-		self.level_up()
-
-		if len(tree.children) == 1:
-			line += self.walk(tree.children[0])
-		else:
-			line += self.walk(tree.children[0]) + self.walk(tree.children[1])
-
-		
-		# leave scope
-		self.level_down()
-		return line
-
-	# hardcoding in the comparison for now - iIknow it's wrong
-	# just wanted to get something going
-	def _if_else_loop(self, tree, flags=None):
-		line = "os.system(\"python printhelloworld.py > output.txt\")\n"
-		line2 = "output = open(\"output.txt\").read()\n"
-		line3 = "if output == \"Hello, World!\\n\":\n"
-		line5 = "else:\n"
-
-		line = self.format(line)
-		line2 = self.format(line2)
-		line3 = self.format(line3)
-		line5 = self.format(line5)
-
-		self.level_up()
-
-		line4 = self.walk(tree.children[1])
-		line6 = self.walk(tree.children[2])
-
-		self.level_down()
-
-		return line + line2 + line3 + line4 + line5 + line6
-
-
-	def _print_stmt(self, tree, flags=None):
-		line = "print "
-		line = self.format(line)
-		return line + self.walk(tree.children[0]) + '\n'
-
-	'''
-	def _brack_stmt(self, tree, flags=None):
-		line = self.walk(tree.children[0])
-		line = self.format(line)
-		return line
-	'''
-
-	def _file_stmt(self, tree, flags=None):
-		line = "if(not os.path.isfile("
-		line = self.format(line)
-		line += self.walk(tree.children[1]) + ")):\n"
-		
-		next_line = "    sys.exit('Cannot find "
-		next_line = self.format(next_line)
-		next_line += self.walk(tree.children[1]) + "')"
-
-		return line + next_line + '\n'
-
-	def _STRINGLITERAL(self, tree, flags=None):
-		return tree.leaf
-
-	def _ID(self, tree, flags=None):
 		return tree.leaf
