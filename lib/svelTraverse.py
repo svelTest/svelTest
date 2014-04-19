@@ -45,7 +45,7 @@ class SvelTraverse(object):
 		self.level -= 1
 
 	def beginning(self):
-		return "import os, sys\n\n"
+		return "import os, sys\nfrom funct import Funct\n\n"
 
 	def end(self):
 		return "\n\nif __name__ == '__main__':\n    main()"
@@ -198,6 +198,12 @@ class SvelTraverse(object):
 			# logical_OR_expression
 			return self.walk(tree.children[0])
 
+		elif len(tree.children) == 3:
+			# FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
+			return tree.leaf + " = Funct(" + self.walk(tree.children[0]) + \
+				", [" + self.walk(tree.children[1]) + \
+				"], " + self.walk(tree.children[2]) + ")"
+
 		elif len(tree.children) == 2:
 			# initial declaration w/ assignment
 			# TODO: do something with the type (symbol table)
@@ -321,13 +327,28 @@ class SvelTraverse(object):
 
 	def _secondary_expr(self, tree, flags=None):
 		print "===> svelTraverse: secondary_expr"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if tree.leaf == None:
+			# -> primary_expr
+			line += str(self.walk(tree.children[0]))
+
+		elif tree.leaf == '(':
+			# -> LPAREN expression RPAREN
+			# -> LPAREN identifier_list RPAREN
+			line += '(' + str(self.walk(tree.children[0])) + ')'
+
+		elif tree.leaf == '{':
+			# -> LBRACE identifier_list RBRACE
+			line += '[' + str(self.walk(tree.children[0])) + ']'
+
+		return line
 
 	def _primary_expr(self, tree, flags=None):
 		print "===> svelTraverse: primary_expr"
 
 		if len(tree.children) == 0:
-			# if not function_call
+			# if not function_call or ref_type
 			return tree.leaf
 
 		return self.walk(tree.children[0])
@@ -337,25 +358,67 @@ class SvelTraverse(object):
 
 		line = ""
 		if tree.leaf == "print":
+			# -> PRINT primary_expr
 			line += tree.leaf + " " + tree.children[0].leaf
+
+		elif len(tree.children) == 2:
+			# -> ID PERIOD ASSERT LPAREN identifier_list RPAREN
+			line += tree.leaf + ".assert(" + self.walk(tree.children[1]) +")"
+
+		elif len(tree.children) == 1:
+			# -> ID LPAREN identifier_list RPAREN
+			line += tree.leaf + "(" + self.walk(tree.children[0]) + ")"
 
 		return line
 
-	def _reslang_type(self, tree, flags=None):
-		print "===> svelTraverse: reslang_type"
-		return self.walk(tree.children[0])
+	def _ref_type(self, tree, flags=None):
+		print "===> svelTraverse: ref_type"
+
+		line = ""
+		line += self.walk(tree.children[0])
+		line += '['
+		line += str(self.walk(tree.children[1]))
+		line += ']'
+		return line		
 
 	def _reserved_languages_list(self, tree, flags=None):
 		print "===> svelTraverse: reserved_languages_list"
-		return self.walk(tree.children[0])
+		
+		line = ""
+		if len(tree.children) == 1:
+			# -> reserved_languages_keyword
+			line += self.walk(tree.children[0])
+
+		elif len(tree.children) == 2:
+			# -> reserved_languages_list COMMA reserved_languages_keyword
+			line += self.walk(tree.children[0]) + ", " + self.walk(tree.children[1])
+
+		return line
 
 	def _reserved_languages_keyword(self, tree, flags=None):
-		print "===> svelTraverse: _reserved_languages_keyword"
-		return self.walk(tree.children[0])
+		print "===> svelTraverse: reserved_languages_keyword"
+		
+		if isinstance(tree.leaf, basestring):
+			# -> RES_LANG LBRACKET RBRACKET
+			# -> RES_LANG
+			return "\"" + tree.leaf + "\""
+
+		# -> empty
+		return self.walk(tree.leaf)
 
 	def _identifier_list(self, tree, flags=None):
 		print "===> svelTraverse: _identifier_list"
-		return self.walk(tree.children[0])
+
+		line = ""
+		if len(tree.children) == 1:
+			# -> expression
+			line += str(self.walk(tree.children[0]))
+
+		elif len(tree.children) == 2:
+			# -> identifier_list COMMA expression
+			line += str(self.walk(tree.children[0])) + ", " + str(self.walk(tree.children[1]))
+
+		return line
 
 	def _ifelse_stmt(self, tree, flags=None):
 		print "===> svelTraverse: _ifelse_stmt"
@@ -437,7 +500,11 @@ class SvelTraverse(object):
 
 	def _funct_name(self, tree, flags=None):
 		print "===> svelTraverse: _funct_name"
-		return self.walk(tree.children[0])
+
+		if tree.leaf == "__main__":
+			return "\"main\""
+
+		return tree.leaf
 
 	# -----------------
 	# OLD (from helloworld/svelTraverse.py) TODO: delete

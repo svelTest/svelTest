@@ -85,7 +85,7 @@ def p_ref_type(p):
     '''
     ref_type : ID LBRACKET primary_expr RBRACKET
     '''
-    p[0] = Node('ref_type', [Node('primary_expr', [], p[1]), Node('primary_expr', [], p[3])])
+    p[0] = Node('ref_type', [Node('primary_expr', [], p[1]), p[3]])
 
 def p_param_list(p):
     '''
@@ -243,7 +243,7 @@ def p_secondary_expr(p):
                    | LBRACE identifier_list RBRACE
     '''
     if len(p) == 4:
-        p[0] = Node('secondary_expr', [p[2]])
+        p[0] = Node('secondary_expr', [p[2]], p[1])
     else:
         p[0] = Node('secondary_expr', [p[1]])
 
@@ -288,7 +288,7 @@ def p_reserved_languages_list(p):
     else:
         p[0] = Node('reserved_languages_list', [p[1], p[3]])
 
-def p_reserved_language_keyword(p):
+def p_reserved_languages_keyword(p):
     '''
     reserved_language_keyword : RES_LANG LBRACKET RBRACKET
                               | RES_LANG
