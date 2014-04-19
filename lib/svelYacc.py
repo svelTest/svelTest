@@ -166,6 +166,7 @@ def p_funct_name(p):
     '''
     funct_name : __MAIN__
                 | ID
+                | STRINGLITERAL
     '''
     p[0] = Node('funct_name', [], p[1])
 
@@ -239,6 +240,7 @@ def p_secondary_expr(p):
     '''
     secondary_expr : primary_expr
                    | LPAREN expression RPAREN
+                   | LPAREN identifier_list RPAREN
                    | LBRACE identifier_list RBRACE
     '''
     if len(p) == 4:
