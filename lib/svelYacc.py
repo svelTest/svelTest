@@ -155,7 +155,10 @@ def p_expression(p):
                 | type ID
                 | empty
     '''
-    p[0] = Node('expression', [p[1]])
+    if len(p) == 3:
+        p[0] = Node('expression', [p[1]], p[2])
+    else:
+        p[0] = Node('expression', [p[1]])
     
 def p_assignment_expr(p):
     '''
@@ -278,7 +281,7 @@ def p_primary_expr(p):
 def p_function_call(p):
     '''
     function_call : ID LPAREN identifier_list RPAREN
-                  | PRINT primary_expr
+                  | PRINT logical_OR_expr
                   | ID PERIOD ASSERT LPAREN identifier_list RPAREN
     '''
     if len(p) == 3: # PRINT primary_expr
@@ -343,7 +346,7 @@ def p_jump_stmt(p):
     '''
     jump_stmt : BREAK SEMICOLON
               | CONTINUE SEMICOLON
-              | RETURN expression SEMICOLON
+              | RETURN logical_OR_expr SEMICOLON
     '''
     if len(p) == 3:
         p[0] = Node('jump_stmt', [], p[1])
