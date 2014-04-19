@@ -43,12 +43,12 @@ def p_translation_unit(p):
 def p_external_declaration(p):
     '''
     external_declaration : function_def
-                         | type ID SEMICOLON
+                         | type ID ASSIGN assignment_expr SEMICOLON
     '''
     if len(p) == 2:
         p[0] = Node('external_declaration', [p[1]])
     else:
-        p[0] = Node('external_declaration', [p[1]], p[2])
+        p[0] = Node('external_declaration', [p[1], p[4]], p[2])
 
 def p_function_def(p):
     '''
