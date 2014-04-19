@@ -366,7 +366,7 @@ class SvelTraverse(object):
 
 		elif len(tree.children) == 1:
 			# -> ID LPAREN identifier_list RPAREN
-			line += tree.leaf + "(" + self.walk(tree.children[0]) + ")"[]
+			line += tree.leaf + "(" + self.walk(tree.children[0]) + ")"
 
 		return line
 
