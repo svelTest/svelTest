@@ -1,3 +1,15 @@
+# =============================================================================
+# testsuite.py
+# 
+# Small test cases to run on parser through testParser.py
+#
+# -----------------------------------------------------------------------------
+# Columbia University, Spring 2014
+# COMS 4115: Programming Languages & Translators, Prof. Aho
+#     svelTest team:
+#     Emily Hsia, Kaitlin Huben, Josh Lieberman, Chris So, Mandy Swinton
+# =============================================================================
+
 class Testsuite(object):
 
 	def __init__(self):

@@ -1,8 +1,14 @@
-# ---------------------------------------------------------
+# =============================================================================
 # svelLex.py
 #
-# tokenizer for svelTest programs
-# ---------------------------------------------------------
+# Tokenizer for svelTest programs: takes an input data stream and tokenizes it
+# 
+# -----------------------------------------------------------------------------
+# Columbia University, Spring 2014
+# COMS 4115: Programming Languages & Translators, Prof. Aho
+#     svelTest team:
+#     Emily Hsia, Kaitlin Huben, Josh Lieberman, Chris So, Mandy Swinton
+# =============================================================================
 
 # be able to go into the ply directory to get to the 
 # ply modules
@@ -163,7 +169,7 @@ class SvelLexer:
 		return tok_str
 
 
-# if svelLex.py invoked directly, tokenize input
+# if svelLex.py invoked directly, tokenize user's input
 if __name__ == "__main__":
 	# instantiate new svelLexer
 	svel = SvelLexer()

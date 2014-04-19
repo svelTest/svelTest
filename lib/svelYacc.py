@@ -1,8 +1,15 @@
-# ---------------------------------------------------------
+# =============================================================================
 # svelYacc.py
 #
-# parser for svelTest programs
-# ---------------------------------------------------------
+# Parser for svelTest programs: takes a token stream and creates an 
+# abstract syntax tree
+# 
+# -----------------------------------------------------------------------------
+# Columbia University, Spring 2014
+# COMS 4115: Programming Languages & Translators, Prof. Aho
+#     svelTest team:
+#     Emily Hsia, Kaitlin Huben, Josh Lieberman, Chris So, Mandy Swinton
+# =============================================================================
 
 # import lexer
 from svelLex import SvelLexer
@@ -352,6 +359,7 @@ def p_error(p):
         print "Syntax error around line number \n %d : %s " % (p.lineno, p.value) 
 
 
+# if svelYacc invoked directly, parse user's input
 if __name__ == '__main__':
     # get and build lexer
     svel = SvelLexer()
