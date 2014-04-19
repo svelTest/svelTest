@@ -152,7 +152,8 @@ def p_expression_stmt(p):
 def p_expression(p):
     '''
     expression : assignment_expr
-               | empty
+                | type ID
+                | empty
     '''
     p[0] = Node('expression', [p[1]])
     
