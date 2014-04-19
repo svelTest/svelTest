@@ -248,7 +248,6 @@ def p_multiplicative_expr(p):
 def p_secondary_expr(p):
     '''
     secondary_expr : primary_expr
-                   | LPAREN expression RPAREN
                    | LPAREN identifier_list RPAREN
                    | LBRACE identifier_list RBRACE
     '''
@@ -370,15 +369,29 @@ if __name__ == '__main__':
 
     parser = getParser()
 
-    # loop to get user input
-    while True:
-        # print prompt and gather input
+    # if user just ran "python svelYacc.py", start input loop
+    if(len(sys.argv) == 1):
+        # loop to get user input
+        while True:
+            # print prompt and gather input
+            try:
+                line = raw_input("Enter a string to parse\n")
+
+            # if Ctrl-D, exit
+            except EOFError:
+                break
+
+            # otherwise, tokenize the string
+            print parser.parse(line, lexer=svel.get_lexer())
+
+    # otherwise, try to read user's file (e.g. they ran something like
+    # "python svelLex.py helloworld.svel")
+    else:
+        # try to open the file
         try:
-            line = raw_input("Enter a string to parse\n")
+            data = open(sys.argv[1]).read()
+        except IOERROR, e:
+            print e
 
-        # if Ctrl-D, exit
-        except EOFError:
-            break
-
-        # otherwise, tokenize the string
-        print parser.parse(line, lexer=svel.get_lexer())
+        # tokenize the file
+        print parser.parse(data, lexer=svel.get_lexer())
