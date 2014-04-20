@@ -46,6 +46,7 @@ class SvelLexer:
 		'break' : 'BREAK',
 		'continue' : 'CONTINUE',
 		'return' : 'RETURN',
+		'verbose' : 'VERBOSE',
 	}
 
 	# Lists of token names. always required

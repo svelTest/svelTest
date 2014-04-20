@@ -542,6 +542,9 @@ class SvelTraverse(object):
 			# -> expression
 			line += str(self.walk(tree.children[0], verbose=verbose))
 
+		elif len(tree.children) == 2 and tree.children[1].leaf=="verbose":
+			line += str(self.walk(tree.children[0], verbose=verbose)) + ", verbose=True"
+
 		elif len(tree.children) == 2:
 			# -> identifier_list COMMA expression
 			line += str(self.walk(tree.children[0], verbose=verbose)) + ", " + str(self.walk(tree.children[1], verbose=verbose))
