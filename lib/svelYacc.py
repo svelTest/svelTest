@@ -315,10 +315,13 @@ def p_reserved_languages_keyword(p):
 def p_identifier_list(p):
     '''
     identifier_list : expression
+                    | identifier_list COMMA VERBOSE
                     | identifier_list COMMA expression
     '''
     if len(p) == 2:
         p[0] = Node('identifier_list', [p[1]])
+    elif p[3] == "verbose":
+        p[0] = Node('identifier_list', [p[1], Node('VERBOSE', [], p[3])])
     else:
         p[0] = Node('identifier_list', [p[1], p[3]])
     
