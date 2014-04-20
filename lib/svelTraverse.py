@@ -264,25 +264,26 @@ class SvelTraverse(object):
 
 		return self.walk(tree.children[0], verbose=verbose)
 
-<<<<<<< HEAD
 	def assignment_helper(self, var, var_value=None, var_type=None):
-        # no type means --> case 2
-        # no value means --> case 0
-        # both means --> case 1
+        '''
+        no type means --> case 2
+        no value means --> case 0
+        both means --> case 1
 
-        # case 0: declaration of new variable (just type, no value)
-            # int x;
-        # case 1: declaration of new variable and assignment of value (DEFAULT VAL?)
-            # int x = 0; (x doesn't exist yet)
-            # int x = 0; (x already exists --> new scope or throw error)
-        # case 2: assignment of value to existing variable (value may or may not have existed)
-            # x = 0; (x in symbol table)
-            # x = 0; (x not in symbol table --> throw error)
+        case 0: declaration of new variable (just type, no value)
+            int x;
+        case 1: declaration of new variable and assignment of value (DEFAULT VAL?)
+            int x = 0; (x doesn't exist yet)
+            int x = 0; (x already exists --> new scope or throw error)
+        case 2: assignment of value to existing variable (value may or may not have existed)
+            x = 0; (x in symbol table)
+            x = 0; (x not in symbol table --> throw error)
 
-        # TODO: rethink scoping
+        '''
+        entry = str(self.scope) + var       # <scope><variable> (e.g. 4x - variable x at scope 4)
 
+        # case 2: 
         if var_type is None:
-            # x = 0;
             # should always have an entry in scope table
             if var not in self.scopes[self.scope]:
                 print '''Cannot find symbol
@@ -291,15 +292,14 @@ class SvelTraverse(object):
                 return False
             # else add to symbol table
 
+        # case 0 or 1:
         else:
-            # int x = 0;
             # shouldn't have an entry in scope table
             if var in self.scopes[self.scope]:
                 print ''' %s is already defined
                 ''' % (var)
                 return False
             self.scopes[self.scope][var] = True
-            entry = str(self.scope) + var       # 0x
             self.symbols[entry] = [var_type]    # add type to symbol table
 
         if var_value is not None:
