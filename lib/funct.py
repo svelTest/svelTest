@@ -50,7 +50,7 @@ class Funct(object):
         inputs -    test input values
         output -    corresponding test output value
     '''
-    def _assert(self, inputValues, outputValue):
+    def _assert(self, inputValues, outputValue, verbose=False):
 
         inputstr = ""
         if not isinstance(inputValues, list):
@@ -81,7 +81,8 @@ class Funct(object):
                 message = "FAIL"
 
 
-        print "%s(%s)... %s %s" % (self.name, inputstr, 5*"\t", message)
+        if verbose == True:
+            print "%s(%s)... %s %s" % (self.name, inputstr, 5*"\t", message)
         if message == "PASS":
             return True
         return False
