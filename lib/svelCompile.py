@@ -28,11 +28,17 @@ import ply.yacc as yacc
 from svelTraverse import SvelTraverse
 
 def compile(argv):
+	verbose = None
 	# TODO: else if no arguments provided
 	if len(argv) == 2:
 		input_file = argv[1]
+	elif len(argv) == 3:
+		verbose = argv[1]
+		if verbose != "-v":
+			sys.exit("Error: Invalid Flag. Usage: ./compile.sh [-v] <file_to_compile>.svel")
+		input_file = argv[2]
 	else:
-		sys.exit("Usage: python svelCompile.py <file_to_compile>.svel")
+		sys.exit("Usage: ./compile.sh [-v] <file_to_compile>.svel")
 
 	# split at "/" to get to actual file name (if relative path)
 	# TODO: handle for Windows \
@@ -66,7 +72,12 @@ def compile(argv):
 	ast = parser.parse(source_code, lexer=svel.get_lexer())
 
 	# walk the tree and get the compiled code
-	compiled_code = SvelTraverse(ast).get_code()
+	if verbose == None:
+		compiled_code = SvelTraverse(ast).get_code()
+	else:
+		compiled_code = SvelTraverse(ast, verbose=True).get_code()
+	# if arg3 = -d
+	# compiled_code = SvelTraverse(ast, debug=true).get_code()
 
 	output_file = open(output_filename, 'w')
 	output_file.write(compiled_code)
