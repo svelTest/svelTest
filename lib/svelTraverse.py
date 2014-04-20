@@ -106,7 +106,6 @@ class SvelTraverse(object):
 
 			self.level_up()
 			line += self.walk(tree.children[1], verbose=verbose)
-
 			self.level_down()
 
 		elif tree.children[0].leaf == "VOID":
