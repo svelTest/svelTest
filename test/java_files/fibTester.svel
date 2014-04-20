@@ -8,9 +8,9 @@ main() {
 
 	for(int i = 0; i < 4; i = i+1) {
 		if(fibMain.assert(_in[i], out[i])){
-			print "Test passed.";
+			print ("Test passed.");
 		} else {
-		 	print "Test failed.";
+		 	print ("Test failed.");
 		}
 	}
 }
