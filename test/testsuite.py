@@ -17,7 +17,7 @@ class Testsuite(object):
 		# 0: print Hello World
 		test_0 = '''
 		main() {
-			print "Hello world";
+			print("Hello world");
 		}
 		'''
 
@@ -32,6 +32,7 @@ class Testsuite(object):
 			int a = x * y;
 
 			boolean b = x < y;
+			print(x+y);
 		}
 		'''
 
