@@ -281,11 +281,11 @@ def p_primary_expr(p):
 def p_function_call(p):
     '''
     function_call : ID LPAREN identifier_list RPAREN
-                  | PRINT logical_OR_expr
+                  | PRINT LPAREN identifier_list RPAREN
                   | ID PERIOD ASSERT LPAREN identifier_list RPAREN
     '''
-    if len(p) == 3: # PRINT primary_expr
-        p[0] = Node('function_call', [p[2]], 'print')
+    if len(p) == 3: # PRINT 
+        p[0] = Node('function_call', [p[3]], 'print')
     elif len(p) == 7:
         p[0] = Node('function_call', [Node('ASSERT', [], 'assert'), p[5]], p[1])
     else:
