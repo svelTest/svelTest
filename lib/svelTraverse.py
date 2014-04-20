@@ -413,12 +413,7 @@ class SvelTraverse(object):
 		line = ""
 		if tree.leaf == "print":
 			# -> PRINT primary_expr
-			# Cast as string to catch this error
-			# File "/Users/joshlieberman/workspace/PLT/svelTest/lib/svelTraverse.py",
-			# line 395, in _function_call
-			# line += tree.leaf + " " + tree.children[0].leaf
-			# TypeError: cannot concatenate 'str' and 'NoneType' objects
-			line += tree.leaf + " " + str(tree.children[0].leaf)
+			line += tree.leaf + " " + self.walk(tree.children[0], verbose=verbose)
 
 		elif len(tree.children) == 2:
 			# -> ID PERIOD ASSERT LPAREN identifier_list RPAREN
