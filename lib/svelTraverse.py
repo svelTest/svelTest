@@ -286,24 +286,50 @@ class SvelTraverse(object):
         if var_type is None:
             # should always have an entry in scope table
             if var not in self.scopes[self.scope]:
-                print '''Cannot find symbol
-                symbol : variable %s
-                ''' % (var)
+                print format_err_msg(0, var)
                 return False
-            # else add to symbol table
 
         # case 0 or 1:
         else:
             # shouldn't have an entry in scope table
             if var in self.scopes[self.scope]:
-                print ''' %s is already defined
-                ''' % (var)
+                print format_err_msg(1, var)
                 return False
             self.scopes[self.scope][var] = True
             self.symbols[entry] = [var_type]    # add type to symbol table
 
         if var_value is not None:
+        	if var_type == "int":
+        		try:
+        			var_value = int(var_value)
+        		except ValueError:
+        			print format_err_msg(2, var, var_type, var_value)
+        			return false
+        	elif var_type == "double":
+        		try:
+        			var_value = float(var_value)
+        		except ValueError:
+
             # update value in symbol table
+            if len(self.symbols[entry]) == 1:
+            	self.symbols[entry].append(var_value)	# first variable assignment
+            else:
+            	self.symbols[entry][1] = var_value		# update variable value
+
+    '''
+    Err values:
+    0: cannot find symbol
+    1: variable already defined
+    2: Incompatible types
+    '''
+    def format_err_msg(self, err, var, var_value=None, var_type=None):
+    	if err == 0:
+    		return "Cannot find symbol\nsymbol : variable %s" % (var)
+    	elif err == 1:
+    		return "variable %s already defined" % (var)
+    	elif err == 2:
+    		return "Incompatible types. %s requires type %s. Found %s" % (var, var_type, var_value)
+
 
 	def _logical_OR_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
