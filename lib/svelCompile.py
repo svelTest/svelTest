@@ -28,14 +28,31 @@ import ply.yacc as yacc
 from svelTraverse import SvelTraverse
 
 def compile(argv):
+	verbose = None
 	# TODO: else if no arguments provided
 	if len(argv) == 2:
 		input_file = argv[1]
+	elif len(argv) == 3:
+		verbose = argv[1]
+		if verbose != "-v":
+			sys.exit("Error: Invalid Flag. Usage: ./compile.sh [-v] <file_to_compile>.svel")
+		input_file = argv[2]
 	else:
-		sys.exit("Usage: python svelCompile.py <file_to_compile>.svel")
+		sys.exit("Usage: ./compile.sh [-v] <file_to_compile>.svel")
 
-	# get name of input file to use later
-	input_filename = input_file.split(".")[0]
+	# split at "/" to get to actual file name (if relative path)
+	# TODO: handle for Windows \
+	input_parts = input_file.split("/")
+
+	# get name of input file to use later (last in array split at /)
+	input_filename = input_parts[len(input_parts) - 1].split(".")[0]
+
+
+	# set the name of the compiled code file
+	# e.g. if they compiled helloworld.svel, they'll get helloworld.py
+	output_filename = input_filename + ".py"
+	if(os.path.isfile(output_filename)):
+		sys.exit("Error: Refusing to overwrite " + output_filename + "\nPlease either delete it or rename your source file")
 
 	# try to open source code
 	try:
@@ -55,20 +72,18 @@ def compile(argv):
 	ast = parser.parse(source_code, lexer=svel.get_lexer())
 
 	# walk the tree and get the compiled code
-	compiled_code = SvelTraverse(ast).get_code()
-
-	# set the name of the compiled code file
-	# e.g. if they compiled helloworld.svel, they'll get helloworld.py
-	output_filename = input_filename + ".py"
-
-	# try to write compiled code to appropriate file
-	# refuse to overwrite existing file by same name
-	if(not os.path.isfile(output_filename)):
-		output_file = open(output_filename, 'w')
-		output_file.write(compiled_code)
-		print "Success: compiled to " + output_filename
+	if verbose == None:
+		compiled_code = SvelTraverse(ast).get_code()
 	else:
-		sys.exit("Error: Refusing to overwrite " + output_filename + "\nPlease either delete it or rename your source file")
+		compiled_code = SvelTraverse(ast, verbose=True).get_code()
+	# if arg3 = -d
+	# compiled_code = SvelTraverse(ast, debug=true).get_code()
+
+	output_file = open(output_filename, 'w')
+	output_file.write(compiled_code)
+
+	#TODO: catch errors with writing
+	print "Success: compiled to " + output_filename
 
 if __name__ == '__main__':
 	compile(sys.argv)
