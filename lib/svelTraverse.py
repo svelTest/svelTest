@@ -93,7 +93,7 @@ class SvelTraverse(object):
 		#elif tree.leaf == "Python":
 			# implement
 		else:
-			sys.exit("Unrecognized language type.")
+			sys.exit("ERROR: Unrecognized language type.")
 
 	def _translation_unit(self, tree, flags=None, verbose=False):
 		if(verbose):
