@@ -20,8 +20,12 @@ class SvelTraverse(object):
 		# symbol table (dict)
 		self.symbols = {}
 
-		# value table (dict)
-		self.values = {}
+		# scope table (dict)
+		self.scopes = [{}]
+
+		# TODO command line args hack
+		self.main_args = []
+		self.main_types = []
 
 		# run
 		self.code = self.beginning() + self.walk(tree, verbose=verbose) + self.end()
@@ -63,7 +67,22 @@ class SvelTraverse(object):
 		return imports
 
 	def end(self):
-		return "\n\nif __name__ == '__main__':\n    main()"
+		# extract command line args from main_args
+		# and format to int(sys.argv[1]), int(sys.argv[2])
+		numOfArgs = len(self.main_args)
+		i = 1
+		argStr = ""
+		while i <= numOfArgs:
+			if self.main_types[i-1] == "int":
+				argStr += "int(sys.argv[%d]), " % (i)
+			elif self.main_types[i-1] == "double":
+				argStr += "float(sys.argv[%d]), " % (i)
+			else:
+				argStr += "sys.argv[%d], " % (i)
+			i += 1
+		if len(argStr) > 0:
+			argStr = argStr[0:-2]
+		return "\n\nif __name__ == '__main__':\n\tmain(%s)" % (argStr)
 
 	# --------------------
 	# handle grammar nodes
@@ -101,8 +120,15 @@ class SvelTraverse(object):
 		# TODO: use the format function to do indenting
 		if len(tree.children) == 2: # main
 			line = "def main("
-			line += self.walk(tree.children[0], verbose=verbose)
+			cl_args = self.walk(tree.children[0], flags=["main"], verbose=verbose)
+			line += cl_args
 			line += "):\n"
+
+			# parse cl_args to insert into generated code
+			cl_args = cl_args.split(",")
+			for arg in cl_args:
+				arg = arg.strip()
+				self.main_args.append(arg)
 
 			self.level_up()
 			line += self.walk(tree.children[1], verbose=verbose)
@@ -146,18 +172,22 @@ class SvelTraverse(object):
 
 		# if there's another parameter
 		if len(tree.children) == 2:
-			line += self.walk(tree.children[0], verbose=verbose)
+			line += self.walk(tree.children[0], flags, verbose=verbose)
 			line += ', '
-			line += self.walk(tree.children[1], verbose=verbose)
+			line += self.walk(tree.children[1], flags, verbose=verbose)
 
 		else: # last parameter in list
-			line += self.walk(tree.children[0], verbose=verbose)
+			line += self.walk(tree.children[0], flags, verbose=verbose)
 
 		return line
 
 	def _parameter(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: parameter"
+
+		# TODO command line args hack
+		if len(flags) == 1 and flags[0] == "main":
+			self.main_types.append(tree.children[0].leaf)
 
 		# if empty --> _empty
 		if tree.leaf == None:
