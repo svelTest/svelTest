@@ -72,7 +72,6 @@ class SvelTraverse(object):
 		# extract command line args from main_args
 		# and format to int(sys.argv[1]), int(sys.argv[2])
 		numOfArgs = len(self.main_args)
-		print numOfArgs
 		i = 1
 		argStr = ""
 		while i <= numOfArgs:
