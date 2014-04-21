@@ -65,26 +65,4 @@ NAME=`echo "$FILENAME" | cut -d'.' -f1`
 COMPILED_NAME="$NAME.py"
 mv $COMPILED_NAME $DIRECTORY_PATH/
 
-echo "Bundling necessary files..."
-BUNDLES="bundles"
-mkdir $BUNDLES
-cp funct.py $BUNDLES/
-cp jfileutil.py $BUNDLES/
-
-
-echo "Copying bundles to $FILENAME's directory..."
-# if bundles file already exists in DIRECTORY_PATH, only copy over
-# any missing files
-if [ -d "$DIRECTORY_PATH/$BUNDLES" ]; then
-	for file in $BUNDLES/*.py; do
-		if [ ! -f $DIRECTORY_PATH/$file ]; then
-			cp $file $DIRECTORY_PATH/$BUNDLES/
-		fi
-	done
-	rm -rf $BUNDLES
-# otherwise, copy over entire bundles folder
-else
-	mv $BUNDLES $DIRECTORY_PATH/
-fi
-
 echo "Compilation complete! You can go to $DIRECTORY_PATH and run $COMPILED_NAME any time."
