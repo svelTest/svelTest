@@ -415,14 +415,37 @@ class SvelTraverse(object):
 			line += tree.leaf + " " + self.walk(tree.children[0], verbose=verbose)
 
 		elif len(tree.children) == 2:
-			# -> ID PERIOD ASSERT LPAREN identifier_list RPAREN
-			line += tree.leaf + "._assert(" + self.walk(tree.children[1], verbose=verbose) +")"
+			# -> ID PERIOD ID LPAREN identifier_list RPAREN
+			# TODO: make less hack-y
+			function = self.walk(tree.children[0], verbose=verbose)
+			if function == "size":
+				line += "len(" + tree.leaf + ")"
+			elif function == "replace":
+				args = self.walk(tree.children[1], verbose=verbose).split(",")
+				line += tree.leaf + "[" + args[0].strip() + "] = " + args[1].strip()
+			else:	
+				if function == "remove":
+					function = "pop"
+					
+				line += tree.leaf + "." + function + "(" + self.walk(tree.children[1], verbose=verbose) +")"
 
 		elif len(tree.children) == 1:
 			# -> ID LPAREN identifier_list RPAREN
 			line += tree.leaf + "(" + self.walk(tree.children[0], verbose=verbose) + ")"
 
 		return line
+
+	def _lib_function(self, tree, flags=None, verbose=False):
+		if(verbose):
+			print "===> svelTraverse: function_call"
+
+		if tree.leaf == "assert":
+			# -> ASSERT
+			return "_assert"
+		else:
+			# -> REMOVE | SIZE | INSERT | REPLACE
+			return tree.leaf # TODO: will need to do type checking somewhere to make sure this is being called on an array/list
+
 
 	def _ref_type(self, tree, flags=None, verbose=False):
 		if(verbose):
@@ -568,7 +591,7 @@ class SvelTraverse(object):
 		if tree.leaf == "__main__":
 			return "\"main\""
 
-		return tree.leaf
+		return self.walk(tree.leaf, verbose=verbose)
 
 	def _STRINGLITERAL(self, tree, flags=None, verbose=False):
 		if(verbose):
