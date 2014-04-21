@@ -72,6 +72,7 @@ class SvelTraverse(object):
 		# extract command line args from main_args
 		# and format to int(sys.argv[1]), int(sys.argv[2])
 		numOfArgs = len(self.main_args)
+		print numOfArgs
 		i = 1
 		argStr = ""
 		while i <= numOfArgs:
@@ -129,8 +130,9 @@ class SvelTraverse(object):
 			# parse cl_args to insert into generated code
 			cl_args = cl_args.split(",")
 			for arg in cl_args:
-				arg = arg.strip()
-				self.main_args.append(arg)
+				if arg != '':
+					arg = arg.strip()
+					self.main_args.append(arg)
 
 			self.level_up()
 			line += self.walk(tree.children[1], verbose=verbose)
