@@ -1,5 +1,5 @@
 # =============================================================================
-# funct.py
+# jfunct.py
 # 
 # Python Funct class representing the svel funct primitive; contains the 
 # assert() method
@@ -15,7 +15,8 @@
 # =============================================================================
 
 import os, sys, subprocess
-from jfileutil import *
+# don't need this line anymore because jfileutil already present in compiled file
+#from jfileutil import *
 
 class Funct(object):
 
@@ -254,6 +255,6 @@ def tests():
     _2 = Funct("main", ["j_String[]"], "../test/java_files/HelloWorld.java")
     _2._assert([], "Hello World")
 
-if __name__ == "__main__":
-    tests()
-
+# Uncomment if want to run individually; messes up compiled file though
+#if __name__ == "__main__":
+#    tests()

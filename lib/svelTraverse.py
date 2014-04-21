@@ -62,8 +62,10 @@ class SvelTraverse(object):
 
 	def beginning(self):
 		imports = "import os, sys\n"
-		imports += "lib_path = os.path.join('bundles')\nsys.path.append(lib_path)\n"
-		imports += "from funct import Funct\n\n"
+		# actually put jfileutil and jfunct in file
+		jfileutil = open("jfileutil.py").read()
+		jfunct = open("jfunct.py").read()
+		imports += jfileutil + "\n\n" + jfunct + "\n\n"
 		return imports
 
 	def end(self):
