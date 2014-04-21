@@ -119,14 +119,14 @@ class Funct(object):
     def createJHelperFile(self):
         slash = "/"
         if os.name == "nt":
-            slash == "\\"
+            slash = "\\"
         absPath = getAbsPath(self.file)
         array = absPath.split(slash)[0:-1]
         absPath = ""
         for dir in array:
             absPath += dir + slash
         absPath += "Svel%s.java" % (self.name)
-        svel = open(absPath, "w")
+        svel = open(absPath, "w+")
 
         jcode = self.constructJHelperCode()
         svel.write(jcode)
@@ -211,16 +211,28 @@ public class Svel%s {
     '''
     def getSignature(self):
         regexp_params = ""
-        for p in self.params:
-            # regexp for parameters - 0 or more spaces, followed by type, 
-            # followed by 1 or more spaces, followed by a comma 
-            regexp_params += "[ ]*%s[ ]\+.*," % (p)
-        regexp_params = regexp_params[0 : len(regexp_params)-1] # take off the extra comma
+        if os.name == "nt":
+            for p in self.params:
+                # regexp for parameters - 0 or more spaces, followed by type, 
+                # followed by 1 or more spaces, followed by a comma 
+                regexp_params += "[[:space:]]*%s[[:space:]]\+.*," % (p)
+            regexp_params = regexp_params[0 : len(regexp_params)-1] # take off the extra comma
+
+        else:
+            for p in self.params:
+                # regexp for parameters - 0 or more spaces, followed by type, 
+                # followed by 1 or more spaces, followed by a comma 
+                regexp_params += "[ ]*%s[ ]\+.*," % (p)
+            regexp_params = regexp_params[0 : len(regexp_params)-1] # take off the extra comma
 
         # one or more spaces, followed by method name, followed by 0 or more spaces
         # followed by open paren, followed by RE for params, and finally a close paren
-        regexp = "[ ]\+%s[ ]*(%s)" % (self.name, regexp_params)
-        grep = "grep \'%s\' %s" % (regexp, self.file) # grep command
+        if os.name == "nt":
+            regexp =  "[[:space:]]\+%s[[:space:]]*(%s)" % (self.name, regexp_params)
+            grep = "grep %s %s" % (regexp, self.file) # grep command
+        else:  
+            regexp = "[ ]\+%s[ ]*(%s)" % (self.name, regexp_params)
+            grep = "grep \'%s\' %s" % (regexp, self.file) # grep command
         output = subprocess.check_output(grep, shell=True)
 
         return output.strip() # strip leading/trailing whitespace
@@ -245,7 +257,10 @@ public class Svel%s {
 
 
 def tests():
-    _1 = Funct("add", ["j_int", "j_int"], "../test/java_files/Add.java")
+    if os.name == "nt":
+        _1 = Funct("add", ["j_int", "j_int"], "..\\test\java_files\Add.java")
+    else:
+        _1 = Funct("add", ["j_int", "j_int"], "../test/java_files/Add.java")
     _1_inputs = [[1, 1], [0, 5], [13, 57]]
     _1_outputs = [2, 5, 191]
     
@@ -254,7 +269,10 @@ def tests():
         _1._assert(_1_inputs[i], _1_outputs[i])
         i += 1
 
-    _2 = Funct("main", ["j_String[]"], "../test/java_files/HelloWorld.java")
+    if os.name == "nt":
+        _2 = Funct("main", ["j_String[]"], "..\\test\java_files\HelloWorld.java")
+    else:
+        _2 = Funct("main", ["j_String[]"], "../test/java_files/HelloWorld.java")
     _2._assert([], "Hello World")
 
 if __name__ == "__main__":

@@ -19,7 +19,7 @@ Gets the absolute path to the file
 def getAbsPath(relPath):
     slash = "/"
     if os.name == "nt":
-        slash == "\\"
+        slash = "\\"
     cwdArray = os.getcwd().split(slash)[1:]
     if relPath[0] == slash:
         return relPath
@@ -40,7 +40,7 @@ Gets the absolute path to the directory the file lives in
 def getAbsDir(path):
     slash = "/"
     if os.name == "nt":
-        slash == "\\"
+        slash = "\\"
     absPath = getAbsPath(path)
     array = absPath.split(slash)[0:-1]
     absPath = ""
@@ -55,6 +55,6 @@ Get the Java class name from the file path
 def getClassName(classFilePath):
     slash = "/"
     if os.name == "nt":
-        slash == "\\"
+        slash = "\\"
     # get "Add" from rel/path/to/Add.java
     return classFilePath.split(slash)[-1][0:-5]
