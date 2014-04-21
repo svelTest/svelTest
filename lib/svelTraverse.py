@@ -101,6 +101,9 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: lang_def"
 
+		if tree.leaf == "None":
+			return ""
+
 		# if lang=Java, copy in java files
 		if tree.leaf == "Java":
 			jfileutil = open("jfileutil.py").read()
