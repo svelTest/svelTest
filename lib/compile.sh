@@ -45,6 +45,7 @@ DIRECTORY_PATH=`dirname $RELATIVE_PATH`
 FILENAME=`basename $RELATIVE_PATH`
 
 echo "Copying $FILENAME into lib for compiling..."
+echo " "
 cp $RELATIVE_PATH ./
 
 echo "Attempting to compile..."
@@ -56,13 +57,22 @@ else
 	python svelCompile.py $VERBOSE $FILENAME
 fi
 
-
-echo "Moving compiled file back to $FILENAME's directory..."
-# Remove copy of .svel file
+echo " "
+echo "Removing copy of $FILENAME from lib..."
 rm -rf $FILENAME
+
+# figure out what name of compiled file should be
 # Split *.svel filename to get *.py
 NAME=`echo "$FILENAME" | cut -d'.' -f1`
 COMPILED_NAME="$NAME.py"
-mv $COMPILED_NAME $DIRECTORY_PATH/
 
-echo "Compilation complete! You can go to $DIRECTORY_PATH and run $COMPILED_NAME any time."
+if [ -e $COMPILED_NAME ]; then
+	# compilation occurred successfully
+	echo "Moving compiled file back to $FILENAME's directory..."
+	mv $COMPILED_NAME $DIRECTORY_PATH/
+	echo " "
+	echo "Compilation complete! You can go to $DIRECTORY_PATH and run $COMPILED_NAME any time."
+else
+	echo " "
+	echo "Compilation failed; please check the error messages and try again."
+fi
