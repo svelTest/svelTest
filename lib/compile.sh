@@ -45,6 +45,7 @@ DIRECTORY_PATH=`dirname $RELATIVE_PATH`
 FILENAME=`basename $RELATIVE_PATH`
 
 echo "Copying $FILENAME into lib for compiling..."
+echo " "
 cp $RELATIVE_PATH ./
 
 echo "Attempting to compile..."
@@ -56,35 +57,22 @@ else
 	python svelCompile.py $VERBOSE $FILENAME
 fi
 
-
-echo "Moving compiled file back to $FILENAME's directory..."
-# Remove copy of .svel file
+echo " "
+echo "Removing copy of $FILENAME from lib..."
 rm -rf $FILENAME
+
+# figure out what name of compiled file should be
 # Split *.svel filename to get *.py
 NAME=`echo "$FILENAME" | cut -d'.' -f1`
 COMPILED_NAME="$NAME.py"
-mv $COMPILED_NAME $DIRECTORY_PATH/
 
-echo "Bundling necessary files..."
-BUNDLES="bundles"
-mkdir $BUNDLES
-cp funct.py $BUNDLES/
-cp jfileutil.py $BUNDLES/
-
-
-echo "Copying bundles to $FILENAME's directory..."
-# if bundles file already exists in DIRECTORY_PATH, only copy over
-# any missing files
-if [ -d "$DIRECTORY_PATH/$BUNDLES" ]; then
-	for file in $BUNDLES/*.py; do
-		if [ ! -f $DIRECTORY_PATH/$file ]; then
-			cp $file $DIRECTORY_PATH/$BUNDLES/
-		fi
-	done
-	rm -rf $BUNDLES
-# otherwise, copy over entire bundles folder
+if [ -e $COMPILED_NAME ]; then
+	# compilation occurred successfully
+	echo "Moving compiled file back to $FILENAME's directory..."
+	mv $COMPILED_NAME $DIRECTORY_PATH/
+	echo " "
+	echo "Compilation complete! You can go to $DIRECTORY_PATH and run $COMPILED_NAME any time."
 else
-	mv $BUNDLES $DIRECTORY_PATH/
+	echo " "
+	echo "Compilation failed; please check the error messages and try again."
 fi
-
-echo "Compilation complete! You can go to $DIRECTORY_PATH and run $COMPILED_NAME any time."
