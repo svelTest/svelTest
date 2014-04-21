@@ -117,11 +117,14 @@ class Funct(object):
     Creates and writes to the svel Java helper file
     '''
     def createJHelperFile(self):
+        slash = "/"
+        if os.name == "nt":
+            slash == "\\"
         absPath = getAbsPath(self.file)
-        array = absPath.split("/")[0:-1]
+        array = absPath.split(slash)[0:-1]
         absPath = ""
         for dir in array:
-            absPath += dir + "/"
+            absPath += dir + slash
         absPath += "Svel%s.java" % (self.name)
         svel = open(absPath, "w")
 
