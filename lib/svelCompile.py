@@ -75,6 +75,7 @@ def compile(argv):
 	if verbose == None:
 		compiled_code = SvelTraverse(ast).get_code()
 	else:
+		print ast
 		compiled_code = SvelTraverse(ast, verbose=True).get_code()
 	# if arg3 = -d
 	# compiled_code = SvelTraverse(ast, debug=true).get_code()
