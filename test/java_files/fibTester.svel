@@ -6,7 +6,8 @@ main() {
 	input[] _in = {0, 1, 2, 3, 4};
 	output out = {"0", "1", "1", "2", "3"};
 
-	// run with verbose option
+	print("Testing without verbose option...\n");
+	// run without verbose option
 	for(int i = 0; i < 4; i = i+1) {
 		if(fibMain.assert(_in[i], out[i])){
 			print ("Test passed.");
@@ -15,7 +16,8 @@ main() {
 		}
 	}
 
-	// run without verbose option
+	print("\nTesting with verbose option...\n");
+	// run with verbose option
 	for(int i = 0; i < 4; i = i+1) {
 		if(fibMain.assert(_in[i], out[i], verbose)){
 			print ("Test passed.");
