@@ -278,7 +278,6 @@ class SvelTraverse(object):
         case 2: assignment of value to existing variable (value may or may not have existed)
             x = 0; (x in symbol table)
             x = 0; (x not in symbol table --> throw error)
-
         '''
 		entry = str(self.scope) + var # <scope><variable> (e.g. 4x - variable x at scope 4)
 
@@ -286,13 +285,13 @@ class SvelTraverse(object):
 		if var_type is None:
 			# should always have an entry in scope table
 			if var not in self.scopes[self.scope]:
-				print format_err_msg(0, var)
+				print self.format_err_msg(0, var)
 				return False
 		# case 0 or 1
 		else:
 			# shouldn't have an entry in scope table
 			if var in self.scopes[self.scope]:
-				print format_err_msg(1, var)
+				print self.format_err_msg(1, var)
 				return False
 			self.scopes[self.scope][var] = True
 			self.symbols[entry] = [var_type] # add type to symbol table
@@ -302,13 +301,13 @@ class SvelTraverse(object):
 				try:
 					var_value = int(var_value)
 				except ValueError:
-					print format_err_msg(2, var, var_type, var_value)
+					print self.format_err_msg(2, var, var_type, var_value)
 					return False
 			elif var_type == "double":
 				try:
 					var_value = float(var_value)
 				except ValueError:
-					print format_err_msg(2, var, var_type, var_value)
+					print self.format_err_msg(2, var, var_type, var_value)
 					return False
 
             # update value in symbol table
