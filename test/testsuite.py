@@ -135,12 +135,32 @@ class Testsuite(object):
 			file addFile = "java_files/Add.java";
 			funct addFunct = {"add", (j_int, j_int), addFile};
 			input in = (3, 4);
-			output out = 7;
+			output out = (7);
 			return addFunct.assert(in, out);
 		}
 		'''
 
-		self.cases = [test_0, test_1, test_2, test_3, test_4, test_5, test_6, test_7, test_8, test_9, test_10, test_11, test_12]
+		# 13: list methods -- make sure test_12 still works
+		test_13 = '''
+		main() {
+
+			// from LRM
+			int[] c = {1, 2, 3};
+			c.remove(2); // returns 3, list is now {1, 2}
+
+			int[] d = {1, 2, 3};
+			d.size(); // 3
+
+			int[] e = {1, 2, 3};
+			e.insert(0, 4); // {4, 1, 2, 3}
+
+			int[] f = {1, 2, 3};
+			f.replace(0, 4); // {4, 2, 3}
+
+		}
+		'''
+
+		self.cases = [test_0, test_1, test_2, test_3, test_4, test_5, test_6, test_7, test_8, test_9, test_10, test_11, test_12, test_13]
 
 	def get(self, i):
 		return self.cases[i]

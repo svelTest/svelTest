@@ -192,7 +192,7 @@ def p_assignment_expr(p):
 def p_funct_name(p):
     '''
     funct_name : __MAIN__
-                | primary_expr
+               | primary_expr
     '''
     p[0] = Node('funct_name', [], p[1])
 
@@ -295,14 +295,25 @@ def p_function_call(p):
     '''
     function_call : ID LPAREN identifier_list RPAREN
                   | PRINT LPAREN identifier_list RPAREN
-                  | ID PERIOD ASSERT LPAREN identifier_list RPAREN
+                  | ID PERIOD lib_function LPAREN identifier_list RPAREN
     '''
     if len(p) == 3: # PRINT 
         p[0] = Node('function_call', [p[3]], 'print')
     elif len(p) == 7:
-        p[0] = Node('function_call', [Node('ASSERT', [], 'assert'), p[5]], p[1])
+        p[0] = Node('function_call', [p[3], p[5]], p[1])
     else:
         p[0] = Node('function_call',[p[3]], p[1])
+
+def p_lib_function(p):
+    '''
+    lib_function : ASSERT
+                 | REMOVE
+                 | SIZE
+                 | INSERT
+                 | REPLACE
+    '''
+    if len(p) == 2:
+        p[0] = Node('lib_function', [], p[1])
     
 def p_reserved_languages_list(p):
     '''
