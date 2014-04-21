@@ -1,3 +1,5 @@
+lang = Java;
+
 main() {
 	// tests the main fibonacci runner
 	file fibFile = "FibonacciMain.java";
