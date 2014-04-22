@@ -168,7 +168,7 @@ class Testsuite(object):
 	def getAll(self):
 		return self.cases
 
-from funct import Funct
+from jfunct import Funct
 class FunctTests(object):
 
 	def __init__(self):
