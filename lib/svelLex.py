@@ -136,7 +136,14 @@ class SvelLexer:
 
 	# reg exp rule with some action code
 	def t_RES_LANG(self, t):
-		r'j_int|j_double|j_float|j_byte|j_char|j_String|j_boolean|j_long'
+		r'''
+		j_int|j_double|j_float|j_byte|j_char|j_String|j_boolean|j_long
+		|c_char|c_signed_char|c_unsigned_char|c_short|c_short_int|c_signed_short
+		|c_signed_short_int|c_unsigned_short|c_unsigned_short_int|c_int|c_signed_short_int
+		|c_long|c_long_int|c_signed_long|c_signed_long_int|c_unsigned_long
+		|c_unsigned_long_int|c_long_long|c_long_long_int|c_signed_long_long
+		|c_signed_long_long_int|c_unsigned_long_long|c_unsigned_long_long_int
+		|c_float|c_double|c_long_double'''
 		t.type = 'RES_LANG'
 		return t
 
