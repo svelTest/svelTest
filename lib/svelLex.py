@@ -53,7 +53,7 @@ class SvelLexer:
 		'verbose' : 'VERBOSE',
 		'lang' : 'LANG',
 		# start Python reserved words
-		'and' : 'AND',
+		'and' : 'PYTHON_AND',
 		'as' : 'AS',
 		'class' : 'CLASS',
 		'def' : 'DEF',
@@ -69,7 +69,7 @@ class SvelLexer:
 		'is' : 'IS',
 		'lambda' : 'LAMBDA',
 		'not' : 'NOT',
-		'or' : 'OR',
+		'or' : 'PYTHON_OR',
 		'pass' : 'PASS',
 		'raise' : 'RAISE',
 		'try' : 'TRY',
@@ -156,12 +156,12 @@ class SvelLexer:
 		return t
 
 	def t_DECIMAL(self, t):
-		r'\d+\.\d*'
+		r'-?\d+\.\d*'
 		t.value = float(t.value)
 		return t
 
 	def t_NUMBER(self, t):
-		r'\d+'
+		r'-?\d+'
 		t.value = int(t.value)
 		return t
 
