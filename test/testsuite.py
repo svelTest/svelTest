@@ -167,3 +167,44 @@ class Testsuite(object):
 
 	def getAll(self):
 		return self.cases
+
+from funct import Funct
+class FunctTests(object):
+
+	def __init__(self):
+
+		# 0: Add.java
+		def test_0():
+			addFunct = Funct("add", ["j_int", "j_int"], "../test/java_files/Add.java")
+			addInputs = [[1, 1], [0, 5], [13, 57]]
+			addOutputs = [2, 5, 191]
+			
+			i = 0
+			while i < len(addOutputs):
+			    addFunct._assert(addInputs[i], addOutputs[i])
+			    i += 1
+
+		# 1: HelloWorld.java
+		def test_1():
+			helloFunct = Funct("main", ["j_String[]"], "../test/java_files/HelloWorld.java")
+			helloFunct._assert([], "Hello World")
+
+		# 2: Fibonacci.java
+		def test_2():
+			fibFunct = Funct("fib", ["j_int"], "../test/java_files/Fibonacci.java")
+			fibInputs = [0, 1, 4, 8]
+			fibOutputs = [0, 1, 3, 21]
+			i = 0
+			while i < len(fibInputs):
+			    fibFunct._assert(fibInputs[i], fibOutputs[i])
+			    i += 1
+
+		self.cases = [test_0, test_1, test_2]
+
+	def test(self, i):
+		self.cases[i]()
+		return
+
+	def testAll(self):
+		for case in self.cases:
+			case()
