@@ -10,6 +10,7 @@
 #     svelTest team:
 #     Emily Hsia, Kaitlin Huben, Josh Lieberman, Chris So, Mandy Swinton
 # =============================================================================
+import sys;
 class SvelTraverse(object):
 
 	def __init__(self, tree, verbose=False):
@@ -62,10 +63,6 @@ class SvelTraverse(object):
 
 	def beginning(self):
 		imports = "import os, sys\n"
-		# actually put jfileutil and jfunct in file
-		jfileutil = open("jfileutil.py").read()
-		jfunct = open("jfunct.py").read()
-		imports += jfileutil + "\n\n" + jfunct + "\n\n"
 		return imports
 
 	def end(self):
@@ -93,6 +90,32 @@ class SvelTraverse(object):
 	# passes testsuite tests 0, 1, 2, 3, 5, 8; works for hello.svel
 
 	# TODO: make sure that we return and are concatenating string types
+
+	def _outer_unit(self, tree, flags=None, verbose=False):
+		if(verbose):
+			print "===> svelTraverse: outer_unit"
+
+		return self.walk(tree.children[0], verbose=verbose) + "\n\n" + self.walk(tree.children[1], verbose=verbose)
+
+	def _lang_def(self, tree, flags=None, verbose=False):
+		if(verbose):
+			print "===> svelTraverse: lang_def"
+
+		if tree.leaf == "None":
+			return ""
+
+		# if lang=Java, copy in java files
+		if tree.leaf == "Java":
+			jfileutil = open("jfileutil.py").read()
+			jfunct = open("jfunct.py").read()
+			return jfileutil + "\n\n" + jfunct
+
+		#elif tree.leaf == "C":
+			# implement
+		#elif tree.leaf == "Python":
+			# implement
+		else:
+			sys.exit("ERROR: Unrecognized language type.")
 
 	def _translation_unit(self, tree, flags=None, verbose=False):
 		if(verbose):
