@@ -5,3 +5,4 @@ clean:
 	rm -f java_files/*.class
 	rm -f java_files/Svel*
 	rm -f c_files/a.out
+	rm -f c_files/Svel*

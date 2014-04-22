@@ -13,3 +13,7 @@ int main(int argc, char *argv[]) {
 
 	printf("%d\n", result);
 }
+
+main() {
+	//what happens?
+}
