@@ -52,6 +52,7 @@ class SvelLexer:
 		'return' : 'RETURN',
 		'verbose' : 'VERBOSE',
 		'lang' : 'LANG',
+		'readlines' : 'READLINES',
 		# start Python reserved words
 		'and' : 'AND',
 		'as' : 'AS',

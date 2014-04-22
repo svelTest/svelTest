@@ -302,7 +302,8 @@ class SvelTraverse(object):
 
 				# this line serves as pseudo-symbol table until we get one
 				# TODO: actually use symbol table
-				janky_line = tree.leaf + "=" + self.walk(tree.children[1], verbose=verbose)
+				file_name = self.walk(tree.children[1], verbose=verbose)
+				janky_line = tree.leaf + "=" + file_name
 				janky_line = self.format(janky_line)
 
 				return line + next_line + janky_line + '\n'
@@ -479,6 +480,10 @@ class SvelTraverse(object):
 			elif function == "replace":
 				args = self.walk(tree.children[1], verbose=verbose).split(",")
 				line += tree.leaf + "[" + args[0].strip() + "] = " + args[1].strip()
+			# TODO: make less hack-y when we have a symbol table
+			elif function == "readlines":
+				line += "[line.strip() for line in open(%s)]" % (tree.leaf)
+				print line
 			else:	
 				if function == "remove":
 					function = "pop"
@@ -498,6 +503,12 @@ class SvelTraverse(object):
 		if tree.leaf == "assert":
 			# -> ASSERT
 			return "_assert"
+		elif tree.leaf == "readlines":
+			# -> READLINE
+			# lines = [line.strip() for line in open(input_file)]
+			#line = "[line.strip() for line in open("
+			#line += self.walk(tree.children[1], verbose=verbose) + ")]"
+			return "readlines"
 		else:
 			# -> REMOVE | SIZE | INSERT | REPLACE
 			return tree.leaf # TODO: will need to do type checking somewhere to make sure this is being called on an array/list
