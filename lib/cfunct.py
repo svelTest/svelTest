@@ -181,7 +181,7 @@ class Funct(object):
         for param in self.params:
             # create string assigning variables to the parsed type from the command line
             # int _0 = Integer.parseInt(args[0]);
-            paramCap = param.capitalize()
+            
             var = "_" + str(i)
             if not param.startswith("char"):
                 body += "\t\t%s %s = atoi(argv[%d]);\n" % (param, var, i+1)
