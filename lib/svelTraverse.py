@@ -109,9 +109,10 @@ class SvelTraverse(object):
 			jfileutil = open("jfileutil.py").read()
 			jfunct = open("jfunct.py").read()
 			return jfileutil + "\n\n" + jfunct
-
-		#elif tree.leaf == "C":
-			# implement
+		elif tree.leaf == "C":
+			cfileutil = open("cfileutil.py").read()
+			cfunct = open("cfunct.py").read()
+			return cfileutil + "\n\n" + cfunct
 		#elif tree.leaf == "Python":
 			# implement
 		else:
@@ -521,11 +522,11 @@ class SvelTraverse(object):
 		line = ""
 		if len(tree.children) == 1:
 			# -> reserved_languages_keyword
-			line += self.walk(tree.children[0], verbose=verbose)
+			line += "\"" + self.walk(tree.children[0], verbose=verbose) + "\""
 
 		elif len(tree.children) == 2:
 			# -> reserved_languages_list COMMA reserved_languages_keyword
-			line += self.walk(tree.children[0], verbose=verbose) + ", " + self.walk(tree.children[1], verbose=verbose)
+			line += self.walk(tree.children[0], verbose=verbose) + ", \"" + self.walk(tree.children[1], verbose=verbose) + "\""
 
 		return line
 
@@ -533,11 +534,13 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: reserved_languages_keyword"
 		
-		if isinstance(tree.leaf, basestring):
+		if len(tree.children) == 1 and tree.leaf=="*":
+			# -> reserved_languages_keyword TIMES
+			return self.walk(tree.children[0]) + " " + tree.leaf
+		elif isinstance(tree.leaf, basestring):
 			# -> RES_LANG LBRACKET RBRACKET
 			# -> RES_LANG
-			return "\"" + tree.leaf + "\""
-
+			return tree.leaf
 		# -> empty
 		return self.walk(tree.leaf)
 

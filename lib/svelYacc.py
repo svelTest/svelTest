@@ -328,11 +328,15 @@ def p_reserved_languages_list(p):
 def p_reserved_languages_keyword(p):
     '''
     reserved_language_keyword : RES_LANG LBRACKET RBRACKET
+                              | reserved_language_keyword TIMES
                               | RES_LANG
                               | empty
     '''
     if len(p) == 4:
         p[0] = Node('reserved_languages_keyword', [], str(p[1]) + "[]")
+    elif len(p) == 3:
+        # res_lang_keyword * allows for pointers
+        p[0] = Node('reserved_languages_keyword', [p[1]], p[2])
     else:
         p[0] = Node('reserved_languages_keyword', [], p[1])
 
