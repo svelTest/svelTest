@@ -1,0 +1,20 @@
+lang = Java;
+main() {
+    int total = 9;      // total number of test cases
+    int correct = 0;    // counter to keep track of number correct
+
+    funct poker = {__main__, (j_String[]), "PokerTest.java" };
+    file testcases = "testcases.txt";
+    string[] lines = testcases.readlines();
+    for (int i = 0; i < lines.size(); i=i+2) {
+        // input line, followed by output line
+        string arg = lines[i];
+        string expect = lines[i+1];
+        if (poker.assert(arg, expect, verbose)) {
+            correct = correct + 1;
+        }
+    }
+
+    print(string(correct) + "/" + string(total) + " correct. \tScore: " + string(correct/total*100));
+
+}
