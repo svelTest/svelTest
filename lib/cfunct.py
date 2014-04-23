@@ -161,12 +161,12 @@ class Funct(object):
         for param in self.params:
             # create string assigning variables to the parsed type from the command line
             # int _0 = Integer.parseInt(args[0]);
-            paramCap = param.capitalize()
+            
             var = "_" + str(i)
             if not param.startswith("char"):
-                body += "\t\t%s %s = atoi(argv[%d]);\n" % (param, var, i)
+                body += "\t%s %s = atoi(argv[%d]);\n" % (param, var, i) #TODO: not atoi for everything
             else:
-                body += "\t\t%s %s = argv[%d];\n" % (param, var, i)
+                body += "\t%s %s = argv[%d];\n" % (param, var, i)
             
             paramsStr += var + ", " # paramStr : "_0, _1, ..."
             i += 1
@@ -176,19 +176,22 @@ class Funct(object):
         body += "\n"
 
         if self.retype != "void":
-            body += "\t\t%s expected = atoi(argv[%d]);\n" % (self.retype, i)
+            body += "\t%s expected = atoi(argv[%d]);\n" % (self.retype, i)
             body += "\n"
-            body += "\t\t%s actual = %s.%s(%s);\n" % (self.retype, getClassName(self.file), self.name, paramsStr)
-            body += "\t\tprintf(\"%d\\n\", expected == actual);"
+            body += "\t%s actual = Svel%s(%s);\n" % (self.retype, self.name, paramsStr) #TODO svel+self.name?
+            body += "\tprintf(\"%d\\n\", expected == actual);"
 
         else:
-            body += "\t\t%s.%s(%s);\n" % (getClassName(self.file), self.name, paramsStr)
+            body += "\tSvel%s(%s);\n" % (self.name, paramsStr)
+
+        svelFunction = "//sveladd should go here"
 
         ccode = '''
 #include <stdio.h>
+#include <Svel%s.c>
 main(int argc, char *argv[]) {
 %s
-}''' % (body)
+}''' % (self.name, body)
 
         return ccode
 
