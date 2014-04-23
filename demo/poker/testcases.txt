@@ -1,0 +1,18 @@
+c2 h2 c3 c4 c7
+One pair
+s5 c6 c5 d13 h6
+Two Pairs
+s1 c5 c13 d5 h5
+Three of a kind
+c1 h7 d1 h1 d7
+Full House
+c1 h1 d5 d1 s1
+Four of a kind
+s1 c5 c3 d4 h2
+Straight
+c2 c8 c3 c6 c10
+Flush
+c5 c6 c7 c8 c9
+Straight Flush
+c12 c1 c11 c10 c13
+Royal Flush
