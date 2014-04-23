@@ -26,6 +26,7 @@ class Funct(object):
         params - array of reslang keywords
     '''
     def __init__(self, name, params, file):
+        ############## Initialize fields ##############
         self.name = name   # name of the C method to test
         self.file = file   # file where the C method lives
         self.params = []   # list of its parameter types
@@ -34,12 +35,22 @@ class Funct(object):
 
         self.sig = self.getSignature() # (string) full C method signature
         self.retype = self.getRetype() # return type
-        self.csvelClass = "Svel" + name # name of svel's helper C class/file
 
-        # Create Svel<name>.c file
-        self.csvelHelper = self.createCHelperFile()
+        ############## Create helper file ##############
+        # if testing "main" aka the program:
+        # don't create a helper C file -- just run the program itself
+        if self.name == "main":
+            self.csvelClass = getClassName(self.file) # class = filename of wherever main lives
+            self.csvelHelper = getAbsPath(self.file) # helper file is the program itself
+        
+        # if testing a single function:
+        # create helper C file
+        else:
+            self.csvelClass = "Svel" + name # name of svel's helper C class/file
+            # Create Svel<name>.c file
+            self.csvelHelper = self.createCHelperFile()
 
-        # Compile Svel<name>.c
+        ############## Compile helper file ##############
         print 90 * "="
         print "Compiling %s" % (self.csvelHelper)
         if self.compileCSvelHelper() == -1:
@@ -59,7 +70,7 @@ class Funct(object):
         elif len(inputValues) > 1:
             for val in inputValues:
                 inputstr += str(val) + ", "
-            inputstr = inputstr[0:-2]
+            inputstr = inputstr[0:-2] # take off extra ", "
         elif len(inputValues) == 1:
             inputstr = str(inputValues)
 
@@ -68,7 +79,7 @@ class Funct(object):
         # TODO: file cleanup
 
         # Testing System.out.print output
-        if self.retype == "void":
+        if self.retype == "void" or self.name == "main":
             if outputValue in process.stdout.read():
                 message = "PASS"
             else:
@@ -95,8 +106,10 @@ class Funct(object):
         else:
             for val in inputValues:
                 inputstr += str(val) + " "
-        process = subprocess.Popen('./%s %s %s' % (self.csvelClass, inputstr, str(outputValue)), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
-
+        if self.name != "main":
+            process = subprocess.Popen('./%s %s %s' % (self.csvelClass, inputstr, str(outputValue)), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
+        else:
+            process = subprocess.Popen('./%s %s' % (self.csvelClass, inputstr), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
         return process
 
     '''
@@ -105,7 +118,7 @@ class Funct(object):
     (see constructCHelperCode()).
     '''
     def compileCSvelHelper(self):
-        process = subprocess.Popen("gcc -o %s" % (self.csvelClass), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
+        process = subprocess.Popen("gcc %s.c -o %s" % (self.csvelClass, self.csvelClass), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
         err = process.stderr.read()
         if err:
             print 'Error compiling %s.c\n' % (self.csvelClass)
