@@ -68,7 +68,7 @@ class Funct(object):
         process = self.runJSvelHelper(inputValues, outputValue)
         # TODO: file cleanup
 
-        console = process.stdout.read();
+        console = process.stdout.read().strip();
         # Testing System.out.print output
         if self.retype == "void":
             if outputValue in console.strip():
@@ -80,11 +80,13 @@ class Funct(object):
 
         # Testing a return value
         else:
-            if "true" in console:
+            if console == "true":
                 message = "PASS"
                 passed = True
             else:
                 message = "FAIL"
+                # console == "returned: " + actual
+                message += "\n\t%s\n\texpected: %s" % (console, outputValue)
 
 
         if verbose == True:
@@ -152,8 +154,10 @@ class Funct(object):
             int expected = Integer.parseInt(args[2]);
 
             int actual = Add.add(_0, _1);
-
-            System.out.println(expected == actual);
+            boolean eq = (expected == actual);
+            // boolean eq = (expected.equals(actual)); if strings
+            if (eq) System.out.println("true");
+            else System.out.println("returned: " + actual);
         }
     }
 
@@ -198,9 +202,11 @@ class Funct(object):
             body += "\n"
             body += "\t\t%s actual = %s.%s(%s);\n" % (self.retype, getClassName(self.file), self.name, paramsStr)
             if self.retype != "String":
-                body += "\t\tSystem.out.println(expected == actual);"
+                body += "\t\tboolean eq = (expected == actual);\n"
             else:
-                body += "\t\tSystem.out.println(expected.equals(actual));"
+                body += "\t\tboolean eq = (expected.equals(actual));\n"
+            body += "\t\tif (eq) System.out.println(\"true\");\n"
+            body += "\t\telse System.out.println(\"returned: \" + actual);\n"
 
         else:
             body += "\t\t%s.%s(%s);\n" % (getClassName(self.file), self.name, paramsStr)
