@@ -8,23 +8,17 @@ main() {
 	input[] _in = {(1,2), (-2, 4), (0, 1)};
 	output out = {"3", "2", "1"};
 
-	//print("\nTesting without verbose option:");
-	// run without verbose option
-	//for(int i = 0; i < 3; i = i+1) {
-	//	if(addMain.assert(_in[i], out[i])){
-	//		print ("Test passed.");
-	//	} else {
-	//	 	print ("Test failed.");
-	//	}
-	//}
+	// main -- console
+	for(int i = 0; i < 3; i = i+1) {
+		if(addMain.assert(_in[i], out[i], verbose)){
+			print ("Test passed.");
+		} else {
+		 	print ("Test failed.");
+		}
+	}
 
-	//print("\nTesting with verbose option:");
-	// run with verbose option
-	//for(int i = 0; i < 3; i = i+1) {
-	//	if(addMain.assert(_in[i], out[i], verbose)){
-	//		print ("Test passed.");
-	//	} else {
-	//	 	print ("Test failed.");
-	//	}
-	//}
+
+	// fib() -- return value
+	funct fib = {"fib", (c_int), "fib.c"};
+    fib.assert(4, 3, verbose);
 }

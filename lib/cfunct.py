@@ -26,6 +26,7 @@ class Funct(object):
         params - array of reslang keywords
     '''
     def __init__(self, name, params, file):
+        ############## Initialize fields ##############
         self.name = name   # name of the C method to test
         self.file = file   # file where the C method lives
         self.params = []   # list of its parameter types
@@ -34,17 +35,27 @@ class Funct(object):
 
         self.sig = self.getSignature() # (string) full C method signature
         self.retype = self.getRetype() # return type
-        self.csvelClass = "Svel" + name # name of svel's helper C class/file
 
-        # Create Svel<name>.c file
-        self.csvelHelper = self.createCHelperFile()
+        ############## Create helper file ##############
+        # if testing "main" aka the program:
+        # don't create a helper C file -- just run the program itself
+        if self.name == "main":
+            self.csvelClass = getClassName(self.file) # class = filename of wherever main lives
+            self.csvelHelper = getAbsPath(self.file) # helper file is the program itself
+        
+        # if testing a single function:
+        # create helper C file
+        else:
+            self.csvelClass = "Svel" + name # name of svel's helper C class/file
+            # Create Svel<name>.c file
+            self.csvelHelper = self.createCHelperFile()
 
-        # Compile Svel<name>.c
+        ############## Compile helper file ##############
         print 90 * "="
         print "Compiling %s" % (self.csvelHelper)
         if self.compileCSvelHelper() == -1:
             print "Compilation failed."
-            return
+            sys.exit(0)
 
     '''
     Asserts if the actual output matches the expected output, given an input array
@@ -59,7 +70,7 @@ class Funct(object):
         elif len(inputValues) > 1:
             for val in inputValues:
                 inputstr += str(val) + ", "
-            inputstr = inputstr[0:-2]
+            inputstr = inputstr[0:-2] # take off extra ", "
         elif len(inputValues) == 1:
             inputstr = str(inputValues)
 
@@ -67,19 +78,22 @@ class Funct(object):
         process = self.runCSvelHelper(inputValues, outputValue)
         # TODO: file cleanup
 
+        console = process.stdout.read()
         # Testing System.out.print output
-        if self.retype == "void":
-            if outputValue in process.stdout.read():
+        if self.retype == "void" or self.name == "main":
+            if outputValue in console:
                 message = "PASS"
             else:
                 message = "FAIL"
+                message += "\n\t output: %s\n\texpected: %s" % (console, outputValue)
 
         # Testing a return value
         else:
-            if "true" in process.stdout.read():
+            if "true" in console:
                 message = "PASS"
             else:
                 message = "FAIL"
+                message += "\n\t%s\n\texpected: %s" % (console, outputValue)
 
 
         if verbose == True:
@@ -95,8 +109,10 @@ class Funct(object):
         else:
             for val in inputValues:
                 inputstr += str(val) + " "
-        process = subprocess.Popen('./%s %s %s' % (self.csvelClass, inputstr, str(outputValue)), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
-
+        if self.name != "main":
+            process = subprocess.Popen('./%s %s %s' % (self.csvelClass, inputstr, str(outputValue)), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
+        else:
+            process = subprocess.Popen('./%s %s' % (self.csvelClass, inputstr), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
         return process
 
     '''
@@ -105,7 +121,10 @@ class Funct(object):
     (see constructCHelperCode()).
     '''
     def compileCSvelHelper(self):
-        process = subprocess.Popen("gcc -o %s" % (self.csvelClass), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
+        if self.name != "main":
+            process = subprocess.Popen("gcc %s.c %s.c -o %s" % (self.csvelClass, getClassName(self.file), self.csvelClass), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
+        else:
+            process = subprocess.Popen("gcc %s.c -o %s" % (self.csvelClass, self.csvelClass), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
         err = process.stderr.read()
         if err:
             print 'Error compiling %s.c\n' % (self.csvelClass)
@@ -146,8 +165,9 @@ class Funct(object):
 
         int actual = add(_0, _1);
 
-        // prints 1 if true, 0 if false
-        printf("%d\n", expected == actual);
+        // prints "true" if true, "returned: <actual>" if false
+        if (expected == actual) printf("true\n");
+        else printf("returned: %d", actual);
     }
 
     To run the program :
@@ -164,9 +184,9 @@ class Funct(object):
             paramCap = param.capitalize()
             var = "_" + str(i)
             if not param.startswith("char"):
-                body += "\t\t%s %s = atoi(argv[%d]);\n" % (param, var, i)
+                body += "\t\t%s %s = atoi(argv[%d]);\n" % (param, var, i+1)
             else:
-                body += "\t\t%s %s = argv[%d];\n" % (param, var, i)
+                body += "\t\t%s %s = argv[%d];\n" % (param, var, i+1)
             
             paramsStr += var + ", " # paramStr : "_0, _1, ..."
             i += 1
@@ -176,19 +196,28 @@ class Funct(object):
         body += "\n"
 
         if self.retype != "void":
-            body += "\t\t%s expected = atoi(argv[%d]);\n" % (self.retype, i)
+            formatSpecifiers = {
+                'int' : 'd',
+                'char': '%',
+                'double' : 'f',
+                'char*': 's'
+            }
+            body += "\t\t%s expected = atoi(argv[%d]);\n" % (self.retype, i+1)
             body += "\n"
-            body += "\t\t%s actual = %s.%s(%s);\n" % (self.retype, getClassName(self.file), self.name, paramsStr)
-            body += "\t\tprintf(\"%d\\n\", expected == actual);"
+            body += "\t\t%s actual = %s(%s);\n" % (self.retype, self.name, paramsStr)
+            body += "\t\tif (expected == actual) printf(\"true\");\n"
+            body += "\t\telse printf(\"returned: %" + "%s\", actual);\n" % (formatSpecifiers[self.retype])
 
         else:
-            body += "\t\t%s.%s(%s);\n" % (getClassName(self.file), self.name, paramsStr)
+            body += "\t\t%s(%s);\n" % (self.name, paramsStr)
 
         ccode = '''
 #include <stdio.h>
-main(int argc, char *argv[]) {
+#include <stdlib.h>
+#include "%s.h"
+int main(int argc, char *argv[]) {
 %s
-}''' % (body)
+}''' % (getClassName(self.file), body)
 
         return ccode
 
