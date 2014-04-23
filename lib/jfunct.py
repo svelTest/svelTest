@@ -44,7 +44,7 @@ class Funct(object):
         print "Compiling %s" % (self.jsvelHelper)
         if self.compileJSvelHelper() == -1:
             print "Compilation failed."
-            return
+            sys.exit(0)
 
     '''
     Asserts if the actual output matches the expected output, given an input array
