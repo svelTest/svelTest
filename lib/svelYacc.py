@@ -106,7 +106,7 @@ def p_type(p):
 
 def p_ref_type(p):
     '''
-    ref_type : ID LBRACKET primary_expr RBRACKET
+    ref_type : ID LBRACKET expression RBRACKET
     '''
     p[0] = Node('ref_type', [Node('primary_expr', [], p[1]), p[3]])
 
@@ -294,12 +294,14 @@ def p_primary_expr(p):
 def p_function_call(p):
     '''
     function_call : ID LPAREN identifier_list RPAREN
+                  | STRING LPAREN identifier_list RPAREN
+                  | INT LPAREN identifier_list RPAREN
+                  | BOOLEAN LPAREN identifier_list RPAREN
+                  | DOUBLE LPAREN identifier_list RPAREN
                   | PRINT LPAREN identifier_list RPAREN
                   | ID PERIOD lib_function LPAREN identifier_list RPAREN
     '''
-    if len(p) == 3: # PRINT 
-        p[0] = Node('function_call', [p[3]], 'print')
-    elif len(p) == 7:
+    if len(p) == 7:
         p[0] = Node('function_call', [p[3], p[5]], p[1])
     else:
         p[0] = Node('function_call',[p[3]], p[1])

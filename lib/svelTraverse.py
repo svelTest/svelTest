@@ -445,7 +445,7 @@ class SvelTraverse(object):
 		elif tree.leaf == '(':
 			# -> LPAREN expression RPAREN
 			# -> LPAREN identifier_list RPAREN
-			line += '(' + str(self.walk(tree.children[0], verbose=verbose)) + ')'
+			line += '[' + str(self.walk(tree.children[0], verbose=verbose)) + ']'
 
 		elif tree.leaf == '{':
 			# -> LBRACE identifier_list RBRACE
@@ -468,12 +468,24 @@ class SvelTraverse(object):
 			print "===> svelTraverse: function_call"
 
 		line = ""
+		
+		# -> PRINT primary_expr
 		if tree.leaf == "print":
-			# -> PRINT primary_expr
 			line += tree.leaf + " " + self.walk(tree.children[0], verbose=verbose)
-
+		
+		# type conversions hack
+		elif tree.leaf == "string":
+			line += "str(" + self.walk(tree.children[0], verbose=verbose) + ")"
+		elif tree.leaf == "int":
+			line += "int(" + self.walk(tree.children[0], verbose=verbose) + ")"
+		elif tree.leaf == "double":
+			line += "float(" + self.walk(tree.children[0], verbose=verbose) + ")"
+		elif tree.leaf == "boolean":
+			line += "bool(" + self.walk(tree.children[0], verbose=verbose) + ")"
+		
+		# lib functions:
+		# -> ID PERIOD lib_function LPAREN identifier_list RPAREN
 		elif len(tree.children) == 2:
-			# -> ID PERIOD ID LPAREN identifier_list RPAREN
 			# TODO: make less hack-y
 			function = self.walk(tree.children[0], verbose=verbose)
 			if function == "size":
@@ -490,8 +502,8 @@ class SvelTraverse(object):
 					
 				line += tree.leaf + "." + function + "(" + self.walk(tree.children[1], verbose=verbose) +")"
 
+		# -> ID LPAREN identifier_list RPAREN
 		elif len(tree.children) == 1:
-			# -> ID LPAREN identifier_list RPAREN
 			line += tree.leaf + "(" + self.walk(tree.children[0], verbose=verbose) + ")"
 
 		return line

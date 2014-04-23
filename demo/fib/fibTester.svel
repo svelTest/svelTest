@@ -1,0 +1,6 @@
+lang = Java;
+main() {
+	funct fib = {"fib", (j_int), "Fibonacci.java"};
+	fib.assert(4, 3, verbose); 	// PASS
+	fib.assert(13, 2, verbose); // FAIL
+}
