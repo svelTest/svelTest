@@ -16,6 +16,7 @@ class Testsuite(object):
 
 		# 0: print Hello World
 		test_0 = '''
+		lang=None;
 		main() {
 			print("Hello world");
 		}
@@ -38,6 +39,7 @@ class Testsuite(object):
 
 		# 2: function def with empty parameter list and void return type
 		test_2 = '''
+		lang=None;
 		void foo() {
 			string f = "foo";
 		}
@@ -45,6 +47,7 @@ class Testsuite(object):
 
 		# 3: function definition with parameters and return type
 		test_3 = '''
+		lang=None;
 		int add(int x, int y) {
 			int z = x + y;
 		}
@@ -52,6 +55,7 @@ class Testsuite(object):
 
 		# 4: function definition with parameters and return type
 		test_4 = '''
+		lang=None;
 		int add(int x, int y) {
 			int[] z = {x, y};
 		}
@@ -59,6 +63,7 @@ class Testsuite(object):
 
 		# 5: while loop, double, assignment expression without type
 		test_5 = '''
+		lang=None;
 		main() {
 			double i = 0.0;
 			while(i < 10) {
@@ -68,6 +73,7 @@ class Testsuite(object):
 		'''	
 		# 6: call assert() with inline input/output 
 		test_6 = '''
+		lang=Java;
 		main() {
 			file helloFile = "java_files/Hello.java";
 			funct helloMain = {__main__, (j_String[]), helloFile};
@@ -77,6 +83,7 @@ class Testsuite(object):
 
 		# 7: full Hello World test
 		test_7 = '''
+		lang=Java;
 		void helloWorldTest() {
 			file helloFile = "../Hello.java";
 			funct helloMain = {__main__, (), helloFile};
@@ -88,6 +95,7 @@ class Testsuite(object):
 
 		# 8: for loop
 		test_8 = '''
+		lang=None;
 		int increment(int x) {
 			int result = 0;
 			for (int i = 0; i < x; i=i+1) {
@@ -99,6 +107,7 @@ class Testsuite(object):
 
 		# 9: for loop with postfix expression -- this should throw a syntax error!
 		test_9 = '''
+		lang=None;
 		int increment(int x) {
 			int result = 0;
 			for (int i = 0; i < x; i++) {
@@ -110,6 +119,7 @@ class Testsuite(object):
 
 		# 10: simple array initialization and access
 		test_10 = '''
+		lang=None;
 		void arrays(int x, int y, int z) {
 			int[] a = {x, y, z};
 			int b = a[1];
@@ -118,6 +128,7 @@ class Testsuite(object):
 
 		# 11: more adv array initialization and access
 		test_11 = '''
+		lang=None;
 		void createInputArray() {
 			input[] in = {0, 1, 2};
 			output[] out = {0, 1, 2};
@@ -131,6 +142,7 @@ class Testsuite(object):
 
 		# 12: declare input type with ()
 		test_12 = '''
+		lang=Java;
 		boolean testAdd() {
 			file addFile = "java_files/Add.java";
 			funct addFunct = {"add", (j_int, j_int), addFile};
@@ -142,6 +154,7 @@ class Testsuite(object):
 
 		# 13: list methods -- make sure test_12 still works
 		test_13 = '''
+		lang=None;
 		main() {
 
 			// from LRM
