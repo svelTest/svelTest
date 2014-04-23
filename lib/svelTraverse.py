@@ -445,7 +445,7 @@ class SvelTraverse(object):
 		elif tree.leaf == '(':
 			# -> LPAREN expression RPAREN
 			# -> LPAREN identifier_list RPAREN
-			line += '(' + str(self.walk(tree.children[0], verbose=verbose)) + ')'
+			line += '[' + str(self.walk(tree.children[0], verbose=verbose)) + ']'
 
 		elif tree.leaf == '{':
 			# -> LBRACE identifier_list RBRACE
