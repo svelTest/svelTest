@@ -483,7 +483,6 @@ class SvelTraverse(object):
 			# TODO: make less hack-y when we have a symbol table
 			elif function == "readlines":
 				line += "[line.strip() for line in open(%s)]" % (tree.leaf)
-				print line
 			else:	
 				if function == "remove":
 					function = "pop"
