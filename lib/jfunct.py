@@ -192,12 +192,15 @@ class Funct(object):
 
         body += "\n"
 
-        if self.retype != "void":
+        if self.retype != "void" and self.retype != "String":
             retypeCap  = self.retype.capitalize()
             body += "\t\t%s expected = %s.parse%s(args[%d]);\n" % (self.retype, jtypes[self.retype], retypeCap, i)
             body += "\n"
             body += "\t\t%s actual = %s.%s(%s);\n" % (self.retype, getClassName(self.file), self.name, paramsStr)
-            body += "\t\tSystem.out.println(expected == actual);"
+            if self.retype != "String":
+                body += "\t\tSystem.out.println(expected == actual);"
+            else:
+                body += "\t\tSystem.out.println(expected.equals(actual));"
 
         else:
             body += "\t\t%s.%s(%s);\n" % (getClassName(self.file), self.name, paramsStr)
