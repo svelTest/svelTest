@@ -311,6 +311,7 @@ def p_lib_function(p):
                  | SIZE
                  | INSERT
                  | REPLACE
+                 | READLINES
     '''
     if len(p) == 2:
         p[0] = Node('lib_function', [], p[1])
