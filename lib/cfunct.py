@@ -55,7 +55,7 @@ class Funct(object):
         print "Compiling %s" % (self.csvelHelper)
         if self.compileCSvelHelper() == -1:
             print "Compilation failed."
-            return
+            sys.exit(0)
 
     '''
     Asserts if the actual output matches the expected output, given an input array
@@ -78,19 +78,22 @@ class Funct(object):
         process = self.runCSvelHelper(inputValues, outputValue)
         # TODO: file cleanup
 
+        console = process.stdout.read()
         # Testing System.out.print output
         if self.retype == "void" or self.name == "main":
-            if outputValue in process.stdout.read():
+            if outputValue in console:
                 message = "PASS"
             else:
                 message = "FAIL"
+                message += "\n\t output: %s\n\texpected: %s" % (console, outputValue)
 
         # Testing a return value
         else:
-            if "true" in process.stdout.read():
+            if "true" in console:
                 message = "PASS"
             else:
                 message = "FAIL"
+                message += "\n\t%s\n\texpected: %s" % (console, outputValue)
 
 
         if verbose == True:
@@ -118,7 +121,10 @@ class Funct(object):
     (see constructCHelperCode()).
     '''
     def compileCSvelHelper(self):
-        process = subprocess.Popen("gcc %s.c -o %s" % (self.csvelClass, self.csvelClass), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
+        if self.name != "main":
+            process = subprocess.Popen("gcc %s.c %s.c -o %s" % (self.csvelClass, getClassName(self.file), self.csvelClass), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
+        else:
+            process = subprocess.Popen("gcc %s.c -o %s" % (self.csvelClass, self.csvelClass), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
         err = process.stderr.read()
         if err:
             print 'Error compiling %s.c\n' % (self.csvelClass)
@@ -159,8 +165,9 @@ class Funct(object):
 
         int actual = add(_0, _1);
 
-        // prints 1 if true, 0 if false
-        printf("%d\n", expected == actual);
+        // prints "true" if true, "returned: <actual>" if false
+        if (expected == actual) printf("true\n");
+        else printf("returned: %d", actual);
     }
 
     To run the program :
@@ -177,9 +184,9 @@ class Funct(object):
             paramCap = param.capitalize()
             var = "_" + str(i)
             if not param.startswith("char"):
-                body += "\t\t%s %s = atoi(argv[%d]);\n" % (param, var, i)
+                body += "\t\t%s %s = atoi(argv[%d]);\n" % (param, var, i+1)
             else:
-                body += "\t\t%s %s = argv[%d];\n" % (param, var, i)
+                body += "\t\t%s %s = argv[%d];\n" % (param, var, i+1)
             
             paramsStr += var + ", " # paramStr : "_0, _1, ..."
             i += 1
@@ -189,19 +196,28 @@ class Funct(object):
         body += "\n"
 
         if self.retype != "void":
-            body += "\t\t%s expected = atoi(argv[%d]);\n" % (self.retype, i)
+            formatSpecifiers = {
+                'int' : 'd',
+                'char': '%',
+                'double' : 'f',
+                'char*': 's'
+            }
+            body += "\t\t%s expected = atoi(argv[%d]);\n" % (self.retype, i+1)
             body += "\n"
-            body += "\t\t%s actual = %s.%s(%s);\n" % (self.retype, getClassName(self.file), self.name, paramsStr)
-            body += "\t\tprintf(\"%d\\n\", expected == actual);"
+            body += "\t\t%s actual = %s(%s);\n" % (self.retype, self.name, paramsStr)
+            body += "\t\tif (expected == actual) printf(\"true\");\n"
+            body += "\t\telse printf(\"returned: %" + "%s\", actual);\n" % (formatSpecifiers[self.retype])
 
         else:
-            body += "\t\t%s.%s(%s);\n" % (getClassName(self.file), self.name, paramsStr)
+            body += "\t\t%s(%s);\n" % (self.name, paramsStr)
 
         ccode = '''
 #include <stdio.h>
-main(int argc, char *argv[]) {
+#include <stdlib.h>
+#include "%s.h"
+int main(int argc, char *argv[]) {
 %s
-}''' % (body)
+}''' % (getClassName(self.file), body)
 
         return ccode
 
