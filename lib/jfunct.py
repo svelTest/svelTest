@@ -53,6 +53,7 @@ class Funct(object):
     '''
     def _assert(self, inputValues, outputValue, verbose=False):
 
+        passed = False
         inputstr = ""
         if not isinstance(inputValues, list):
             inputstr += str(inputValues)
@@ -67,24 +68,28 @@ class Funct(object):
         process = self.runJSvelHelper(inputValues, outputValue)
         # TODO: file cleanup
 
+        console = process.stdout.read();
         # Testing System.out.print output
         if self.retype == "void":
-            if outputValue in process.stdout.read():
+            if outputValue in console.strip():
                 message = "PASS"
+                passed = True
             else:
                 message = "FAIL"
+                message += "\n\t output: %s\n\texpected: %s" % (console, outputValue)
 
         # Testing a return value
         else:
-            if "true" in process.stdout.read():
+            if "true" in console:
                 message = "PASS"
+                passed = True
             else:
                 message = "FAIL"
 
 
         if verbose == True:
             print "%s(%s)... %s %s" % (self.name, inputstr, 5*"\t", message)
-        if message == "PASS":
+        if passed == True:
             return True
         return False
 
@@ -187,12 +192,15 @@ class Funct(object):
 
         body += "\n"
 
-        if self.retype != "void":
+        if self.retype != "void" and self.retype != "String":
             retypeCap  = self.retype.capitalize()
             body += "\t\t%s expected = %s.parse%s(args[%d]);\n" % (self.retype, jtypes[self.retype], retypeCap, i)
             body += "\n"
             body += "\t\t%s actual = %s.%s(%s);\n" % (self.retype, getClassName(self.file), self.name, paramsStr)
-            body += "\t\tSystem.out.println(expected == actual);"
+            if self.retype != "String":
+                body += "\t\tSystem.out.println(expected == actual);"
+            else:
+                body += "\t\tSystem.out.println(expected.equals(actual));"
 
         else:
             body += "\t\t%s.%s(%s);\n" % (getClassName(self.file), self.name, paramsStr)
