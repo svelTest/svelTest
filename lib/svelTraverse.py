@@ -463,6 +463,16 @@ class SvelTraverse(object):
 		self.symbols[entry] = [_type, hasValue]
 		return entry
 
+	'''
+	Update symbol in symbol table
+	@param 	symbol - symbol to update
+	@return entry in the symbol table
+	'''
+	def _update_symtable(self, symbol, _type, hasValue):
+		entry = self._get_symtable_entry(symbol)
+		self.symbols[entry][1] = True
+		return entry
+
 	'''Returns the entry in the symbol table dictionary'''
 	def _get_symtable_entry(self, symbol):
 		return str(self.scope) + str(symbol)
