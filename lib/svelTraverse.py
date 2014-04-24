@@ -847,33 +847,23 @@ class SvelTraverse(object):
 	   	else:
 	   		return "Unknown error"
 
-	'''Check if symbol exists in the current scope'''
+	''' Check if symbol exists in the current scope '''
 	def _symbol_exists(self, symbol):
 		if symbol in self.scopes[self.scope]:
 			return True
 		return False
 
-	'''Add symbol to scope table'''
+	''' Add symbol to scope table '''
 	def _add_scopetable(self, symbol):
 		self.scopes[self.scope][symbol] = True
 
-	'''
-	Add symbol to symbol table
-	@param 		symbol - symbol to add
-				_type - type of the variable as a string (e.g. "int")
-				hasValue - true if instantiated with value, otherwise false
-	@return 	entry in the symbol table
-	'''
+	''' Add symbol to symbol table '''
 	def _add_symtable(self, symbol, _type, hasValue):
 		entry = self._get_symtable_entry(symbol)
 		self.symbols[entry] = [_type, hasValue]
 		return entry
 
-	'''
-	Update symbol in symbol table
-	@param 		symbol - symbol to update
-	@return 	entry in the symbol table
-	'''
+	''' Update symbol in symbol table '''
 	def _update_symtable(self, symbol, _type, hasValue):
 		entry = self._get_symtable_entry(symbol)
 		self.symbols[entry][1] = True
@@ -883,7 +873,11 @@ class SvelTraverse(object):
 	def _get_symtable_entry(self, symbol):
 		return str(self.scope) + str(symbol)
 
-		def _recognize_type_helper(self, primary_expr):
+	''' Returns the type of the symbol recorded by the symbol table '''
+	def _get_symtable_type(self, symbol):
+		return self.symbols[symbols][0]
+
+	def _recognize_type_helper(self, primary_expr):
 		if self._is_boolean(primary_expr):
 			return "boolean"
 		if self._is_int(primary_expr):
