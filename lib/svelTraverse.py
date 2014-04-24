@@ -869,7 +869,7 @@ class SvelTraverse(object):
 			print "_funct_name: (%s, %s)" % (code, _type)
 			if _type != "ID" and _type != "string":
 				try:
-					raise TypeMismatchError("funct object takes a string as its first argument")
+					raise TypeMismatchError("funct first argument", "string", _type)
 				except TypeMismatchError as e:
 					print str(e)
 			return code
@@ -887,10 +887,12 @@ class SvelTraverse(object):
 		return tree.leaf
 
 class TypeMismatchError(Exception):
-	def __init__(self, message):
-		self.message = message
+	def __init__(self, context, expected, actual):
+		self.context = context
+		self.expected = expected
+		self.actual = actual
 	def __str__(self):
-		return "TypeMismatchError : %s" % (self.message)
+		return "TypeMismatchError : %s requires %s type. Found %s." % (self.context, self.expected, self.actual)
 
 class DuplicateVariableError(Exception):
 	def __init__(self, var):
