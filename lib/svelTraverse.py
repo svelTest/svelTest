@@ -52,8 +52,8 @@ class SvelTraverse(object):
 		returned = method(tree, flags, verbose)
 		if isinstance(returned, tuple):
 			code, _type = returned
-			print "walk: (%s, %s)" % (code, _type)
-			return code
+			print "%s: (%s, %s)" % (tree.type, code, _type)
+			return code, _type
 		else:
 			return returned
 
@@ -518,7 +518,13 @@ class SvelTraverse(object):
 			# multiplicative_expr TIMES/DIVIDE secondary_expr
 			line += str(self.walk(tree.children[0], verbose=verbose))
 			line += " " + tree.leaf + " "
-			line += str(self.walk(tree.children[1], verbose=verbose))
+			returned = self.walk(tree.children[1], verbose=verbose)
+			if isinstance(returned, tuple):
+				code, _type = returned
+				print "multiplicative_expr: (%s, %s)" % (code, _type)
+				line += code
+			else:
+				line += str(returned)
 
 		else:
 			# go to multiplicative_expr
@@ -528,6 +534,7 @@ class SvelTraverse(object):
 
 		return line
 
+	# return code or tuple
 	def _secondary_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: secondary_expr"
@@ -536,13 +543,7 @@ class SvelTraverse(object):
 
 		# -> primary_expr
 		if tree.leaf == None:
-			returned = self.walk(tree.children[0], verbose=verbose)
-			if isinstance(returned, tuple):
-				code, _type = returned
-				print "secondary_expr: (%s, %s)" % (code, _type)
-				return code
-			else:
-				return returned
+			return self.walk(tree.children[0], verbose=verbose)
 
 		elif tree.leaf == '(':
 			# -> LPAREN expression RPAREN
@@ -555,6 +556,7 @@ class SvelTraverse(object):
 
 		return line
 
+	# return code or tuple
 	def _primary_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: primary_expr"
@@ -565,6 +567,7 @@ class SvelTraverse(object):
 			if _type != "ID":
 				print "_primary_expr: (%s, %s)" % (tree.leaf, _type)
 				return tree.leaf, _type
+			print "_primary_expr: ID"
 			return tree.leaf
 
 		# function_call or ref_type
