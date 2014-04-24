@@ -10,6 +10,7 @@
 #     svelTest team:
 #     Emily Hsia, Kaitlin Huben, Josh Lieberman, Chris So, Mandy Swinton
 # =============================================================================
+import sys;
 class SvelTraverse(object):
 
 	def __init__(self, tree, verbose=False):
@@ -26,6 +27,10 @@ class SvelTraverse(object):
 		# symbol table (dict)
 		self.symbols = {}
 
+		# TODO command line args hack
+		self.main_args = []
+		self.main_types = []
+		
 		# run
 		self.code = self.beginning() + self.walk(tree, verbose=verbose) + self.end()
 
@@ -61,12 +66,25 @@ class SvelTraverse(object):
 
 	def beginning(self):
 		imports = "import os, sys\n"
-		imports += "lib_path = os.path.join('bundles')\nsys.path.append(lib_path)\n"
-		imports += "from funct import Funct\n\n"
 		return imports
 
 	def end(self):
-		return "\n\nif __name__ == '__main__':\n    main()"
+		# extract command line args from main_args
+		# and format to int(sys.argv[1]), int(sys.argv[2])
+		numOfArgs = len(self.main_args)
+		i = 1
+		argStr = ""
+		while i <= numOfArgs:
+			if self.main_types[i-1] == "int":
+				argStr += "int(sys.argv[%d]), " % (i)
+			elif self.main_types[i-1] == "double":
+				argStr += "float(sys.argv[%d]), " % (i)
+			else:
+				argStr += "sys.argv[%d], " % (i)
+			i += 1
+		if len(argStr) > 0:
+			argStr = argStr[0:-2]
+		return "\n\nif __name__ == '__main__':\n\tmain(%s)" % (argStr)
 
 	# --------------------
 	# handle grammar nodes
@@ -75,6 +93,33 @@ class SvelTraverse(object):
 	# passes testsuite tests 0, 1, 2, 3, 5, 8; works for hello.svel
 
 	# TODO: make sure that we return and are concatenating string types
+
+	def _outer_unit(self, tree, flags=None, verbose=False):
+		if(verbose):
+			print "===> svelTraverse: outer_unit"
+
+		return self.walk(tree.children[0], verbose=verbose) + "\n\n" + self.walk(tree.children[1], verbose=verbose)
+
+	def _lang_def(self, tree, flags=None, verbose=False):
+		if(verbose):
+			print "===> svelTraverse: lang_def"
+
+		if tree.leaf == "None":
+			return ""
+
+		# if lang=Java, copy in java files
+		if tree.leaf == "Java":
+			jfileutil = open("jfileutil.py").read()
+			jfunct = open("jfunct.py").read()
+			return jfileutil + "\n\n" + jfunct
+		elif tree.leaf == "C":
+			cfileutil = open("cfileutil.py").read()
+			cfunct = open("cfunct.py").read()
+			return cfileutil + "\n\n" + cfunct
+		#elif tree.leaf == "Python":
+			# implement
+		else:
+			sys.exit("ERROR: Unrecognized language type.")
 
 	def _translation_unit(self, tree, flags=None, verbose=False):
 		if(verbose):
@@ -104,12 +149,19 @@ class SvelTraverse(object):
 		# TODO: use the format function to do indenting
 		if len(tree.children) == 2: # main
 			line = "def main("
-			line += self.walk(tree.children[0], verbose=verbose)
+			cl_args = self.walk(tree.children[0], flags=["main"], verbose=verbose)
+			line += cl_args
 			line += "):\n"
+
+			# parse cl_args to insert into generated code
+			cl_args = cl_args.split(",")
+			for arg in cl_args:
+				if arg != '':
+					arg = arg.strip()
+					self.main_args.append(arg)
 
 			self.level_up()
 			line += self.walk(tree.children[1], verbose=verbose)
-
 			self.level_down()
 
 		elif tree.children[0].leaf == "VOID":
@@ -149,18 +201,22 @@ class SvelTraverse(object):
 
 		# if there's another parameter
 		if len(tree.children) == 2:
-			line += self.walk(tree.children[0], verbose=verbose)
+			line += self.walk(tree.children[0], flags, verbose=verbose)
 			line += ', '
-			line += self.walk(tree.children[1], verbose=verbose)
+			line += self.walk(tree.children[1], flags, verbose=verbose)
 
 		else: # last parameter in list
-			line += self.walk(tree.children[0], verbose=verbose)
+			line += self.walk(tree.children[0], flags, verbose=verbose)
 
 		return line
 
 	def _parameter(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: parameter"
+
+		# TODO command line args hack
+		if len(flags) == 1 and flags[0] == "main":
+			self.main_types.append(tree.children[0].leaf)
 
 		# if empty --> _empty
 		if tree.leaf == None:
@@ -250,7 +306,8 @@ class SvelTraverse(object):
 
 				# this line serves as pseudo-symbol table until we get one
 				# TODO: actually use symbol table
-				janky_line = tree.leaf + "=" + self.walk(tree.children[1], verbose=verbose)
+				file_name = self.walk(tree.children[1], verbose=verbose)
+				janky_line = tree.leaf + "=" + file_name
 				janky_line = self.format(janky_line)
 
 				return line + next_line + janky_line + '\n'
@@ -460,7 +517,7 @@ class SvelTraverse(object):
 		elif tree.leaf == '(':
 			# -> LPAREN expression RPAREN
 			# -> LPAREN identifier_list RPAREN
-			line += '(' + str(self.walk(tree.children[0], verbose=verbose)) + ')'
+			line += '[' + str(self.walk(tree.children[0], verbose=verbose)) + ']'
 
 		elif tree.leaf == '{':
 			# -> LBRACE identifier_list RBRACE
@@ -483,19 +540,63 @@ class SvelTraverse(object):
 			print "===> svelTraverse: function_call"
 
 		line = ""
+		
+		# -> PRINT primary_expr
 		if tree.leaf == "print":
-			# -> PRINT primary_expr
 			line += tree.leaf + " " + self.walk(tree.children[0], verbose=verbose)
-
+		
+		# type conversions hack
+		elif tree.leaf == "string":
+			line += "str(" + self.walk(tree.children[0], verbose=verbose) + ")"
+		elif tree.leaf == "int":
+			line += "int(" + self.walk(tree.children[0], verbose=verbose) + ")"
+		elif tree.leaf == "double":
+			line += "float(" + self.walk(tree.children[0], verbose=verbose) + ")"
+		elif tree.leaf == "boolean":
+			line += "bool(" + self.walk(tree.children[0], verbose=verbose) + ")"
+		
+		# lib functions:
+		# -> ID PERIOD lib_function LPAREN identifier_list RPAREN
 		elif len(tree.children) == 2:
-			# -> ID PERIOD ASSERT LPAREN identifier_list RPAREN
-			line += tree.leaf + "._assert(" + self.walk(tree.children[1], verbose=verbose) +")"
+			# TODO: make less hack-y
+			function = self.walk(tree.children[0], verbose=verbose)
+			if function == "size":
+				line += "len(" + tree.leaf + ")"
+			elif function == "replace":
+				args = self.walk(tree.children[1], verbose=verbose).split(",")
+				line += tree.leaf + "[" + args[0].strip() + "] = " + args[1].strip()
+			# TODO: make less hack-y when we have a symbol table
+			elif function == "readlines":
+				line += "[line.strip() for line in open(%s)]" % (tree.leaf)
+			else:	
+				if function == "remove":
+					function = "pop"
+					
+				line += tree.leaf + "." + function + "(" + self.walk(tree.children[1], verbose=verbose) +")"
 
+		# -> ID LPAREN identifier_list RPAREN
 		elif len(tree.children) == 1:
-			# -> ID LPAREN identifier_list RPAREN
 			line += tree.leaf + "(" + self.walk(tree.children[0], verbose=verbose) + ")"
 
 		return line
+
+	def _lib_function(self, tree, flags=None, verbose=False):
+		if(verbose):
+			print "===> svelTraverse: function_call"
+
+		if tree.leaf == "assert":
+			# -> ASSERT
+			return "_assert"
+		elif tree.leaf == "readlines":
+			# -> READLINE
+			# lines = [line.strip() for line in open(input_file)]
+			#line = "[line.strip() for line in open("
+			#line += self.walk(tree.children[1], verbose=verbose) + ")]"
+			return "readlines"
+		else:
+			# -> REMOVE | SIZE | INSERT | REPLACE
+			return tree.leaf # TODO: will need to do type checking somewhere to make sure this is being called on an array/list
+
 
 	def _ref_type(self, tree, flags=None, verbose=False):
 		if(verbose):
@@ -515,11 +616,11 @@ class SvelTraverse(object):
 		line = ""
 		if len(tree.children) == 1:
 			# -> reserved_languages_keyword
-			line += self.walk(tree.children[0], verbose=verbose)
+			line += "\"" + self.walk(tree.children[0], verbose=verbose) + "\""
 
 		elif len(tree.children) == 2:
 			# -> reserved_languages_list COMMA reserved_languages_keyword
-			line += self.walk(tree.children[0], verbose=verbose) + ", " + self.walk(tree.children[1], verbose=verbose)
+			line += self.walk(tree.children[0], verbose=verbose) + ", \"" + self.walk(tree.children[1], verbose=verbose) + "\""
 
 		return line
 
@@ -527,11 +628,13 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: reserved_languages_keyword"
 		
-		if isinstance(tree.leaf, basestring):
+		if len(tree.children) == 1 and tree.leaf=="*":
+			# -> reserved_languages_keyword TIMES
+			return self.walk(tree.children[0]) + " " + tree.leaf
+		elif isinstance(tree.leaf, basestring):
 			# -> RES_LANG LBRACKET RBRACKET
 			# -> RES_LANG
-			return "\"" + tree.leaf + "\""
-
+			return tree.leaf
 		# -> empty
 		return self.walk(tree.leaf)
 
@@ -641,7 +744,7 @@ class SvelTraverse(object):
 		if tree.leaf == "__main__":
 			return "\"main\""
 
-		return tree.leaf
+		return self.walk(tree.leaf, verbose=verbose)
 
 	def _STRINGLITERAL(self, tree, flags=None, verbose=False):
 		if(verbose):

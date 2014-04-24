@@ -1,0 +1,17 @@
+lang = Java;
+
+main() {
+	file _in = "input.txt";
+	//string l = "";
+
+	//print (_in.readlines());
+
+	output[] out = _in.readlines();
+	for (int i = 0; i < out.size(); i=i+1) {
+		print(out[i]);
+	}
+
+	//while((line = in.readline()) != null) {
+	//	print l;
+	//}
+}

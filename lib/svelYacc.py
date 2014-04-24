@@ -37,6 +37,18 @@ precedence = (
 def getParser(**kwargs):
     return yacc.yacc(**kwargs)
 
+def p_outer_unit(p):
+    '''
+    outer_unit : lang_def translation_unit
+    '''
+    p[0] = Node('outer_unit', [p[1], p[2]])
+
+def p_lang_def(p):
+    '''
+    lang_def : LANG ASSIGN ID SEMICOLON
+    '''
+    p[0] = Node('lang_def', [], p[3])
+   
 def p_translation_unit(p):
     '''
     translation_unit : external_declaration
@@ -52,6 +64,7 @@ def p_external_declaration(p):
     external_declaration : function_def
                          | type ID SEMICOLON
                          | type ID ASSIGN assignment_expr SEMICOLON
+                         
     '''
     if len(p) == 2:
         p[0] = Node('external_declaration', [p[1]])
@@ -93,7 +106,7 @@ def p_type(p):
 
 def p_ref_type(p):
     '''
-    ref_type : ID LBRACKET primary_expr RBRACKET
+    ref_type : ID LBRACKET expression RBRACKET
     '''
     p[0] = Node('ref_type', [Node('primary_expr', [], p[1]), p[3]])
 
@@ -179,7 +192,7 @@ def p_assignment_expr(p):
 def p_funct_name(p):
     '''
     funct_name : __MAIN__
-                | primary_expr
+               | primary_expr
     '''
     p[0] = Node('funct_name', [], p[1])
 
@@ -281,15 +294,29 @@ def p_primary_expr(p):
 def p_function_call(p):
     '''
     function_call : ID LPAREN identifier_list RPAREN
+                  | STRING LPAREN identifier_list RPAREN
+                  | INT LPAREN identifier_list RPAREN
+                  | BOOLEAN LPAREN identifier_list RPAREN
+                  | DOUBLE LPAREN identifier_list RPAREN
                   | PRINT LPAREN identifier_list RPAREN
-                  | ID PERIOD ASSERT LPAREN identifier_list RPAREN
+                  | ID PERIOD lib_function LPAREN identifier_list RPAREN
     '''
-    if len(p) == 3: # PRINT 
-        p[0] = Node('function_call', [p[3]], 'print')
-    elif len(p) == 7:
-        p[0] = Node('function_call', [Node('ASSERT', [], 'assert'), p[5]], p[1])
+    if len(p) == 7:
+        p[0] = Node('function_call', [p[3], p[5]], p[1])
     else:
         p[0] = Node('function_call',[p[3]], p[1])
+
+def p_lib_function(p):
+    '''
+    lib_function : ASSERT
+                 | REMOVE
+                 | SIZE
+                 | INSERT
+                 | REPLACE
+                 | READLINES
+    '''
+    if len(p) == 2:
+        p[0] = Node('lib_function', [], p[1])
     
 def p_reserved_languages_list(p):
     '''
@@ -304,11 +331,15 @@ def p_reserved_languages_list(p):
 def p_reserved_languages_keyword(p):
     '''
     reserved_language_keyword : RES_LANG LBRACKET RBRACKET
+                              | reserved_language_keyword TIMES
                               | RES_LANG
                               | empty
     '''
     if len(p) == 4:
         p[0] = Node('reserved_languages_keyword', [], str(p[1]) + "[]")
+    elif len(p) == 3:
+        # res_lang_keyword * allows for pointers
+        p[0] = Node('reserved_languages_keyword', [p[1]], p[2])
     else:
         p[0] = Node('reserved_languages_keyword', [], p[1])
 

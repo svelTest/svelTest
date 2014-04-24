@@ -1,5 +1,5 @@
 # =============================================================================
-# funct.py
+# jfunct.py
 # 
 # Python Funct class representing the svel funct primitive; contains the 
 # assert() method
@@ -15,7 +15,8 @@
 # =============================================================================
 
 import os, sys, subprocess
-from jfileutil import *
+# don't need this line anymore because jfileutil already present in compiled file
+#from jfileutil import *
 
 class Funct(object):
 
@@ -43,7 +44,7 @@ class Funct(object):
         print "Compiling %s" % (self.jsvelHelper)
         if self.compileJSvelHelper() == -1:
             print "Compilation failed."
-            return
+            sys.exit(0)
 
     '''
     Asserts if the actual output matches the expected output, given an input array
@@ -52,6 +53,7 @@ class Funct(object):
     '''
     def _assert(self, inputValues, outputValue, verbose=False):
 
+        passed = False
         inputstr = ""
         if not isinstance(inputValues, list):
             inputstr += str(inputValues)
@@ -66,24 +68,30 @@ class Funct(object):
         process = self.runJSvelHelper(inputValues, outputValue)
         # TODO: file cleanup
 
+        console = process.stdout.read().strip();
         # Testing System.out.print output
         if self.retype == "void":
-            if outputValue in process.stdout.read():
+            if outputValue in console.strip():
                 message = "PASS"
+                passed = True
             else:
                 message = "FAIL"
+                message += "\n\t output: %s\n\texpected: %s" % (console, outputValue)
 
         # Testing a return value
         else:
-            if "true" in process.stdout.read():
+            if console == "true":
                 message = "PASS"
+                passed = True
             else:
                 message = "FAIL"
+                # console == "returned: " + actual
+                message += "\n\t%s\n\texpected: %s" % (console, outputValue)
 
 
         if verbose == True:
             print "%s(%s)... %s %s" % (self.name, inputstr, 5*"\t", message)
-        if message == "PASS":
+        if passed == True:
             return True
         return False
 
@@ -117,13 +125,16 @@ class Funct(object):
     Creates and writes to the svel Java helper file
     '''
     def createJHelperFile(self):
+        slash = "/"
+        if os.name == "nt":
+            slash = "\\"
         absPath = getAbsPath(self.file)
-        array = absPath.split("/")[0:-1]
+        array = absPath.split(slash)[0:-1]
         absPath = ""
         for dir in array:
-            absPath += dir + "/"
+            absPath += dir + slash
         absPath += "Svel%s.java" % (self.name)
-        svel = open(absPath, "w")
+        svel = open(absPath, "w+")
 
         jcode = self.constructJHelperCode()
         svel.write(jcode)
@@ -143,8 +154,10 @@ class Funct(object):
             int expected = Integer.parseInt(args[2]);
 
             int actual = Add.add(_0, _1);
-
-            System.out.println(expected == actual);
+            boolean eq = (expected == actual);
+            // boolean eq = (expected.equals(actual)); if strings
+            if (eq) System.out.println("true");
+            else System.out.println("returned: " + actual);
         }
     }
 
@@ -183,12 +196,17 @@ class Funct(object):
 
         body += "\n"
 
-        if self.retype != "void":
+        if self.retype != "void" and self.retype != "String":
             retypeCap  = self.retype.capitalize()
             body += "\t\t%s expected = %s.parse%s(args[%d]);\n" % (self.retype, jtypes[self.retype], retypeCap, i)
             body += "\n"
             body += "\t\t%s actual = %s.%s(%s);\n" % (self.retype, getClassName(self.file), self.name, paramsStr)
-            body += "\t\tSystem.out.println(expected == actual);"
+            if self.retype != "String":
+                body += "\t\tboolean eq = (expected == actual);\n"
+            else:
+                body += "\t\tboolean eq = (expected.equals(actual));\n"
+            body += "\t\tif (eq) System.out.println(\"true\");\n"
+            body += "\t\telse System.out.println(\"returned: \" + actual);\n"
 
         else:
             body += "\t\t%s.%s(%s);\n" % (getClassName(self.file), self.name, paramsStr)
@@ -208,16 +226,28 @@ public class Svel%s {
     '''
     def getSignature(self):
         regexp_params = ""
-        for p in self.params:
-            # regexp for parameters - 0 or more spaces, followed by type, 
-            # followed by 1 or more spaces, followed by a comma 
-            regexp_params += "[ ]*%s[ ]\+.*," % (p)
-        regexp_params = regexp_params[0 : len(regexp_params)-1] # take off the extra comma
+        if os.name == "nt":
+            for p in self.params:
+                # regexp for parameters - 0 or more spaces, followed by type, 
+                # followed by 1 or more spaces, followed by a comma 
+                regexp_params += "[[:space:]]*%s[[:space:]]\+.*," % (p)
+            regexp_params = regexp_params[0 : len(regexp_params)-1] # take off the extra comma
+
+        else:
+            for p in self.params:
+                # regexp for parameters - 0 or more spaces, followed by type, 
+                # followed by 1 or more spaces, followed by a comma 
+                regexp_params += "[ ]*%s[ ]\+.*," % (p)
+            regexp_params = regexp_params[0 : len(regexp_params)-1] # take off the extra comma
 
         # one or more spaces, followed by method name, followed by 0 or more spaces
         # followed by open paren, followed by RE for params, and finally a close paren
-        regexp = "[ ]\+%s[ ]*(%s)" % (self.name, regexp_params)
-        grep = "grep \'%s\' %s" % (regexp, self.file) # grep command
+        if os.name == "nt":
+            regexp =  "[[:space:]]\+%s[[:space:]]*(%s)" % (self.name, regexp_params)
+            grep = "grep %s %s" % (regexp, self.file) # grep command
+        else:  
+            regexp = "[ ]\+%s[ ]*(%s)" % (self.name, regexp_params)
+            grep = "grep \'%s\' %s" % (regexp, self.file) # grep command
         output = subprocess.check_output(grep, shell=True)
 
         return output.strip() # strip leading/trailing whitespace
@@ -242,7 +272,10 @@ public class Svel%s {
 
 
 def tests():
-    _1 = Funct("add", ["j_int", "j_int"], "../test/java_files/Add.java")
+    if os.name == "nt":
+        _1 = Funct("add", ["j_int", "j_int"], "..\\test\java_files\Add.java")
+    else:
+        _1 = Funct("add", ["j_int", "j_int"], "../test/java_files/Add.java")
     _1_inputs = [[1, 1], [0, 5], [13, 57]]
     _1_outputs = [2, 5, 191]
     
@@ -251,9 +284,12 @@ def tests():
         _1._assert(_1_inputs[i], _1_outputs[i])
         i += 1
 
-    _2 = Funct("main", ["j_String[]"], "../test/java_files/HelloWorld.java")
+    if os.name == "nt":
+        _2 = Funct("main", ["j_String[]"], "..\\test\java_files\HelloWorld.java")
+    else:
+        _2 = Funct("main", ["j_String[]"], "../test/java_files/HelloWorld.java")
     _2._assert([], "Hello World")
 
-if __name__ == "__main__":
-    tests()
-
+# Uncomment if want to run individually; messes up compiled file though
+#if __name__ == "__main__":
+#    tests()

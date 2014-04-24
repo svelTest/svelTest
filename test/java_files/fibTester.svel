@@ -1,3 +1,5 @@
+lang = Java;
+
 main() {
 	// tests the main fibonacci runner
 	file fibFile = "FibonacciMain.java";
@@ -6,7 +8,8 @@ main() {
 	input[] _in = {0, 1, 2, 3, 4};
 	output out = {"0", "1", "1", "2", "3"};
 
-	// run with verbose option
+	print("\nTesting without verbose option:");
+	// run without verbose option
 	for(int i = 0; i < 4; i = i+1) {
 		if(fibMain.assert(_in[i], out[i])){
 			print ("Test passed.");
@@ -15,9 +18,34 @@ main() {
 		}
 	}
 
-	// run without verbose option
+	print("\nTesting with verbose option:");
+	// run with verbose option
 	for(int i = 0; i < 4; i = i+1) {
 		if(fibMain.assert(_in[i], out[i], verbose)){
+			print ("Test passed.");
+		} else {
+		 	print ("Test failed.");
+		}
+	}
+
+	
+	// now try actual fib function (not whole main)
+	file fibFile2 = "Fibonacci.java";
+	funct fib = {"fib", (j_int), fibFile2};
+	print("\nTesting fib function only:");
+	for(int i = 0; i < 4; i = i+1) {
+		if(fib.assert(_in[i], out[i], verbose)){
+			print ("Test passed.");
+		} else {
+		 	print ("Test failed.");
+		}
+	}
+
+	// send in some things that should fail
+	output bad_output = {"blah", "blah", "blah", "blah", "blah"};
+	print("\nTesting bad outputs for fib:");
+	for(int i = 0; i < 4; i = i+1) {
+		if(fib.assert(_in[i], bad_output[i], verbose)){
 			print ("Test passed.");
 		} else {
 		 	print ("Test failed.");

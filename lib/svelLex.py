@@ -43,10 +43,39 @@ class SvelLexer:
 		'false' : 'FALSE',
 		'void' : 'VOID',
 		'assert' : 'ASSERT',
+		'remove' : 'REMOVE',
+		'size' : 'SIZE',
+		'insert' : 'INSERT',
+		'replace' : 'REPLACE',
 		'break' : 'BREAK',
 		'continue' : 'CONTINUE',
 		'return' : 'RETURN',
 		'verbose' : 'VERBOSE',
+		'lang' : 'LANG',
+		'readlines' : 'READLINES',
+		# start Python reserved words
+		'and' : 'PYTHON_AND',
+		'as' : 'AS',
+		'class' : 'CLASS',
+		'def' : 'DEF',
+		'del' : 'DEL',
+		'elif' : 'ELIF',
+		'except' : 'EXCEPT',
+		'exec' : 'EXEC',
+		'finally' : 'FINALLY',
+		'from' : 'FROM',
+		'global' : 'GLOBAL',
+		'import' : 'IMPORT',
+		'in' : 'IN',
+		'is' : 'IS',
+		'lambda' : 'LAMBDA',
+		'not' : 'NOT',
+		'or' : 'PYTHON_OR',
+		'pass' : 'PASS',
+		'raise' : 'RAISE',
+		'try' : 'TRY',
+		'with' : 'WITH',
+		'yield' : 'YIELD',
 	}
 
 	# Lists of token names. always required
@@ -108,7 +137,14 @@ class SvelLexer:
 
 	# reg exp rule with some action code
 	def t_RES_LANG(self, t):
-		r'j_int|j_double|j_float|j_byte|j_char|j_String|j_boolean|j_long'
+		r'''
+		j_int|j_double|j_float|j_byte|j_char|j_String|j_boolean|j_long
+		|c_char|c_signed_char|c_unsigned_char|c_short|c_short_int|c_signed_short
+		|c_signed_short_int|c_unsigned_short|c_unsigned_short_int|c_int|c_signed_short_int
+		|c_long|c_long_int|c_signed_long|c_signed_long_int|c_unsigned_long
+		|c_unsigned_long_int|c_long_long|c_long_long_int|c_signed_long_long
+		|c_signed_long_long_int|c_unsigned_long_long|c_unsigned_long_long_int
+		|c_float|c_double|c_long_double'''
 		t.type = 'RES_LANG'
 		return t
 
@@ -121,12 +157,12 @@ class SvelLexer:
 		return t
 
 	def t_DECIMAL(self, t):
-		r'\d+\.\d*'
+		r'-?\d+\.\d*'
 		t.value = float(t.value)
 		return t
 
 	def t_NUMBER(self, t):
-		r'\d+'
+		r'-?\d+'
 		t.value = int(t.value)
 		return t
 
