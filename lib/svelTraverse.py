@@ -30,7 +30,7 @@ class SvelTraverse(object):
 		# TODO command line args hack
 		self.main_args = []
 		self.main_types = []
-		
+
 		# run
 		self.code = self.beginning() + self.walk(tree, verbose=verbose) + self.end()
 
@@ -46,7 +46,16 @@ class SvelTraverse(object):
 			return
 
 		method = getattr(self, '_'+tree.type)
-		return method(tree, flags, verbose)
+
+		# for type checks that are implemented so far, _method() will return
+		# two values [code, _type]. Otherwise, returns one value (just the code)
+		returned = method(tree, flags, verbose)
+		if isinstance(returned, tuple):
+			code, _type = returned
+			print "walk: (%s, %s)" % (code, _type)
+			return code
+		else:
+			return returned
 
 	def get_code(self):
 		return self.code
@@ -103,9 +112,6 @@ class SvelTraverse(object):
 	def _lang_def(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: lang_def"
-
-		if tree.leaf == "None":
-			return ""
 
 		# if lang=Java, copy in java files
 		if tree.leaf == "Java":
@@ -287,9 +293,24 @@ class SvelTraverse(object):
 
 		elif len(tree.children) == 3:
 			# FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
+			line = tree.leaf + " = Funct(" + self.walk(tree.children[0], verbose=verbose) + \
+				", [" + self.walk(tree.children[1], verbose=verbose) + "], "
+			
+			returned = self.walk(tree.children[1], verbose=verbose)
+			if isinstance(returned, tuple):
+				code, _type = returned
+				print "assignment_expr: (%s, %s)" % (code, _type)
+				line += code + ")"
+				return line
+			else:
+				line += returned + ")"
+				return line
+
+			'''
 			return tree.leaf + " = Funct(" + self.walk(tree.children[0], verbose=verbose) + \
 				", [" + self.walk(tree.children[1], verbose=verbose) + \
 				"], " + self.walk(tree.children[2], verbose=verbose) + ")"
+			'''
 
 		elif len(tree.children) == 2:
 			# initial declaration w/ assignment
@@ -512,9 +533,16 @@ class SvelTraverse(object):
 			print "===> svelTraverse: secondary_expr"
 
 		line = ""
+
+		# -> primary_expr
 		if tree.leaf == None:
-			# -> primary_expr
-			line += str(self.walk(tree.children[0], verbose=verbose))
+			returned = self.walk(tree.children[0], verbose=verbose)
+			if isinstance(returned, tuple):
+				code, _type = returned
+				print "secondary_expr: (%s, %s)" % (code, _type)
+				return code
+			else:
+				return returned
 
 		elif tree.leaf == '(':
 			# -> LPAREN expression RPAREN
@@ -533,7 +561,10 @@ class SvelTraverse(object):
 
 		# ID, STRINGLITERAL, NUMBER (INT), DECIMAL (DOUBLE), TRUE/FALSE (BOOLEAN)
 		if len(tree.children) == 0:
-			# if not function_call or ref_type
+			_type = self._recognize_type_helper(tree.leaf)
+			if _type != "ID":
+				print "_primary_expr: (%s, %s)" % (tree.leaf, _type)
+				return tree.leaf, _type
 			return tree.leaf
 
 		# function_call or ref_type
@@ -785,7 +816,13 @@ class SvelTraverse(object):
 		if tree.leaf == "__main__":
 			return "\"main\""
 
-		return self.walk(tree.leaf, verbose=verbose)
+		returned = self.walk(tree.leaf, verbose=verbose)
+		if isinstance(returned, tuple):
+			code, _type = returned
+			print "_funct_name: (%s, %s)" % (code, _type)
+			return code
+		else:
+			return returned
 
 	def _STRINGLITERAL(self, tree, flags=None, verbose=False):
 		if(verbose):
