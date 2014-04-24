@@ -928,4 +928,10 @@ class DuplicateVariableError(Exception):
 	def __init__(self, var):
 		self.var = var
 	def __str__(self):
-		return "DuplicateVariableError : symbol %s already defined" % (self.var)
+		return "DuplicateVariableError : symbol %s already defined." % (self.var)
+
+class SymbolNotFoundError(Exception):
+	def __init__(self, var):
+		self.var = var
+	def __str__(self):
+		return "SymbolNotFoundError : cannot find symbol %s." % (self.var)
