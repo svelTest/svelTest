@@ -291,8 +291,19 @@ class SvelTraverse(object):
 			# logical_OR_expression
 			return self.walk(tree.children[0], verbose=verbose)
 
+		# FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
 		elif len(tree.children) == 3:
-			# FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
+			# ID check
+			if self._symbol_exists(tree.leaf): # if ID already in symbol table
+				try:
+					raise DuplicateVariableError(tree.leaf)
+				except DuplicateVariableError as e:
+					print str(e)
+			else: # add a new entry in scope and symbol tables
+				self._add_scopetable(tree.leaf) # add to scope table
+				self._add_symtable(tree.leaf, "funct", True) # add to symbol table
+				print str(self.scopes)
+
 			line = tree.leaf + " = Funct(" + self.walk(tree.children[0], verbose=verbose) + \
 				", [" + self.walk(tree.children[1], verbose=verbose) + "], "
 			
