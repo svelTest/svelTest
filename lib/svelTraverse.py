@@ -395,16 +395,18 @@ class SvelTraverse(object):
 			print "===> svelTraverse: logical_OR_expr"
 
 		line = ""
+
+		# logical_OR_expr OR logical_AND_expr
 		if len(tree.children) == 2:
-			# logical_OR_expr OR logical_AND_expr
+			# "boolean", "int", "double", "string"
+			# type OR type
 			line += str(self.walk(tree.children[0], verbose=verbose))
 			line += " or "
 			line += str(self.walk(tree.children[1], verbose=verbose))
 
+		# go to logical_AND_expr
 		else:
-			# go to logical_AND_expr
 			assert(len(tree.children) == 1)
-
 			line += str(self.walk(tree.children[0], verbose=verbose))
 
 		return line
@@ -529,11 +531,50 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: primary_expr"
 
+		# ID, STRINGLITERAL, NUMBER (INT), DECIMAL (DOUBLE), TRUE/FALSE (BOOLEAN)
 		if len(tree.children) == 0:
 			# if not function_call or ref_type
 			return tree.leaf
 
+		# function_call or ref_type
 		return self.walk(tree.children[0], verbose=verbose)
+
+	def _recognize_type_helper(self, primary_expr):
+		if self._is_boolean(primary_expr):
+			return "boolean"
+		if self._is_int(primary_expr):
+			return "int"
+		if self._is_float(primary_expr):
+			return "float"
+		if self._is_string(primary_expr):
+			return "string"
+		return "ID"
+
+	def _is_boolean(self, primary_expr):
+		return primary_expr == "true" or primary_expr == "false"
+
+	# always check _is_int() before checking _is_float()
+	def _is_int(self, primary_expr):
+		try:
+			a = float(primary_expr)
+			b = int(a)
+		except ValueError:
+			return False
+		else:
+			return a == b
+
+	# always check _is_int() before checking _is_float()
+	def _is_float(self, primary_expr):
+		try:
+			a = float(primary_expr)
+		except ValueError:
+			return False
+		return True
+
+	def _is_string(self, primary_expr):
+		if "\"" in primary_expr:
+			return True
+		return False
 
 	def _function_call(self, tree, flags=None, verbose=False):
 		if(verbose):
