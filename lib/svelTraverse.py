@@ -373,110 +373,6 @@ class SvelTraverse(object):
 		# never reaches
 		return self.walk(tree.children[0], verbose=verbose)
 
-	def assignment_helper(self, var, var_value=None, var_type=None):
-		'''
-        no type means --> case 2
-        no value means --> case 0
-        both means --> case 1
-
-        case 0: declaration of new variable (just type, no value)
-            int x;
-        case 1: declaration of new variable and assignment of value (DEFAULT VAL?)
-            int x = 0; (x doesn't exist yet)
-            int x = 0; (x already exists --> new scope or throw error)
-        case 2: assignment of value to existing variable (value may or may not have existed)
-            x = 0; (x in symbol table)
-            x = 0; (x not in symbol table --> throw error)
-        '''
-		entry = str(self.scope) + var # <scope><variable> (e.g. 4x - variable x at scope 4)
-
-		# case 2
-		if var_type is None:
-			# should always have an entry in scope table
-			if var not in self.scopes[self.scope]:
-				print self.format_err_msg(0, var)
-				return False
-		# case 0 or 1
-		else:
-			# shouldn't have an entry in scope table
-			if var in self.scopes[self.scope]:
-				print self.format_err_msg(1, var)
-				return False
-			self.scopes[self.scope][var] = True
-			self.symbols[entry] = [var_type] # add type to symbol table
-
-		if var_value is not None:
-			if var_type == "int":
-				try:
-					var_value = int(var_value)
-				except ValueError:
-					print self.format_err_msg(2, var, var_type, var_value)
-					return False
-			elif var_type == "double":
-				try:
-					var_value = float(var_value)
-				except ValueError:
-					print self.format_err_msg(2, var, var_type, var_value)
-					return False
-
-            # update value in symbol table
-			if len(self.symbols[entry]) == 1:
-				self.symbols[entry].append(var_value)	# first variable assignment
-			else:
-				self.symbols[entry][1] = var_value		# update variable value
-
-	def format_err_msg(self, err, var, var_value=None, var_type=None):
-		'''
-    	Error numbers:
-	    0: cannot find symbol
-	    1: variable already defined
-	    2: Incompatible types
-	    '''
-	   	if err == 0:
-	   		return "Cannot find symbol\nsymbol : variable %s" % (var)
-	   	elif err == 1:
-	   		return "variable %s already defined" % (var)
-	   	elif err == 2:
-	   		return "Incompatible types. %s requires type %s. Found %s" % (var, var_type, var_value)
-	   	else:
-	   		return "Unknown error"
-
-	'''Check if symbol exists in the current scope'''
-	def _symbol_exists(self, symbol):
-		if symbol in self.scopes[self.scope]:
-			return True
-		return False
-
-	'''Add symbol to scope table'''
-	def _add_scopetable(self, symbol):
-		self.scopes[self.scope][symbol] = True
-
-	'''
-	Add symbol to symbol table
-	@param 	symbol - symbol to add
-			_type - type of the variable as a string (e.g. "int")
-			hasValue - true if instantiated with value, otherwise false
-	@return entry in the symbol table
-	'''
-	def _add_symtable(self, symbol, _type, hasValue):
-		entry = self._get_symtable_entry(symbol)
-		self.symbols[entry] = [_type, hasValue]
-		return entry
-
-	'''
-	Update symbol in symbol table
-	@param 	symbol - symbol to update
-	@return entry in the symbol table
-	'''
-	def _update_symtable(self, symbol, _type, hasValue):
-		entry = self._get_symtable_entry(symbol)
-		self.symbols[entry][1] = True
-		return entry
-
-	'''Returns the entry in the symbol table dictionary'''
-	def _get_symtable_entry(self, symbol):
-		return str(self.scope) + str(symbol)
-
 	def _logical_OR_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: logical_OR_expr"
@@ -915,6 +811,114 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: _ID"
 		return tree.leaf
+
+	#################################################################################
+	#						 Type checking helper functions 						#
+	#################################################################################
+
+	def assignment_helper(self, var, var_value=None, var_type=None):
+		'''
+        no type means --> case 2
+        no value means --> case 0
+        both means --> case 1
+
+        case 0: declaration of new variable (just type, no value)
+            int x;
+        case 1: declaration of new variable and assignment of value (DEFAULT VAL?)
+            int x = 0; (x doesn't exist yet)
+            int x = 0; (x already exists --> new scope or throw error)
+        case 2: assignment of value to existing variable (value may or may not have existed)
+            x = 0; (x in symbol table)
+            x = 0; (x not in symbol table --> throw error)
+        '''
+		entry = str(self.scope) + var # <scope><variable> (e.g. 4x - variable x at scope 4)
+
+		# case 2
+		if var_type is None:
+			# should always have an entry in scope table
+			if var not in self.scopes[self.scope]:
+				print self.format_err_msg(0, var)
+				return False
+		# case 0 or 1
+		else:
+			# shouldn't have an entry in scope table
+			if var in self.scopes[self.scope]:
+				print self.format_err_msg(1, var)
+				return False
+			self.scopes[self.scope][var] = True
+			self.symbols[entry] = [var_type] # add type to symbol table
+
+		if var_value is not None:
+			if var_type == "int":
+				try:
+					var_value = int(var_value)
+				except ValueError:
+					print self.format_err_msg(2, var, var_type, var_value)
+					return False
+			elif var_type == "double":
+				try:
+					var_value = float(var_value)
+				except ValueError:
+					print self.format_err_msg(2, var, var_type, var_value)
+					return False
+
+            # update value in symbol table
+			if len(self.symbols[entry]) == 1:
+				self.symbols[entry].append(var_value)	# first variable assignment
+			else:
+				self.symbols[entry][1] = var_value		# update variable value
+
+	def format_err_msg(self, err, var, var_value=None, var_type=None):
+		'''
+    	Error numbers:
+	    0: cannot find symbol
+	    1: variable already defined
+	    2: Incompatible types
+	    '''
+	   	if err == 0:
+	   		return "Cannot find symbol\nsymbol : variable %s" % (var)
+	   	elif err == 1:
+	   		return "variable %s already defined" % (var)
+	   	elif err == 2:
+	   		return "Incompatible types. %s requires type %s. Found %s" % (var, var_type, var_value)
+	   	else:
+	   		return "Unknown error"
+
+	'''Check if symbol exists in the current scope'''
+	def _symbol_exists(self, symbol):
+		if symbol in self.scopes[self.scope]:
+			return True
+		return False
+
+	'''Add symbol to scope table'''
+	def _add_scopetable(self, symbol):
+		self.scopes[self.scope][symbol] = True
+
+	'''
+	Add symbol to symbol table
+	@param 	symbol - symbol to add
+			_type - type of the variable as a string (e.g. "int")
+			hasValue - true if instantiated with value, otherwise false
+	@return entry in the symbol table
+	'''
+	def _add_symtable(self, symbol, _type, hasValue):
+		entry = self._get_symtable_entry(symbol)
+		self.symbols[entry] = [_type, hasValue]
+		return entry
+
+	'''
+	Update symbol in symbol table
+	@param 	symbol - symbol to update
+	@return entry in the symbol table
+	'''
+	def _update_symtable(self, symbol, _type, hasValue):
+		entry = self._get_symtable_entry(symbol)
+		self.symbols[entry][1] = True
+		return entry
+
+	'''Returns the entry in the symbol table dictionary'''
+	def _get_symtable_entry(self, symbol):
+		return str(self.scope) + str(symbol)
 
 class TypeMismatchError(Exception):
 	def __init__(self, context, expected, actual):
