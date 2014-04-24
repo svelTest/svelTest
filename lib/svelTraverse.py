@@ -809,6 +809,11 @@ class SvelTraverse(object):
 
 		return line
 
+
+	'''
+	@return code
+	@raise TypeMismatchError
+	'''
 	def _funct_name(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: _funct_name"
@@ -820,6 +825,11 @@ class SvelTraverse(object):
 		if isinstance(returned, tuple):
 			code, _type = returned
 			print "_funct_name: (%s, %s)" % (code, _type)
+			if _type != "ID" and _type != "string":
+				try:
+					raise TypeMismatchError("funct object takes a string as its first argument")
+				except TypeMismatchError as e:
+					print str(e)
 			return code
 		else:
 			return returned
