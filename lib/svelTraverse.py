@@ -578,6 +578,7 @@ class SvelTraverse(object):
 		line = ""
 
 		# -> primary_expr
+		# returns tuple
 		if tree.leaf == None:
 			return self.walk(tree.children[0], verbose=verbose)
 
@@ -857,9 +858,11 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: _funct_name"
 
+		# -> __MAIN__
 		if tree.leaf == "__main__":
 			return "\"main\""
 
+		# -> primary_expr
 		returned = self.walk(tree.leaf, verbose=verbose)
 		if isinstance(returned, tuple):
 			code, _type = returned
