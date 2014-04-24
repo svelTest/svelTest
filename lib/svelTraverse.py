@@ -307,9 +307,15 @@ class SvelTraverse(object):
 			line = tree.leaf + " = Funct(" + self.walk(tree.children[0], verbose=verbose) + \
 				", [" + self.walk(tree.children[1], verbose=verbose) + "], "
 			
-			returned = self.walk(tree.children[1], verbose=verbose)
+			# type check third argument -- must be file or string type
+			returned = self.walk(tree.children[2], verbose=verbose)
 			if isinstance(returned, tuple):
 				code, _type = returned
+				if _type != "ID" and _type != "string":
+					try:
+						raise TypeMismatchError("funct third argument", "file", _type)
+					except TypeMismatchError as e:
+						print str(e)
 				print "assignment_expr: (%s, %s)" % (code, _type)
 				line += code + ")"
 				return line
