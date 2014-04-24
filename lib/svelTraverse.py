@@ -287,11 +287,11 @@ class SvelTraverse(object):
 			print "===> svelTraverse: assignment_expr"
 
 		# TODO: handle FUNCT!
+		# -> logical_OR_expression
 		if tree.leaf == None:
-			# logical_OR_expression
 			return self.walk(tree.children[0], verbose=verbose)
 
-		# FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
+		# -> FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
 		elif len(tree.children) == 3:
 			# ID check
 			if self._symbol_exists(tree.leaf): # if ID already in symbol table
@@ -323,14 +323,19 @@ class SvelTraverse(object):
 				line += returned + ")"
 				return line
 
-			'''
-			return tree.leaf + " = Funct(" + self.walk(tree.children[0], verbose=verbose) + \
-				", [" + self.walk(tree.children[1], verbose=verbose) + \
-				"], " + self.walk(tree.children[2], verbose=verbose) + ")"
-			'''
-
+		# -> type ID ASSIGN assignment_expr
 		elif len(tree.children) == 2:
-			# initial declaration w/ assignment
+			# ID check
+			if self._symbol_exists(tree.leaf): # raise exception if ID already in scope/symbol table
+				try:
+					raise DuplicateVariableError(tree.leaf)
+				except DuplicateVariableError as e:
+					print str(e)
+			else: # add a new entry in scope and symbol tables
+				self._add_scopetable(tree.leaf) # add to scope table
+				self._add_symtable(tree.leaf, "funct", True) # add to symbol table
+				print str(self.scopes)
+
 			# TODO: do something with the type (symbol table)
 			if self.walk(tree.children[0], verbose=verbose) == "file":
 				line = "if(not os.path.isfile("
@@ -352,11 +357,20 @@ class SvelTraverse(object):
 			else:
 				return tree.leaf + " = " + str(self.walk(tree.children[1], verbose=verbose))
 
+		# -> ID ASSIGN assignment_expr
 		elif len(tree.children) == 1:
-			# assignment
+			# ID check
+			if not self._symbol_exists(tree.leaf): # raise exception if ID not in scope/symbol table
+				try:
+					raise SymbolNotFoundError(tree.leaf)
+				except SymbolNotFoundError as e:
+					print str(e)
+			else:
+				self._update_symtable(tree.leaf) # update symbol table
+
 			return tree.leaf + " = " + str(self.walk(tree.children[0], verbose=verbose))
 
-
+		# never reaches
 		return self.walk(tree.children[0], verbose=verbose)
 
 	def assignment_helper(self, var, var_value=None, var_type=None):
