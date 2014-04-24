@@ -536,43 +536,6 @@ class SvelTraverse(object):
 		# function_call or ref_type
 		return self.walk(tree.children[0], verbose=verbose)
 
-	def _recognize_type_helper(self, primary_expr):
-		if self._is_boolean(primary_expr):
-			return "boolean"
-		if self._is_int(primary_expr):
-			return "int"
-		if self._is_float(primary_expr):
-			return "float"
-		if self._is_string(primary_expr):
-			return "string"
-		return "ID"
-
-	def _is_boolean(self, primary_expr):
-		return primary_expr == "true" or primary_expr == "false"
-
-	# always check _is_int() before checking _is_float()
-	def _is_int(self, primary_expr):
-		try:
-			a = float(primary_expr)
-			b = int(a)
-		except ValueError:
-			return False
-		else:
-			return a == b
-
-	# always check _is_int() before checking _is_float()
-	def _is_float(self, primary_expr):
-		try:
-			a = float(primary_expr)
-		except ValueError:
-			return False
-		return True
-
-	def _is_string(self, primary_expr):
-		if "\"" in primary_expr:
-			return True
-		return False
-
 	def _function_call(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: function_call"
@@ -896,10 +859,10 @@ class SvelTraverse(object):
 
 	'''
 	Add symbol to symbol table
-	@param 	symbol - symbol to add
-			_type - type of the variable as a string (e.g. "int")
-			hasValue - true if instantiated with value, otherwise false
-	@return entry in the symbol table
+	@param 		symbol - symbol to add
+				_type - type of the variable as a string (e.g. "int")
+				hasValue - true if instantiated with value, otherwise false
+	@return 	entry in the symbol table
 	'''
 	def _add_symtable(self, symbol, _type, hasValue):
 		entry = self._get_symtable_entry(symbol)
@@ -908,8 +871,8 @@ class SvelTraverse(object):
 
 	'''
 	Update symbol in symbol table
-	@param 	symbol - symbol to update
-	@return entry in the symbol table
+	@param 		symbol - symbol to update
+	@return 	entry in the symbol table
 	'''
 	def _update_symtable(self, symbol, _type, hasValue):
 		entry = self._get_symtable_entry(symbol)
@@ -919,6 +882,43 @@ class SvelTraverse(object):
 	'''Returns the entry in the symbol table dictionary'''
 	def _get_symtable_entry(self, symbol):
 		return str(self.scope) + str(symbol)
+
+		def _recognize_type_helper(self, primary_expr):
+		if self._is_boolean(primary_expr):
+			return "boolean"
+		if self._is_int(primary_expr):
+			return "int"
+		if self._is_float(primary_expr):
+			return "float"
+		if self._is_string(primary_expr):
+			return "string"
+		return "ID"
+
+	def _is_boolean(self, primary_expr):
+		return primary_expr == "true" or primary_expr == "false"
+
+	# always check _is_int() before checking _is_float()
+	def _is_int(self, primary_expr):
+		try:
+			a = float(primary_expr)
+			b = int(a)
+		except ValueError:
+			return False
+		else:
+			return a == b
+
+	# always check _is_int() before checking _is_float()
+	def _is_float(self, primary_expr):
+		try:
+			a = float(primary_expr)
+		except ValueError:
+			return False
+		return True
+
+	def _is_string(self, primary_expr):
+		if "\"" in primary_expr:
+			return True
+		return False
 
 #################################################################################
 #					  svelTest defined Exceptions 								#
