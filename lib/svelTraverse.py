@@ -410,6 +410,31 @@ class SvelTraverse(object):
 	   	else:
 	   		return "Unknown error"
 
+	'''Check if symbol exists in the current scope'''
+	def _symbol_exists(self, symbol):
+		if symbol in self.scopes[self.scope]:
+			return True
+		return False
+
+	'''Add symbol to scope table'''
+	def _add_scopetable(self, symbol):
+		self.scopes[self.scope][symbol] = True
+
+	'''
+	Add symbol to symbol table
+	@param 	symbol - symbol to add
+			_type - type of the variable as a string (e.g. "int")
+			hasValue - true if instantiated with value, otherwise false
+	@return entry in the symbol table
+	'''
+	def _add_symtable(self, symbol, _type, hasValue):
+		entry = self._get_symtable_entry(symbol)
+		self.symbols[entry] = [_type, hasValue]
+		return entry
+
+	'''Returns the entry in the symbol table dictionary'''
+	def _get_symtable_entry(self, symbol):
+		return str(self.scope) + str(symbol)
 
 	def _logical_OR_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
