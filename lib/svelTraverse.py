@@ -920,13 +920,17 @@ class SvelTraverse(object):
 	def _get_symtable_entry(self, symbol):
 		return str(self.scope) + str(symbol)
 
+#################################################################################
+#					  svelTest defined Exceptions 								#
+#################################################################################
 class TypeMismatchError(Exception):
 	def __init__(self, context, expected, actual):
 		self.context = context
 		self.expected = expected
 		self.actual = actual
 	def __str__(self):
-		return "TypeMismatchError : %s requires %s type. Found %s." % (self.context, self.expected, self.actual)
+		return "TypeMismatchError : %s requires %s type. Found %s." % \
+				(self.context, self.expected, self.actual)
 
 class DuplicateVariableError(Exception):
 	def __init__(self, var):
