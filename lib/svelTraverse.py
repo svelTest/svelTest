@@ -852,3 +852,9 @@ class TypeMismatchError(Exception):
 		self.message = message
 	def __str__(self):
 		return "TypeMismatchError : %s" % (self.message)
+
+class DuplicateVariableError(Exception):
+	def __init__(self, var):
+		self.var = var
+	def __str__(self):
+		return "DuplicateVariableError : symbol %s already defined" % (self.var)
