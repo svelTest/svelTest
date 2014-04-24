@@ -304,6 +304,7 @@ class SvelTraverse(object):
 				self._add_symtable(tree.leaf, "funct", True) # add to symbol table
 				print str(self.scopes)
 
+			# -> funct_name verifies string type
 			line = tree.leaf + " = Funct(" + self.walk(tree.children[0], verbose=verbose) + \
 				", [" + self.walk(tree.children[1], verbose=verbose) + "], "
 			
@@ -365,10 +366,11 @@ class SvelTraverse(object):
 					raise SymbolNotFoundError(tree.leaf)
 				except SymbolNotFoundError as e:
 					print str(e)
-			else:
+			else: # type check to see if type of ID matches assignment_expr
+				sym_type = self._get_symtable_type(tree.leaf)
 				self._update_symtable(tree.leaf) # update symbol table
-
-			return tree.leaf + " = " + str(self.walk(tree.children[0], verbose=verbose))
+				#assign_expr_type = self.walk(tree.children[0], verbose=verbose)
+				return tree.leaf + " = " + str(self.walk(tree.children[0], verbose=verbose))
 
 		# never reaches
 		return self.walk(tree.children[0], verbose=verbose)
@@ -471,28 +473,50 @@ class SvelTraverse(object):
 
 		return line
 
+	# WIP returns tuple or code
 	def _multiplicative_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: multiplicative_expr"
 
 		line = ""
+		# multiplicative_expr TIMES/DIVIDE secondary_expr
 		if len(tree.children) == 2:
-			# multiplicative_expr TIMES/DIVIDE secondary_expr
-			line += str(self.walk(tree.children[0], verbose=verbose))
-			line += " " + tree.leaf + " "
-			returned = self.walk(tree.children[1], verbose=verbose)
-			if isinstance(returned, tuple):
-				code, _type = returned
-				print "multiplicative_expr: (%s, %s)" % (code, _type)
+			mult_type = -1
+			secondary_type = -1
+			# multiplicative_expr
+			r_multiplicative_expr = self.walk(tree.children[0], verbose=verbose)
+			if isinstance(r_multiplicative_expr, tuple):
+				code, mult_type = r_multiplicative_expr
+				print "multiplicative_expr: (%s, %s)" % (code, mult_type)
 				line += code
 			else:
-				line += str(returned)
+				print "mult_expr: not implemented 0"
+				line += str(r_multiplicative_expr)
+
+			# operator
+			line += " " + tree.leaf + " "
+
+			# secondary_expr
+			r_secondary_expr = self.walk(tree.children[1], verbose=verbose)
+			if isinstance(r_secondary_expr, tuple):
+				code, secondary_type = r_secondary_expr
+				print "multiplicative_expr: (%s, %s)" % (code, secondary_type)
+				line += code
+				return line, _type # return tuple
+			else:
+				print "mult_expr: not implemented 1"
+				line += str(r_secondary_expr)
 
 		else:
 			# go to multiplicative_expr
 			assert(len(tree.children) == 1)
-
-			line += str(self.walk(tree.children[0], verbose=verbose))
+			returned = self.walk(tree.children[0], verbose=verbose)
+			if isinstance(returned, tuple):
+				return returned
+			else:
+				print "mult_expr: not implemented 2"
+				code = returned
+			line += code
 
 		return line
 
@@ -504,9 +528,8 @@ class SvelTraverse(object):
 		line = ""
 
 		# -> primary_expr
-		# returns tuple
 		if tree.leaf == None:
-			return self.walk(tree.children[0], verbose=verbose)
+			return self.walk(tree.children[0], verbose=verbose) # returns tuple
 
 		elif tree.leaf == '(':
 			# -> LPAREN expression RPAREN
