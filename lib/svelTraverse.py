@@ -148,16 +148,32 @@ class SvelTraverse(object):
 			return ""
 			#return self.walk(tree.children[0]) + " " + tree.leaf
 
+	# returns code
 	def _function_def(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: function_def"
 
+		# TODO: use the format function to do indenting
+
 		# new scope
 		self.scope += 1
-		print "new scope: " + str(self.scope)
+		print "New scope: " + str(self.scope)
 		self.scopes.append({})
 
-		# TODO: use the format function to do indenting
+		# add to symbol table in GLOBAL scope as ID()
+		isMain = False
+		if len(tree.children) == 2:
+			isMain = True
+		functionName = "main"
+		if not isMain:
+			functionName = tree.leaf
+		symbol = functionName + "()" # ID()
+		if not self._symbol_exists(symbol, True):
+			_type = "void"
+			if not isMain:
+				_type = tree.children[0].leaf
+			self._add_scopetable(symbol, True)
+			self._add_symtable(symbol, _type, True, True)
 
 		# -> MAIN LPAREN param_list RPAREN brack_stmt
 		if len(tree.children) == 2:
@@ -177,25 +193,9 @@ class SvelTraverse(object):
 			line += self.walk(tree.children[1], verbose=verbose)
 			self.level_down()
 
-		# -> VOID ID LPAREN param_list RPAREN brack_stmt
-		elif tree.children[0].leaf == "VOID":
-			# TODO: do something with the return type?
-			print "returns VOID"
-			line = "def "
-			line += tree.leaf
-			line += "("
-			line += self.walk(tree.children[1], verbose=verbose)
-			line += "):\n"
-
-			self.level_up()
-			line += self.walk(tree.children[2], verbose=verbose)
-			self.level_down()
-
 		# -> type ID LPAREN param_list RPAREN brack_stmt
-		else: # function returning a type
-			# TODO: do something with the return type?
-			# type is in tree.children[0]
-			print "returns" + tree.children[0].leaf
+		# -> VOID ID LPAREN param_list RPAREN brack_stmt
+		else:
 			line = "def "
 			line += tree.leaf
 			line += "("
