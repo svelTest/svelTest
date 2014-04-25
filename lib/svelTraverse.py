@@ -364,7 +364,8 @@ class SvelTraverse(object):
 		# TODO: handle FUNCT!
 		# -> logical_OR_expression
 		if tree.leaf == None:
-			return self.walk(tree.children[0], verbose=verbose)
+			code, _type = self.walk(tree.children[0], verbose=verbose)
+			return code
 
 		# -> FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
 		elif len(tree.children) == 3:
