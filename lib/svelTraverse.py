@@ -781,7 +781,6 @@ class SvelTraverse(object):
 			return tree.leaf # TODO: will need to do type checking somewhere to make sure this is being called on an array/list
 
 	# returns tuple
-	# TODO (emily) : return array type
 	def _ref_type(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: ref_type"
@@ -789,6 +788,7 @@ class SvelTraverse(object):
 		# -> ID LBRACKET expression RBRACKET
 		line = ""
 		code, id_type = self.walk(tree.children[0], verbose=verbose)
+		# check is variable is an array
 		if not self._type_is_array(id_type):
 			try:
 				raise InvalidArrayAccess(code)
@@ -802,12 +802,11 @@ class SvelTraverse(object):
 		returned = self.walk(tree.children[1], verbose=verbose)
 		if isinstance(returned, tuple):
 			code, expr_type = returned
-			print "ref type : " + expr_type
 		else:
 			code = returned
 		line += code
 		line += ']'
-		return line, "array"
+		return line, _type
 
 	def _type_is_array(self, _type):
 		if "[" in _type:
