@@ -843,14 +843,15 @@ class SvelTraverse(object):
             x = 0; (x not in symbol table --> throw error)
         '''
 
-	''' Check if symbol exists in the current scope '''
+	''' Check if symbol exists in the current scope and global scope '''
 	def _symbol_exists(self, symbol, isGlobal=False):
 		# check if exists in global
 		if symbol in self.scopes[0]:
 			return True
 		# check if exists in current scope
-		if symbol in self.scopes[scope]:
-			return True
+		if not isGlobal:
+			if symbol in self.scopes[self.scope]:
+				return True
 		return False
 
 	''' Add symbol to scope table '''
