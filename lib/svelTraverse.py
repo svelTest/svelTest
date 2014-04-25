@@ -988,21 +988,62 @@ class SvelTraverse(object):
 	#################################################################################
 	#						 Type checking helper functions 						#
 	#################################################################################
-		'''
-        no type means --> case 2
-        no value means --> case 0
-        both means --> case 1
+	'''
+	    no type means --> case 2
+	    no value means --> case 0
+	    both means --> case 1
 
-        case 0: declaration of new variable (just type, no value)
-            int x;
-        case 1: declaration of new variable and assignment of value (DEFAULT VAL?)
-            int x = 0; (x doesn't exist yet)
-            int x = 0; (x already exists --> new scope or throw error)
-        case 2: assignment of value to existing variable (value may or may not have existed)
-            x = 0; (x in symbol table)
-            x = 0; (x not in symbol table --> throw error)
-        '''
-    # check if mult_type TIMES/DIVIDE secondary_type are compatible
+	    case 0: declaration of new variable (just type, no value)
+	        int x;
+	    case 1: declaration of new variable and assignment of value (DEFAULT VAL?)
+	        int x = 0; (x doesn't exist yet)
+	        int x = 0; (x already exists --> new scope or throw error)
+	    case 2: assignment of value to existing variable (value may or may not have existed)
+	        x = 0; (x in symbol table)
+	        x = 0; (x not in symbol table --> throw error)
+    '''
+
+	# Checks if type_1 ADD/SUBTRACT type_2 are compatible
+	# returns resulting type, or False
+	def _additive_expr_type_checker(self, operator, type_1, type_2):
+		if type_1 == "undefined" or type_2 == "undefined":
+			return "undefined"
+
+		# addition and subtraction errors
+		if type_1 == "void" or type_2 == "void" or \
+    		type_1 == "string" and type_2 != "string" or \
+    		type_1 != "string" and type_2 == "string" or \
+    		type_1 == "boolean" or type_2 == "boolean" or \
+    		type_1 == "file" or type_2 == "file" or \
+			type_1 == "funct" or type_2 == "funct" or \
+			type_1 == "input" or type_2 == "input" or \
+			type_1 == "output" or type_2 == "output":
+			try:
+				raise OperatorCannotBeApplied(operator, type_1, type_2)
+			except OperatorCannotBeApplied as e:
+				print str(e)
+			return False
+
+		# subtraction errors
+		if operator == "-":
+			if type_1 == "string" and type_2 == "string":
+				try:
+					raise OperatorCannotBeApplied(operator, type_1, type_2)
+				except OperatorCannotBeApplied as e:
+					print str(e)
+				return False
+
+		if type_1 == "double" or type_2 == "double":
+			return "double"
+		if type_1 == "string" and type_2 == "string":
+			return "string"
+		if type_1 == "int" and type_2 == "int":
+			return "int"
+
+		print "Undefined _additive_expr_type_checker for %s with (%s, %s)" % (operator, type_1, type_2)
+		return "undefined"
+
+    # Checks if type_1 TIMES/DIVIDE type_2 are compatible
 	# returns resulting type, or False
 	def _multiplicative_expr_type_checker(self, operator, type_1, type_2):
 		if type_1 == "undefined" or type_2 == "undefined":
@@ -1060,13 +1101,13 @@ class SvelTraverse(object):
 			self.scopes[0][symbol] = True
 		else:
 			self.scopes[self.scope][symbol] = True
-		print "Added %s to the scope table: %s" % (symbol, str(self.scopes))
+		#print "Added %s to the scope table: %s" % (symbol, str(self.scopes))
 
 	''' Add symbol to symbol table '''
 	def _add_symtable(self, symbol, _type, hasValue, isGlobal=False):
 		entry = self._get_symtable_entry(symbol, isGlobal)
 		self.symbols[entry] = [_type, hasValue]
-		print "Added %s to the symbol table: %s" % (symbol, str(self.symbols))
+		#print "Added %s to the symbol table: %s" % (symbol, str(self.symbols))
 		return entry
 
 	''' Update symbol in symbol table '''
