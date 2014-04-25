@@ -1209,13 +1209,13 @@ class OperatorCannotBeApplied(Exception):
 		self.type_1 = type_1
 		self.type_2 = type_2
 	def __str__(self):
-		return "Operator %s cannot be applied to types %s, %s." % (self.operator, self.type_1, self.type_2)
+		return "TypeError : Operator %s cannot be applied to types %s, %s." % (self.operator, self.type_1, self.type_2)
 
 class InvalidArguments(Exception):
 	def __init__(self, function):
 		self.function = function
 	def __str__(self):
-		return "Invalid arguments for %s()" % (self.function)
+		return "TypeError : Invalid arguments for %s()" % (self.function)
 
 class UnexpectedSymbol(Exception):
 	def __init__(self, symbol):
@@ -1227,4 +1227,4 @@ class MethodReturnsVoidError(Exception):
 	def __init__(self, method):
 		self.method = method
 	def __str__(self):
-		return "VoidError : method %s returns void" % (self.method)
+		return "TypeError : method %s returns void" % (self.method)
