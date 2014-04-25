@@ -171,7 +171,6 @@ class SvelTraverse(object):
 					raise DuplicateVariableError(symbol)
 				except DuplicateVariableError as e:
 					print str(e)
-
 			return symbol + " = " + self.walk(tree.children[1], verbose)
 
 	# returns code
@@ -633,7 +632,14 @@ class SvelTraverse(object):
 			_type = self._recognize_type_helper(tree.leaf)
 			if _type != "ID":
 				return tree.leaf, _type
+			# ID : check if ID has been defined for use
 			print "_primary_expr: ID"
+			symbol = tree.leaf
+			if not self._symbol_exists(symbol):
+				try:
+					raise SymbolNotFoundError(symbol)
+				except SymbolNotFoundError as e:
+					print str(e)
 			return tree.leaf
 
 		# function_call or ref_type
