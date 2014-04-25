@@ -990,20 +990,19 @@ class SvelTraverse(object):
 	#################################################################################
 	#						 Type checking helper functions 						#
 	#################################################################################
-	'''
-	    no type means --> case 2
-	    no value means --> case 0
-	    both means --> case 1
 
-	    case 0: declaration of new variable (just type, no value)
-	        int x;
-	    case 1: declaration of new variable and assignment of value (DEFAULT VAL?)
-	        int x = 0; (x doesn't exist yet)
-	        int x = 0; (x already exists --> new scope or throw error)
-	    case 2: assignment of value to existing variable (value may or may not have existed)
-	        x = 0; (x in symbol table)
-	        x = 0; (x not in symbol table --> throw error)
-    '''
+	def _relational_expr_type_checker(self, operator, type_1, type_2):
+		if type_1 == "undefined" or type_2 == "undefined":
+			return "undefined"
+
+		if (type_1 == "int" or type_1 == "double") and (type_2 == "int" or type_2 == "double"):
+			return "boolean"
+
+		try:
+			raise OperatorCannotBeApplied(operator, type_1, type_2)
+		except OperatorCannotBeApplied as e:
+			print str(e)
+			return "undefined"
 
 	# Checks if type_1 ADD/SUBTRACT type_2 are compatible
 	# returns resulting type, or False
