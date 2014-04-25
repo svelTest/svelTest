@@ -950,15 +950,19 @@ class SvelTraverse(object):
 			print "===> svelTraverse: _jump_stmt"
 
 		line = ""
+
+		# -> BREAK SEMICOLON
 		if tree.leaf == 'break':
 			line = tree.leaf
-
+		# -> CONTINUE SEMICOLON
 		elif tree.leaf == 'continue':
 			line = tree.leaf
-
+		# -> RETURN logical_OR_expr SEMICOLON
 		elif tree.leaf == 'return':
 			line += "return "
-			line += self.walk(tree.children[0], verbose=verbose)
+			# TODO (emily) : check return type
+			code, _type = self.walk(tree.children[0], verbose=verbose)
+			line += code
 
 		return line
 
