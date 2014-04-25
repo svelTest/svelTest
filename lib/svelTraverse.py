@@ -500,40 +500,54 @@ class SvelTraverse(object):
 			print "===> svelTraverse: equality_expr"
 
 		line = ""
+
+		# -> equality_expr EQ/NEQ relational_expr
 		if len(tree.children) == 2:
-			# equality_expr EQ/NEQ relational_expr
+			# equality_expr
 			line += str(self.walk(tree.children[0], verbose=verbose))
+			# operator: EQ/NEQ
 			line += " " + tree.leaf + " "
-			line += str(self.walk(tree.children[1], verbose=verbose))
+			# relational_expr
+			code, rel_type = self.walk(tree.children[1], verbose=verbose)
+			line += str(code)
 
+		# -> relational_expr
 		else:
-			# go to relational_expr
 			assert(len(tree.children) == 1)
-
-			line += str(self.walk(tree.children[0], verbose=verbose))
+			code, _type = self.walk(tree.children[0], verbose=verbose)
+			line += str(code)
 
 		return line
 
+	# returns tuple
 	def _relational_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: relational_expr"
 
 		line = ""
+
+		# -> relational_expr LS_OP/LE_OP/GR_OP/GE_OP additive_expr
 		if len(tree.children) == 2:
-			# relational_expr LS_OP/LE_OP/GR_OP/GE_OP additive_expr
-			line += str(self.walk(tree.children[0], verbose=verbose))
+			# relational_expr
+			code, rel_type = self.walk(tree.children[0], verbose=verbose)
+			line += str(code)
+			# operator
 			line += " " + tree.leaf + " "
-			line += str(self.walk(tree.children[1], verbose=verbose))
+			# additive_expr
+			code, add_type = self.walk(tree.children[1], verbose=verbose)
+			# check if rel_type LS_OP/LE_OP/GR_OP/GE_OP additive_expr are compatible
+			_type = self._relational_expr_type_checker(tree.leaf, rel_type, add_type)
+			line += str(code)
 
+		# -> additive_expr
 		else:
-			# go to additive_expr
 			assert(len(tree.children) == 1)
+			code, _type = self.walk(tree.children[0], verbose=verbose)
+			line += str(code)
 
-			line += str(self.walk(tree.children[0], verbose=verbose))
+		return line, _type
 
-		return line
-
-
+	# returns tuple
 	def _additive_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: additive_expr"
