@@ -751,23 +751,30 @@ class SvelTraverse(object):
 		# -> empty
 		return self.walk(tree.leaf)
 
+	# returns tuple
+	# _type = expression, verbose, identifier_list
 	def _identifier_list(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: _identifier_list"
 
 		line = ""
+		_type = "expression"
+
+		# -> expression
 		if len(tree.children) == 1:
-			# -> expression
 			line += str(self.walk(tree.children[0], verbose=verbose))
 
+		# -> identifier_list COMMA VERBOSE
 		elif len(tree.children) == 2 and tree.children[1].leaf=="verbose":
 			line += str(self.walk(tree.children[0], verbose=verbose)) + ", verbose=True"
+			_type = "verbose"
 
+		# -> identifier_list COMMA expression
 		elif len(tree.children) == 2:
-			# -> identifier_list COMMA expression
 			line += str(self.walk(tree.children[0], verbose=verbose)) + ", " + str(self.walk(tree.children[1], verbose=verbose))
+			_type = "identifier_list"
 
-		return line
+		return line, _type
 
 	def _ifelse_stmt(self, tree, flags=None, verbose=False):
 		if(verbose):
