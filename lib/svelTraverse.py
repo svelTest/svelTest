@@ -309,7 +309,6 @@ class SvelTraverse(object):
 			else: # add a new entry in scope and symbol tables
 				self._add_scopetable(tree.leaf) # add to scope table
 				self._add_symtable(tree.leaf, "funct", True) # add to symbol table
-				print str(self.scopes)
 
 			# -> funct_name verifies string type
 			line = tree.leaf + " = Funct(" + self.walk(tree.children[0], verbose=verbose) + \
@@ -342,7 +341,6 @@ class SvelTraverse(object):
 			else: # add a new entry in scope and symbol tables
 				self._add_scopetable(tree.leaf) # add to scope table
 				self._add_symtable(tree.leaf, "funct", True) # add to symbol table
-				print str(self.scopes)
 
 			# TODO: do something with the type (symbol table)
 			if self.walk(tree.children[0], verbose=verbose) == "file":
@@ -558,7 +556,6 @@ class SvelTraverse(object):
 		if len(tree.children) == 0:
 			_type = self._recognize_type_helper(tree.leaf)
 			if _type != "ID":
-				print "_primary_expr: (%s, %s)" % (tree.leaf, _type)
 				return tree.leaf, _type
 			print "_primary_expr: ID"
 			return tree.leaf
@@ -824,6 +821,7 @@ class SvelTraverse(object):
         '''
 
 	''' Check if symbol exists in the current scope '''
+	# TODO also check if symbol exists in global scope
 	def _symbol_exists(self, symbol):
 		if symbol in self.scopes[self.scope]:
 			return True
@@ -832,11 +830,13 @@ class SvelTraverse(object):
 	''' Add symbol to scope table '''
 	def _add_scopetable(self, symbol):
 		self.scopes[self.scope][symbol] = True
+		print "Added %s to the scope table: %s" % (symbol, str(self.scopes))
 
 	''' Add symbol to symbol table '''
 	def _add_symtable(self, symbol, _type, hasValue):
 		entry = self._get_symtable_entry(symbol)
 		self.symbols[entry] = [_type, hasValue]
+		print "Added %s to the symbol table: %s" % (symbol, str(self.symbols))
 		return entry
 
 	''' Update symbol in symbol table '''
@@ -853,6 +853,7 @@ class SvelTraverse(object):
 	def _get_symtable_type(self, symbol):
 		return self.symbols[symbols][0]
 
+	''' Recognize the type of a primary_expr '''
 	def _recognize_type_helper(self, primary_expr):
 		if self._is_boolean(primary_expr):
 			return "boolean"
