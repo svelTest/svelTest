@@ -177,6 +177,7 @@ class SvelTraverse(object):
 			line += self.walk(tree.children[1], verbose=verbose)
 			self.level_down()
 
+		# -> VOID ID LPAREN param_list RPAREN brack_stmt
 		elif tree.children[0].leaf == "VOID":
 			# TODO: do something with the return type?
 			print "returns VOID"
@@ -190,6 +191,7 @@ class SvelTraverse(object):
 			line += self.walk(tree.children[2], verbose=verbose)
 			self.level_down()
 
+		# -> type ID LPAREN param_list RPAREN brack_stmt
 		else: # function returning a type
 			# TODO: do something with the return type?
 			# type is in tree.children[0]
@@ -206,46 +208,54 @@ class SvelTraverse(object):
 
 		return line
 
+	# returns code
 	def _param_list(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: param_list"
 
 		line = ""
 
-		# if there's another parameter
+		# -> param_list COMMA parameter
 		if len(tree.children) == 2:
 			line += self.walk(tree.children[0], flags, verbose=verbose)
 			line += ', '
 			line += self.walk(tree.children[1], flags, verbose=verbose)
 
-		else: # last parameter in list
+		# -> parameter
+		else:
 			line += self.walk(tree.children[0], flags, verbose=verbose)
 
 		return line
 
+	# returns code
 	def _parameter(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: parameter"
 
 		# TODO command line args hack
-		if len(flags) == 1 and flags[0] == "main":
+		if flags and len(flags) == 1 and flags[0] == "main":
 			self.main_types.append(tree.children[0].leaf)
 
-		# if empty --> _empty
+		# -> _empty
 		if tree.leaf == None:
 			return self.walk(tree.children[0], verbose=verbose)
 
-		# TODO: add entry to symbol table
-		# type = self.walk(tree.children[0])
+		# -> type ID
+		_type = self.walk(tree.children[0])
+		if not self._symbol_exists(tree.leaf):
+			self._add_scopetable(tree.leaf) # add to scope table
+			self._add_symtable(tree.leaf, _type, True) # add to symbol table
 
 		# put ID in code
 		return tree.leaf
 
+	# returns code
 	def _empty(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: empty"
 		return ""
 
+	# returns code
 	def _type(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: type"
