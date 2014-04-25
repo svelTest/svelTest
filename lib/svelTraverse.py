@@ -1006,3 +1006,11 @@ class SymbolNotFoundError(Exception):
 		self.var = var
 	def __str__(self):
 		return "SymbolNotFoundError : cannot find symbol %s." % (self.var)
+
+class OperatorCannotBeApplied(Exception):
+	def __init__(self, operator, type_1, type_2):
+		self.operator = operator
+		self.type_1 = type_1
+		self.type_2 = type_2
+	def __str__(self):
+		return "Operator %s cannot be applied to types %s, %s." % (self.operator, self.type_1, self.type_2)
