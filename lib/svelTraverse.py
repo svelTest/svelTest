@@ -598,7 +598,7 @@ class SvelTraverse(object):
 		# -> secondary_expr
 		else:
 			assert(len(tree.children) == 1)
-			code, _type self.walk(tree.children[0], verbose=verbose)
+			code, _type = self.walk(tree.children[0], verbose=verbose)
 			line += str(code)
 
 		return line, _type
