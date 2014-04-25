@@ -607,47 +607,6 @@ class SvelTraverse(object):
 
 		return line
 
-	# check if mult_type TIMES/DIVIDE secondary_type are compatible
-	# returns resulting type, or False
-	def _multiplicative_expr_type_checker(self, operator, type_1, type_2):
-		if type_1 == "undefined" or type_2 == "undefined":
-			return "undefined"
-
-		# multiplication and division errors
-		if type_1 == "void" or type_2 == "void" or \
-			type_1 == "string" and type_2 == "float" or \
-			type_1 == "float" and type_2 == "string" or \
-			type_1 == "boolean" or type_2 == "boolean" or \
-			type_1 == "file" or type_2 == "file" or \
-			type_1 == "funct" or type_2 == "funct" or \
-			type_1 == "input" or type_2 == "input" or \
-			type_1 == "output" or type_2 == "output":
-			try:
-				raise OperatorCannotBeApplied(operator, type_1, type_2)
-			except OperatorCannotBeApplied as e:
-				print str(e)
-			return False
-
-		# division errors
-		if operator == "/":
-			if type_1 == "string" or type_2 == "string":
-				try:
-					raise OperatorCannotBeApplied(operator, type_1, type_2)
-				except OperatorCannotBeApplied as e:
-					print str(e)
-				return False
-
-		# determine resulting type
-		if type_1 == "double" or type_2 == "double":
-			return "double"
-		if type_1 == "string" or type_2 == "string":
-			return "string"
-		if type_1 == "int" and type_2 == "int":
-			return "int"
-
-		print "Undefined _multiplicative_expr_type_checker for %s with (%s, %s)" % (operator, type_1, type_2)
-		return "undefined"
-
 	# returns tuple
 	def _secondary_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
@@ -1044,6 +1003,46 @@ class SvelTraverse(object):
             x = 0; (x in symbol table)
             x = 0; (x not in symbol table --> throw error)
         '''
+    # check if mult_type TIMES/DIVIDE secondary_type are compatible
+	# returns resulting type, or False
+	def _multiplicative_expr_type_checker(self, operator, type_1, type_2):
+		if type_1 == "undefined" or type_2 == "undefined":
+			return "undefined"
+
+		# multiplication and division errors
+		if type_1 == "void" or type_2 == "void" or \
+			type_1 == "string" and type_2 == "float" or \
+			type_1 == "float" and type_2 == "string" or \
+			type_1 == "boolean" or type_2 == "boolean" or \
+			type_1 == "file" or type_2 == "file" or \
+			type_1 == "funct" or type_2 == "funct" or \
+			type_1 == "input" or type_2 == "input" or \
+			type_1 == "output" or type_2 == "output":
+			try:
+				raise OperatorCannotBeApplied(operator, type_1, type_2)
+			except OperatorCannotBeApplied as e:
+				print str(e)
+			return False
+
+		# division errors
+		if operator == "/":
+			if type_1 == "string" or type_2 == "string":
+				try:
+					raise OperatorCannotBeApplied(operator, type_1, type_2)
+				except OperatorCannotBeApplied as e:
+					print str(e)
+				return False
+
+		# determine resulting type
+		if type_1 == "double" or type_2 == "double":
+			return "double"
+		if type_1 == "string" or type_2 == "string":
+			return "string"
+		if type_1 == "int" and type_2 == "int":
+			return "int"
+
+		print "Undefined _multiplicative_expr_type_checker for %s with (%s, %s)" % (operator, type_1, type_2)
+		return "undefined"
 
 	''' Check if symbol exists in the current scope and global scope '''
 	def _symbol_exists(self, symbol, isGlobal=False):
