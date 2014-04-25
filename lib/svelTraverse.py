@@ -504,11 +504,14 @@ class SvelTraverse(object):
 		# -> equality_expr EQ/NEQ relational_expr
 		if len(tree.children) == 2:
 			# equality_expr
-			line += str(self.walk(tree.children[0], verbose=verbose))
+			code, eq_type = self.walk(tree.children[0], verbose=verbose)
+			line += str(code)
 			# operator: EQ/NEQ
 			line += " " + tree.leaf + " "
 			# relational_expr
 			code, rel_type = self.walk(tree.children[1], verbose=verbose)
+			# check if eq_type EQ/NEQ rel_type is compatible
+			_type = self._equality_expr_type_checker(tree.leaf, eq_type, rel_type)
 			line += str(code)
 
 		# -> relational_expr
@@ -517,7 +520,7 @@ class SvelTraverse(object):
 			code, _type = self.walk(tree.children[0], verbose=verbose)
 			line += str(code)
 
-		return line
+		return line, _type
 
 	# returns tuple
 	def _relational_expr(self, tree, flags=None, verbose=False):
