@@ -1012,6 +1012,27 @@ class SvelTraverse(object):
 	#						 Type checking helper functions 						#
 	#################################################################################
 
+	def _equality_expr_type_checker(self, operator, type_1, type_2):
+		if type_1 == "undefined" or type_2 == "undefined":
+			return "undefined"
+
+		if type_1 == "void" or type_2 == "void":
+			try:
+				raise OperatorCannotBeApplied(operator, type_1, type_2)
+			except OperatorCannotBeApplied as e:
+				print str(e)
+				return "undefined"
+
+		if (type_1 == "int" or type_1 == "double") and (type_2 == "int" or type_2 == "double") or \
+			type_1 == type_2:
+			return "boolean"
+
+		try:
+			raise OperatorCannotBeApplied(operator, type_1, type_2)
+		except OperatorCannotBeApplied as e:
+			print str(e)
+			return "undefined"
+
 	def _relational_expr_type_checker(self, operator, type_1, type_2):
 		if type_1 == "undefined" or type_2 == "undefined":
 			return "undefined"
