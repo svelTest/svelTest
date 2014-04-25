@@ -308,6 +308,7 @@ class SvelTraverse(object):
 			print "===> svelTraverse: expression"
 		return self.walk(tree.children[0], verbose=verbose)
 
+	# This is where we update the scope and symbol tables
 	def _assignment_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: assignment_expr"
@@ -358,8 +359,9 @@ class SvelTraverse(object):
 				except DuplicateVariableError as e:
 					print str(e)
 			else: # add a new entry in scope and symbol tables
+				_type = self.walk(tree.children[0], verbose=verbose)
 				self._add_scopetable(tree.leaf) # add to scope table
-				self._add_symtable(tree.leaf, "funct", True) # add to symbol table
+				self._add_symtable(tree.leaf, _type, True) # add to symbol table
 
 			# TODO: do something with the type (symbol table)
 			if self.walk(tree.children[0], verbose=verbose) == "file":
