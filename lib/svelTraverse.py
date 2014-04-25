@@ -1119,6 +1119,12 @@ class SymbolNotFoundError(Exception):
 	def __str__(self):
 		return "SymbolNotFoundError : cannot find symbol %s." % (self.var)
 
+class InvalidArrayAccess(Exception):
+	def __init__(self, var):
+		self.var = var
+	def __str__(self):
+		return "InvalidArrayAccess : the type of the expression must be an array type."
+
 class UndefinedMethodError(Exception):
 	def __init__(self, method):
 		self.method = method
