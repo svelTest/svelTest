@@ -1010,6 +1010,12 @@ class SymbolNotFoundError(Exception):
 	def __str__(self):
 		return "SymbolNotFoundError : cannot find symbol %s." % (self.var)
 
+class UndefinedMethodError(Exception):
+	def __init__(self, method):
+		self.method = method
+	def __str__(self):
+		return "UndefinedMethodError : method %s not defined." (self.method)
+
 class OperatorCannotBeApplied(Exception):
 	def __init__(self, operator, type_1, type_2):
 		self.operator = operator
