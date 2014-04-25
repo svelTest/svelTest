@@ -395,20 +395,22 @@ class SvelTraverse(object):
 			return line
 
 		# -> type ID ASSIGN assignment_expr
-		# TODO: check if assignment_expr matches with type
+		# TODO: (emily) check if assignment_expr matches with type
 		elif len(tree.children) == 2:
-			# ID check
-			if self._symbol_exists(tree.leaf): # raise exception if ID already in scope/symbol table
+			# ==== ID check ====
+			# error if ID already in symbol table
+			if self._symbol_exists(tree.leaf): 
 				try:
 					raise DuplicateVariableError(tree.leaf)
 				except DuplicateVariableError as e:
 					print str(e)
-			else: # add a new entry in scope and symbol tables
+			# add a new entry in scope and symbol tables
+			else:
 				_type = self.walk(tree.children[0], verbose=verbose)
 				self._add_scopetable(tree.leaf) # add to scope table
 				self._add_symtable(tree.leaf, _type, True) # add to symbol table
 
-			# TODO: do something with the type (symbol table)
+			# ==== generate code for file type ====
 			if self.walk(tree.children[0], verbose=verbose) == "file":
 				line = "if(not os.path.isfile("
 				line += self.walk(tree.children[1], verbose=verbose) + ")):\n"
@@ -420,7 +422,7 @@ class SvelTraverse(object):
 				next_line += self.walk(tree.children[1], verbose=verbose) + "')\n"
 
 				# this line serves as pseudo-symbol table until we get one
-				# TODO: actually use symbol table
+				# TODO: (emily) actually use symbol table
 				file_name = self.walk(tree.children[1], verbose=verbose)
 				janky_line = tree.leaf + "=" + file_name
 				janky_line = self.format(janky_line)
@@ -432,19 +434,22 @@ class SvelTraverse(object):
 		# -> ID ASSIGN assignment_expr
 		# TODO (emily): check if assignment_expr matches with type
 		elif len(tree.children) == 1:
-			# ID check
-			if not self._symbol_exists(tree.leaf): # raise exception if ID not in scope/symbol table
+			# ==== ID check ====
+			# error if ID already in symbol table
+			if not self._symbol_exists(tree.leaf):
 				try:
 					raise SymbolNotFoundError(tree.leaf)
 				except SymbolNotFoundError as e:
 					print str(e)
-			else: # type check to see if type of ID matches assignment_expr
+			# ==== type check ====
+			else: # TODO (emily) type check to see if type of ID matches assignment_expr
 				sym_type = self._get_symtable_type(tree.leaf)
 				self._update_symtable(tree.leaf) # update symbol table
 				#assign_expr_type = self.walk(tree.children[0], verbose=verbose)
 				return tree.leaf + " = " + str(self.walk(tree.children[0], verbose=verbose))
 
 		# never reaches
+		print "WARNING Unreachable code : _assignment_expr"
 		return self.walk(tree.children[0], verbose=verbose)
 
 	# ===========================================================
