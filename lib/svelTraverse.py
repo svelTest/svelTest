@@ -261,37 +261,46 @@ class SvelTraverse(object):
 			print "===> svelTraverse: type"
 		return tree.leaf
 
+	# returns code
 	def _brack_stmt(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: brack_stmt"
 		return self.walk(tree.children[0], verbose=verbose)
 
+	# returns code
 	def _stmts(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: stmts"
 
 		line = ""
+		# -> stmts stmt
 		if len(tree.children) == 2:
-			# consecutive stmts
 			line += self.walk(tree.children[0], verbose=verbose)
 			line += '\n'
 			line += self.walk(tree.children[1], verbose=verbose)
 
+		# -> stmt
+		# -> brack_stmt
 		else:
-			# stmt or brack_stmt
 			line += self.walk(tree.children[0], verbose=verbose)
 
 		return line
 
+	# returns code
 	def _stmt(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: stmt"
 		return self.format(self.walk(tree.children[0], verbose=verbose))
 
-	# expressions...
+	# ===========================================================
+	# 						Expressions
+	# ===========================================================
+
 	def _expression_stmt(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: expression_stmt"
+
+		# -> expression SEMICOLON
 		return self.walk(tree.children[0], verbose=verbose)
 
 	def _expression(self, tree, flags=None, verbose=False):
@@ -389,6 +398,10 @@ class SvelTraverse(object):
 
 		# never reaches
 		return self.walk(tree.children[0], verbose=verbose)
+
+	# ===========================================================
+	# 					Evaluation expressions
+	# ===========================================================
 
 	def _logical_OR_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
