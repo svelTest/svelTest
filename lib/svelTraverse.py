@@ -831,9 +831,12 @@ class SvelTraverse(object):
         '''
 
 	''' Check if symbol exists in the current scope '''
-	# TODO also check if symbol exists in global scope
-	def _symbol_exists(self, symbol):
-		if symbol in self.scopes[self.scope]:
+	def _symbol_exists(self, symbol, isGlobal=False):
+		# check if exists in global
+		if symbol in self.scopes[0]:
+			return True
+		# check if exists in current scope
+		if symbol in self.scopes[scope]:
 			return True
 		return False
 
