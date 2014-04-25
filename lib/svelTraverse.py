@@ -52,7 +52,7 @@ class SvelTraverse(object):
 		returned = method(tree, flags, verbose)
 		if isinstance(returned, tuple):
 			code, _type = returned
-			print "%s: (%s, %s)" % (tree.type, code, _type)
+			#print "%s: (%s, %s)" % (tree.type, code, _type)
 			return code, _type
 		else:
 			return returned
@@ -539,21 +539,28 @@ class SvelTraverse(object):
 			print "===> svelTraverse: additive_expr"
 
 		line = ""
+
+		# -> additive_expr PLUS/MINUS multiplicative_expr
 		if len(tree.children) == 2:
-			# additive_expr PLUS/MINUS multiplicative_expr
+			# additive_expr
 			line += str(self.walk(tree.children[0], verbose=verbose))
+
+			# operator
 			line += " " + tree.leaf + " "
-			line += str(self.walk(tree.children[1], verbose=verbose))
 
+			# multiplicative_expr
+			code, mult_type = self.walk(tree.children[1], verbose=verbose)
+			line += str(code)
+
+		# -> multiplicative_expr
 		else:
-			# go to multiplicative_expr
 			assert(len(tree.children) == 1)
-
-			line += str(self.walk(tree.children[0], verbose=verbose))
+			code, _type = self.walk(tree.children[0], verbose=verbose)
+			line += str(code)
 
 		return line
 
-	# WIP returns tuple or code
+	# returns tuple
 	def _multiplicative_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: multiplicative_expr"
@@ -562,7 +569,6 @@ class SvelTraverse(object):
 		# multiplicative_expr TIMES/DIVIDE secondary_expr
 		if len(tree.children) == 2:
 			mult_type = -1
-			secondary_type = -1
 			# multiplicative_expr
 			r_multiplicative_expr = self.walk(tree.children[0], verbose=verbose)
 			if isinstance(r_multiplicative_expr, tuple):
@@ -570,28 +576,25 @@ class SvelTraverse(object):
 				print "multiplicative_expr: (%s, %s)" % (code, mult_type)
 				line += code
 			else:
-				print "_multiplicative_expr: secondary_expr did not return tuple"
+				print "multiplicative_expr: multiplicative_expr did not return tuple"
 				line += str(r_multiplicative_expr)
 
 			# operator
 			line += " " + tree.leaf + " "
 
 			# secondary_expr
-			r_secondary_expr = self.walk(tree.children[1], verbose=verbose)
-			if isinstance(r_secondary_expr, tuple):
-				code, secondary_type = r_secondary_expr
-				print "multiplicative_expr: (%s, %s)" % (code, secondary_type)
-				# check if mult_type TIMES/DIVIDE secondary_type are compatible
-				if mult_type != -1:
-					_type = self._multiplicative_expr_type_checker(tree.leaf, mult_type, secondary_type)
-					print "_mult type returned from checker : %s" % (_type)
+			code, secondary_type = self.walk(tree.children[1], verbose=verbose)
+			
+			# check if mult_type TIMES/DIVIDE secondary_type are compatible
+			if mult_type != -1:
+				_type = self._multiplicative_expr_type_checker(tree.leaf, mult_type, secondary_type)
+				if _type is False:
+					_type = "undefined"
+				print "_mult type returned from checker : %s" % (_type)
 
-				else:
-					print "_multiplicative_expr : don't know mult_type"
-				line += str(code)
 			else:
-				print "_multiplicative_expr: secondary_expr did not return tuple"
-				line += str(r_secondary_expr)
+				print "multiplicative_expr : don't know mult_type"
+			line += str(code)
 
 
 		# -> secondary_expr
@@ -601,11 +604,11 @@ class SvelTraverse(object):
 			if isinstance(returned, tuple):
 				return returned
 			else:
-				print "_multiplicative_expr: secondary_expr did not return tuple"
+				print "multiplicative_expr: secondary_expr did not return tuple"
 				code = returned
 			line += code
 
-		return line
+		return line, _type
 
 	# returns tuple
 	def _secondary_expr(self, tree, flags=None, verbose=False):
@@ -635,7 +638,7 @@ class SvelTraverse(object):
 			line += '[' + str(self.walk(tree.children[0], verbose=verbose)) + ']'
 			return line, "array" # TODO (emily) type of array
 
-		print "Unreachable code : _secondary_expr"
+		print "WARNING Unreachable code : _secondary_expr"
 		return line
 
 	# return tuple
@@ -649,7 +652,6 @@ class SvelTraverse(object):
 			if _type != "ID":
 				return tree.leaf, _type
 			# ID : check if ID has been defined for use
-			print "_primary_expr: ID"
 			symbol = tree.leaf
 			if not self._symbol_exists(symbol):
 				try:
