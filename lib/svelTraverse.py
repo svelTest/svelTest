@@ -648,51 +648,94 @@ class SvelTraverse(object):
 		# function_call or ref_type
 		return self.walk(tree.children[0], verbose=verbose)
 
+	# returns tuple : type or "undefined"
 	def _function_call(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: function_call"
 
 		line = ""
-		
-		# -> PRINT primary_expr
+		_type = "undefined"
+
+		# -> PRINT LPAREN identifier_list RPAREN
 		if tree.leaf == "print":
-			line += tree.leaf + " " + self.walk(tree.children[0], verbose=verbose)
-		
-		# type conversions hack
+			code, _type = self.walk(tree.children[0], verbose=verbose)
+			if _type == "verbose" or _type == "identifier_list":
+				try:
+					raise InvalidArguments("print")
+				except InvalidArguments as e:
+					print str(e)
+			_type = "undefined"
+			line += tree.leaf + " " + code
+
+		# type conversions
 		elif tree.leaf == "string":
 			line += "str(" + self.walk(tree.children[0], verbose=verbose) + ")"
+			_type = "string"
 		elif tree.leaf == "int":
 			line += "int(" + self.walk(tree.children[0], verbose=verbose) + ")"
+			_type = "int"
 		elif tree.leaf == "double":
 			line += "float(" + self.walk(tree.children[0], verbose=verbose) + ")"
+			_type = "double"
 		elif tree.leaf == "boolean":
 			line += "bool(" + self.walk(tree.children[0], verbose=verbose) + ")"
+			_type = "boolean"
 		
-		# lib functions:
 		# -> ID PERIOD lib_function LPAREN identifier_list RPAREN
 		elif len(tree.children) == 2:
 			# TODO: make less hack-y
 			function = self.walk(tree.children[0], verbose=verbose)
 			if function == "size":
+				# TODO (emily): check if id_list is empty
 				line += "len(" + tree.leaf + ")"
+				_type = "int"
 			elif function == "replace":
-				args = self.walk(tree.children[1], verbose=verbose).split(",")
+				args, _id_list_type = self.walk(tree.children[1], verbose=verbose).split(",")
 				line += tree.leaf + "[" + args[0].strip() + "] = " + args[1].strip()
+				_type = "undefined"
 			# TODO: make less hack-y when we have a symbol table
 			elif function == "readlines":
 				line += "[line.strip() for line in open(%s)]" % (tree.leaf)
+				_type = "array"
+			elif tree.children[0].leaf == "assert":
+				_type = "boolean"
 			else:	
 				if function == "remove":
 					function = "pop"
-					
-				line += tree.leaf + "." + function + "(" + self.walk(tree.children[1], verbose=verbose) +")"
+				code, _id_list_type = self.walk(tree.children[1], verbose=verbose)
+				line += tree.leaf + "." + function + "(" + code + ")"
+				_type = "undefined"
 
 		# -> ID LPAREN identifier_list RPAREN
 		elif len(tree.children) == 1:
-			line += tree.leaf + "(" + self.walk(tree.children[0], verbose=verbose) + ")"
+			# check if function exists in symbol/scope table
+			symbol = tree.leaf + "()"
+			_type = "undefined"
+			if not self._symbol_exists(symbol, True):
+				try:
+					raise UndefinedMethodError(tree.leaf)
+				except UndefinedMethodError as e:
+					print str(e)
+				_type = "undefined"
+			else:
+				_type = self._get_symtable_type(symbol)
+				if _type == "void":
+					try:
+						raise MethodReturnsVoidError(tree.leaf)
+					except MethodReturnsVoidError as e:
+						print str(e)
+					_type = "undefined"
+			code, _id_list_type = self.walk(tree.children[0], verbose=verbose)
+			if _id_list_type == "verbose":
+				try:
+					raise InvalidArguments(tree.leaf)
+				except InvalidArguments as e:
+					print str(e)
+			line += tree.leaf + "(" + code + ")"
 
-		return line
+		return line, _type
 
+	# returns code
 	def _lib_function(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: function_call"
