@@ -1017,3 +1017,9 @@ class OperatorCannotBeApplied(Exception):
 		self.type_2 = type_2
 	def __str__(self):
 		return "Operator %s cannot be applied to types %s, %s." % (self.operator, self.type_1, self.type_2)
+
+class UnexpectedSymbol(Exception):
+	def __init__(self, symbol):
+		self.symbol = symbol
+	def __str__(self):
+		return "Unexpected symbol : %s." % (self.symbol)
