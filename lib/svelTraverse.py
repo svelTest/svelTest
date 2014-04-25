@@ -623,7 +623,7 @@ class SvelTraverse(object):
 			type_1 == "input" or type_2 == "input" or \
 			type_1 == "output" or type_2 == "output":
 			try:
-				raise OperatorCannotBeApplied(tree.leaf, type_1, type_2)
+				raise OperatorCannotBeApplied(operator, type_1, type_2)
 			except OperatorCannotBeApplied as e:
 				print str(e)
 			return False
@@ -632,7 +632,7 @@ class SvelTraverse(object):
 		if operator == "/":
 			if type_1 == "string" or type_2 == "string":
 				try:
-					raise OperatorCannotBeApplied(tree.leaf, type_1, type_2)
+					raise OperatorCannotBeApplied(operator, type_1, type_2)
 				except OperatorCannotBeApplied as e:
 					print str(e)
 				return False
