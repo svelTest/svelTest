@@ -584,40 +584,22 @@ class SvelTraverse(object):
 		line = ""
 		# multiplicative_expr TIMES/DIVIDE secondary_expr
 		if len(tree.children) == 2:
-			mult_type = -1
 			# multiplicative_expr
-			r_multiplicative_expr = self.walk(tree.children[0], verbose=verbose)
-			if isinstance(r_multiplicative_expr, tuple):
-				code, mult_type = r_multiplicative_expr
-				print "multiplicative_expr: (%s, %s)" % (code, mult_type)
-				line += code
-			else:
-				print "multiplicative_expr: multiplicative_expr did not return tuple"
-				line += str(r_multiplicative_expr)
+			code, mult_type = self.walk(tree.children[0], verbose=verbose)
+			line += code
 			# operator
 			line += " " + tree.leaf + " "
 			# secondary_expr
 			code, secondary_type = self.walk(tree.children[1], verbose=verbose)
 			# check if mult_type TIMES/DIVIDE secondary_type are compatible
-			if mult_type != -1:
-				_type = self._multiplicative_expr_type_checker(tree.leaf, mult_type, secondary_type)
-				print "_mult type returned from checker : %s" % (_type)
-
-			else:
-				print "multiplicative_expr : don't know mult_type"
+			_type = self._multiplicative_expr_type_checker(tree.leaf, mult_type, secondary_type)
 			line += str(code)
-
 
 		# -> secondary_expr
 		else:
 			assert(len(tree.children) == 1)
-			returned = self.walk(tree.children[0], verbose=verbose)
-			if isinstance(returned, tuple):
-				return returned
-			else:
-				print "multiplicative_expr: secondary_expr did not return tuple"
-				code = returned
-			line += code
+			code, _type self.walk(tree.children[0], verbose=verbose)
+			line += str(code)
 
 		return line, _type
 
