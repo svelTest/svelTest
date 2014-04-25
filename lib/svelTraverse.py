@@ -559,18 +559,13 @@ class SvelTraverse(object):
 			# additive_expr
 			code, add_type = self.walk(tree.children[0], verbose=verbose)
 			line += str(code)
-
 			# operator
 			line += " " + tree.leaf + " "
-
 			# multiplicative_expr
 			code, mult_type = self.walk(tree.children[1], verbose=verbose)
 			line += str(code)
-
 			# check if add_type PLUS/MINUS mult_type are compatible
 			_type = self._additive_expr_type_checker(tree.leaf, add_type, mult_type)
-			if _type is False:
-				_type = "undefined"
 			print "additive_expr : _type returned from checker: %s" % (_type)
 
 		# -> multiplicative_expr
@@ -599,18 +594,13 @@ class SvelTraverse(object):
 			else:
 				print "multiplicative_expr: multiplicative_expr did not return tuple"
 				line += str(r_multiplicative_expr)
-
 			# operator
 			line += " " + tree.leaf + " "
-
 			# secondary_expr
 			code, secondary_type = self.walk(tree.children[1], verbose=verbose)
-			
 			# check if mult_type TIMES/DIVIDE secondary_type are compatible
 			if mult_type != -1:
 				_type = self._multiplicative_expr_type_checker(tree.leaf, mult_type, secondary_type)
-				if _type is False:
-					_type = "undefined"
 				print "_mult type returned from checker : %s" % (_type)
 
 			else:
@@ -1047,7 +1037,6 @@ class SvelTraverse(object):
 			return "undefined"
 
 	# Checks if type_1 ADD/SUBTRACT type_2 are compatible
-	# returns resulting type, or False
 	def _additive_expr_type_checker(self, operator, type_1, type_2):
 		if type_1 == "undefined" or type_2 == "undefined":
 			return "undefined"
@@ -1065,7 +1054,7 @@ class SvelTraverse(object):
 				raise OperatorCannotBeApplied(operator, type_1, type_2)
 			except OperatorCannotBeApplied as e:
 				print str(e)
-			return False
+			return "undefined"
 
 		# subtraction errors
 		if operator == "-":
@@ -1074,7 +1063,7 @@ class SvelTraverse(object):
 					raise OperatorCannotBeApplied(operator, type_1, type_2)
 				except OperatorCannotBeApplied as e:
 					print str(e)
-				return False
+				return "undefined"
 
 		if type_1 == "double" or type_2 == "double":
 			return "double"
@@ -1087,7 +1076,6 @@ class SvelTraverse(object):
 		return "undefined"
 
     # Checks if type_1 TIMES/DIVIDE type_2 are compatible
-	# returns resulting type, or False
 	def _multiplicative_expr_type_checker(self, operator, type_1, type_2):
 		if type_1 == "undefined" or type_2 == "undefined":
 			return "undefined"
@@ -1105,7 +1093,7 @@ class SvelTraverse(object):
 				raise OperatorCannotBeApplied(operator, type_1, type_2)
 			except OperatorCannotBeApplied as e:
 				print str(e)
-			return False
+			return "undefined"
 
 		# division errors
 		if operator == "/":
@@ -1114,7 +1102,7 @@ class SvelTraverse(object):
 					raise OperatorCannotBeApplied(operator, type_1, type_2)
 				except OperatorCannotBeApplied as e:
 					print str(e)
-				return False
+				return "undefined"
 
 		# determine resulting type
 		if type_1 == "double" or type_2 == "double":
