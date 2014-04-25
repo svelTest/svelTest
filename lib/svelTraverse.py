@@ -1035,3 +1035,9 @@ class UnexpectedSymbol(Exception):
 		self.symbol = symbol
 	def __str__(self):
 		return "Unexpected symbol : %s." % (self.symbol)
+
+class MethodReturnsVoidError(Exception):
+	def __init__(self, method):
+		self.method = method
+	def __str__(self):
+		return "VoidError : method %s returns void" % (self.method)
