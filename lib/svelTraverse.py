@@ -543,7 +543,8 @@ class SvelTraverse(object):
 		# -> additive_expr PLUS/MINUS multiplicative_expr
 		if len(tree.children) == 2:
 			# additive_expr
-			line += str(self.walk(tree.children[0], verbose=verbose))
+			code, add_type = self.walk(tree.children[0], verbose=verbose)
+			line += str(code)
 
 			# operator
 			line += " " + tree.leaf + " "
@@ -552,13 +553,19 @@ class SvelTraverse(object):
 			code, mult_type = self.walk(tree.children[1], verbose=verbose)
 			line += str(code)
 
+			# check if add_type PLUS/MINUS mult_type are compatible
+			_type = self._additive_expr_type_checker(tree.leaf, add_type, mult_type)
+			if _type is False:
+				_type = "undefined"
+			print "additive_expr : _type returned from checker: %s" % (_type)
+
 		# -> multiplicative_expr
 		else:
 			assert(len(tree.children) == 1)
 			code, _type = self.walk(tree.children[0], verbose=verbose)
 			line += str(code)
 
-		return line
+		return line, _type
 
 	# returns tuple
 	def _multiplicative_expr(self, tree, flags=None, verbose=False):
