@@ -710,7 +710,8 @@ class SvelTraverse(object):
 			# -> REMOVE | SIZE | INSERT | REPLACE
 			return tree.leaf # TODO: will need to do type checking somewhere to make sure this is being called on an array/list
 
-
+	# returns tuple
+	# TODO (emily) : return array type
 	def _ref_type(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: ref_type"
@@ -720,7 +721,7 @@ class SvelTraverse(object):
 		line += '['
 		line += str(self.walk(tree.children[1], verbose=verbose))
 		line += ']'
-		return line		
+		return line, "array"
 
 	def _reserved_languages_list(self, tree, flags=None, verbose=False):
 		if(verbose):
