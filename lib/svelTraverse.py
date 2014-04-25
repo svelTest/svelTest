@@ -570,7 +570,7 @@ class SvelTraverse(object):
 				print "multiplicative_expr: (%s, %s)" % (code, mult_type)
 				line += code
 			else:
-				print "mult_expr: not implemented 0"
+				print "_multiplicative_expr: secondary_expr did not return tuple"
 				line += str(r_multiplicative_expr)
 
 			# operator
@@ -581,26 +581,75 @@ class SvelTraverse(object):
 			if isinstance(r_secondary_expr, tuple):
 				code, secondary_type = r_secondary_expr
 				print "multiplicative_expr: (%s, %s)" % (code, secondary_type)
+				# check if mult_type TIMES/DIVIDE secondary_type are compatible
+				if mult_type != -1:
+					_type = self._multiplicative_expr_type_checker(tree.leaf, mult_type, secondary_type)
+					print "_mult type returned from checker : %s" % (_type)
+
+				else:
+					print "_multiplicative_expr : don't know mult_type"
+
 				line += code
-				return line, _type # return tuple
 			else:
-				print "mult_expr: not implemented 1"
+				print "_multiplicative_expr: secondary_expr did not return tuple"
 				line += str(r_secondary_expr)
 
+
+		# -> secondary_expr
 		else:
-			# go to multiplicative_expr
 			assert(len(tree.children) == 1)
 			returned = self.walk(tree.children[0], verbose=verbose)
 			if isinstance(returned, tuple):
 				return returned
 			else:
-				print "mult_expr: not implemented 2"
+				print "_multiplicative_expr: secondary_expr did not return tuple"
 				code = returned
 			line += code
 
 		return line
 
-	# return code or tuple
+	# check if mult_type TIMES/DIVIDE secondary_type are compatible
+	# returns resulting type, or False
+	def _multiplicative_expr_type_checker(self, operator, type_1, type_2):
+		if type_1 == "undefined" or type_2 == "undefined":
+			return "undefined"
+
+		# multiplication and division errors
+		if type_1 == "void" or type_2 == "void" or \
+			type_1 == "string" and type_2 == "float" or \
+			type_1 == "float" and type_2 == "string" or \
+			type_1 == "boolean" or type_2 == "boolean" or \
+			type_1 == "file" or type_2 == "file" or \
+			type_1 == "funct" or type_2 == "funct" or \
+			type_1 == "input" or type_2 == "input" or \
+			type_1 == "output" or type_2 == "output":
+			try:
+				raise OperatorCannotBeApplied(tree.leaf, type_1, type_2)
+			except OperatorCannotBeApplied as e:
+				print str(e)
+			return False
+
+		# division errors
+		if operator == "/":
+			if type_1 == "string" or type_2 == "string":
+				try:
+					raise OperatorCannotBeApplied(tree.leaf, type_1, type_2)
+				except OperatorCannotBeApplied as e:
+					print str(e)
+				return False
+
+		# determine resulting type
+		if type_1 == "double" or type_2 == "double":
+			return "double"
+		if type_1 == "string" or type_2 == "string":
+			return "string"
+		if type_1 == "int" and type_2 == "int":
+			return "int"
+
+		print "Undefined _multiplicative_expr_type_checker for %s with (%s, %s)" % (operator, type_1, type_2)
+		return "undefined"
+
+	# returns tuple
 	def _secondary_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: secondary_expr"
