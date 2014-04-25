@@ -611,18 +611,27 @@ class SvelTraverse(object):
 		if tree.leaf == None:
 			return self.walk(tree.children[0], verbose=verbose) # returns tuple
 
+		# -> LPAREN identifier_list RPAREN
+		# -> LPAREN (expression) RPAREN
 		elif tree.leaf == '(':
-			# -> LPAREN expression RPAREN
-			# -> LPAREN identifier_list RPAREN
+			code, _type = self.walk(tree.children[0], verbose=verbose)
+			if _type == "identifier_list" or _type == "verbose":
+				try:
+					raise UnexpectedSymbol('(')
+				except UnexpectedSymbol as e:
+					print str(e)
 			line += '[' + str(self.walk(tree.children[0], verbose=verbose)) + ']'
+			return line, "undefined"
 
+		# -> LBRACE identifier_list RBRACE
 		elif tree.leaf == '{':
-			# -> LBRACE identifier_list RBRACE
 			line += '[' + str(self.walk(tree.children[0], verbose=verbose)) + ']'
+			return line, "array" # TODO (emily) type of array
 
+		print "Unreachable code : _secondary_expr"
 		return line
 
-	# return code or tuple
+	# return tuple
 	def _primary_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: primary_expr"
