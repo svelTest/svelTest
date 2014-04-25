@@ -984,6 +984,14 @@ class SvelTraverse(object):
 	#						 Type checking helper functions 						#
 	#################################################################################
 
+	def _logical_OR_expr_type_checker(self, operator, type_1, type_2):
+		return self._logical_AND_expr_type_checker(operator, type_1, type_2)
+
+	def _logical_AND_expr_type_checker(self, operator, type_1, type_2):
+		if type_1 == "boolean" and type_2 == "boolean":
+			return "boolean"
+		return "undefined"
+
 	def _equality_expr_type_checker(self, operator, type_1, type_2):
 		if type_1 == "undefined" or type_2 == "undefined":
 			return "undefined"
