@@ -306,7 +306,25 @@ class SvelTraverse(object):
 	def _expression(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: expression"
-		return self.walk(tree.children[0], verbose=verbose)
+
+		# -> type ID
+		if tree.leaf:
+			symbol = tree.leaf
+			_type = self.walk(tree.children[0], verbose=verbose)
+			if not self._symbol_exists(symbol):
+				self._add_scopetable(symbol)
+				self._add_symtable(symbol, _type, False)
+			else:
+				try:
+					raise DuplicateVariableError(symbol)
+				except DuplicateVariableError as e:
+					print str(e)
+			return symbol + " = None" # not sure if this is the best thing to do?
+
+		# -> assignment_expr
+		# -> empty
+		else:
+			return self.walk(tree.children[0], verbose=verbose)
 
 	# This is where we update the scope and symbol tables
 	def _assignment_expr(self, tree, flags=None, verbose=False):
