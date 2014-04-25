@@ -455,6 +455,7 @@ class SvelTraverse(object):
 	# 					Evaluation expressions
 	# ===========================================================
 
+	# returns tuple
 	def _logical_OR_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: logical_OR_expr"
@@ -463,18 +464,23 @@ class SvelTraverse(object):
 
 		# logical_OR_expr OR logical_AND_expr
 		if len(tree.children) == 2:
-			# "boolean", "int", "double", "string"
-			# type OR type
-			line += str(self.walk(tree.children[0], verbose=verbose))
+			# logical_OR_expr
+			code, or_type = self.walk(tree.children[0], verbose=verbose)
+			line += str(code)
+			# OR
 			line += " or "
-			line += str(self.walk(tree.children[1], verbose=verbose))
+			# logical_AND_expr
+			code, and_type = self.walk(tree.children[1], verbose=verbose)
+			_type = self._logical_OR_expr_type_checker(tree.leaf, or_type, and_type)
+			line += str(code)
 
 		# go to logical_AND_expr
 		else:
 			assert(len(tree.children) == 1)
-			line += str(self.walk(tree.children[0], verbose=verbose))
+			code, _type = self.walk(tree.children[0], verbose=verbose)
+			line += str(code)
 
-		return line
+		return line, _type
 
 	# returns tuple
 	def _logical_AND_expr(self, tree, flags=None, verbose=False):
