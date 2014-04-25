@@ -817,12 +817,33 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: ref_type"
 
+		# -> ID LBRACKET expression RBRACKET
 		line = ""
-		line += self.walk(tree.children[0], verbose=verbose)
+		code, id_type = self.walk(tree.children[0], verbose=verbose)
+		if not self._type_is_array(id_type):
+			try:
+				raise InvalidArrayAccess(code)
+			except InvalidArrayAccess as e:
+				print str(e)
+			_type = "undefined"
+		else:
+			_type = id_type[0:-2] # take off '[]'
+		line += code
 		line += '['
-		line += str(self.walk(tree.children[1], verbose=verbose))
+		returned = self.walk(tree.children[1], verbose=verbose)
+		if isinstance(returned, tuple):
+			code, expr_type = returned
+			print "ref type : " + expr_type
+		else:
+			code = returned
+		line += code
 		line += ']'
 		return line, "array"
+
+	def _type_is_array(self, _type):
+		if "[" in _type:
+			return True
+		return False
 
 	def _reserved_languages_list(self, tree, flags=None, verbose=False):
 		if(verbose):
