@@ -369,35 +369,30 @@ class SvelTraverse(object):
 
 		# -> FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
 		elif len(tree.children) == 3:
-			# ID check
-			if self._symbol_exists(tree.leaf): # if ID already in symbol table
+			# ==== ID check ====
+			# error if ID already in symbol table
+			if self._symbol_exists(tree.leaf):
 				try:
 					raise DuplicateVariableError(tree.leaf)
 				except DuplicateVariableError as e:
 					print str(e)
-			else: # add a new entry in scope and symbol tables
+			# else add a new entry in scope and symbol tables
+			else:
 				self._add_scopetable(tree.leaf) # add to scope table
 				self._add_symtable(tree.leaf, "funct", True) # add to symbol table
-
-			# -> funct_name verifies string type
+			# ==== generate code ====
 			line = tree.leaf + " = Funct(" + self.walk(tree.children[0], verbose=verbose) + \
-				", [" + self.walk(tree.children[1], verbose=verbose) + "], "
-			
+				", [" + self.walk(tree.children[1], verbose=verbose) + "], " # -> funct_name verifies string type
+			# ==== type check ====
 			# type check third argument -- must be file or string type
-			returned = self.walk(tree.children[2], verbose=verbose)
-			if isinstance(returned, tuple):
-				code, _type = returned
-				if _type != "ID" and _type != "string":
-					try:
-						raise TypeMismatchError("funct type's third argument", "file", _type)
-					except TypeMismatchError as e:
-						print str(e)
-				print "assignment_expr: (%s, %s)" % (code, _type)
-				line += str(code) + ")"
-				return line
-			else:
-				line += returned + ")"
-				return line
+			code, _type = self.walk(tree.children[2], verbose=verbose)
+			if _type != "string":
+				try:
+					raise TypeMismatchError("funct type's third argument", "file", _type)
+				except TypeMismatchError as e:
+					print str(e)
+			line += str(code) + ")"
+			return line
 
 		# -> type ID ASSIGN assignment_expr
 		# TODO: check if assignment_expr matches with type
@@ -435,7 +430,7 @@ class SvelTraverse(object):
 				return tree.leaf + " = " + str(self.walk(tree.children[1], verbose=verbose))
 
 		# -> ID ASSIGN assignment_expr
-		# TODO: check if assignment_expr matches with type
+		# TODO (emily): check if assignment_expr matches with type
 		elif len(tree.children) == 1:
 			# ID check
 			if not self._symbol_exists(tree.leaf): # raise exception if ID not in scope/symbol table
