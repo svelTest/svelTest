@@ -640,7 +640,10 @@ class SvelTraverse(object):
 					raise SymbolNotFoundError(symbol)
 				except SymbolNotFoundError as e:
 					print str(e)
-			return tree.leaf
+				_type = "undefined"
+			else:
+				_type = self._get_symtable_type(symbol)
+			return symbol, _type
 
 		# function_call or ref_type
 		return self.walk(tree.children[0], verbose=verbose)
