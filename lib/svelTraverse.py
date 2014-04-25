@@ -476,25 +476,35 @@ class SvelTraverse(object):
 
 		return line
 
+	# returns tuple
 	def _logical_AND_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: logical_AND_expr"
 
 		line = ""
+
+		# -> logical_AND_expr AND equality_expr
 		if len(tree.children) == 2:
-			# logical_AND_expr OR equality_expr
-			line += str(self.walk(tree.children[0], verbose=verbose))
+			# logical_AND_expr
+			code, and_type = self.walk(tree.children[0], verbose=verbose)
+			line += str(code)
+			# AND
 			line += " and "
-			line += str(self.walk(tree.children[1], verbose=verbose))
+			# equality_expr
+			code, eq_type = self.walk(tree.children[1], verbose=verbose)
+			# check if and_type AND eq_type is compatible
+			_type = self._equality_expr_type_checker(tree.leaf, and_type, eq_type)
+			line += str(code)
 
+		# -> equality_expr
 		else:
-			# go to equality_expr
 			assert(len(tree.children) == 1)
+			code, _type = self.walk(tree.children[0], verbose=verbose)
+			line += str(code)
 
-			line += str(self.walk(tree.children[0], verbose=verbose))
+		return line, _type
 
-		return line
-
+	# returns tuple
 	def _equality_expr(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: equality_expr"
