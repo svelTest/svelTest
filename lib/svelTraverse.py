@@ -838,13 +838,16 @@ class SvelTraverse(object):
 		return False
 
 	''' Add symbol to scope table '''
-	def _add_scopetable(self, symbol):
-		self.scopes[self.scope][symbol] = True
+	def _add_scopetable(self, symbol, isGlobal=False):
+		if isGlobal:
+			self.scopes[0][symbol] = True
+		else:
+			self.scopes[self.scope][symbol] = True
 		print "Added %s to the scope table: %s" % (symbol, str(self.scopes))
 
 	''' Add symbol to symbol table '''
-	def _add_symtable(self, symbol, _type, hasValue):
-		entry = self._get_symtable_entry(symbol)
+	def _add_symtable(self, symbol, _type, hasValue, isGlobal=False):
+		entry = self._get_symtable_entry(symbol, isGlobal)
 		self.symbols[entry] = [_type, hasValue]
 		print "Added %s to the symbol table: %s" % (symbol, str(self.symbols))
 		return entry
@@ -856,12 +859,15 @@ class SvelTraverse(object):
 		return entry
 
 	'''Returns the entry in the symbol table dictionary'''
-	def _get_symtable_entry(self, symbol):
+	def _get_symtable_entry(self, symbol, isGlobal=False):
+		if isGlobal:
+			return str(0) + str(symbol)
 		return str(self.scope) + str(symbol)
 
 	''' Returns the type of the symbol recorded by the symbol table '''
-	def _get_symtable_type(self, symbol):
-		return self.symbols[symbols][0]
+	def _get_symtable_type(self, symbol, isGlobal=False):
+		entry = self._get_symtable_entry(symbol, isGlobal)
+		return self.symbols[entry][0]
 
 	''' Recognize the type of a primary_expr '''
 	def _recognize_type_helper(self, primary_expr):
