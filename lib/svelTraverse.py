@@ -321,11 +321,11 @@ class SvelTraverse(object):
 				code, _type = returned
 				if _type != "ID" and _type != "string":
 					try:
-						raise TypeMismatchError("funct third argument", "file", _type)
+						raise TypeMismatchError("funct type's third argument", "file", _type)
 					except TypeMismatchError as e:
 						print str(e)
 				print "assignment_expr: (%s, %s)" % (code, _type)
-				line += code + ")"
+				line += str(code) + ")"
 				return line
 			else:
 				line += returned + ")"
