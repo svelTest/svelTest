@@ -152,8 +152,15 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: function_def"
 
+		# new scope
+		self.scope += 1
+		print "new scope: " + str(self.scope)
+		self.scopes.append({})
+
 		# TODO: use the format function to do indenting
-		if len(tree.children) == 2: # main
+
+		# -> MAIN LPAREN param_list RPAREN brack_stmt
+		if len(tree.children) == 2:
 			line = "def main("
 			cl_args = self.walk(tree.children[0], flags=["main"], verbose=verbose)
 			line += cl_args
