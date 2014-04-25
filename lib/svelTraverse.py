@@ -174,6 +174,11 @@ class SvelTraverse(object):
 				_type = tree.children[0].leaf
 			self._add_scopetable(symbol, True)
 			self._add_symtable(symbol, _type, True, True)
+		else:
+			try:
+				raise DuplicateVariableError(symbol)
+			except DuplicateVariableError as e:
+				print str(e)
 
 		# -> MAIN LPAREN param_list RPAREN brack_stmt
 		if len(tree.children) == 2:
