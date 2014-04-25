@@ -588,8 +588,7 @@ class SvelTraverse(object):
 
 				else:
 					print "_multiplicative_expr : don't know mult_type"
-
-				line += code
+				line += str(code)
 			else:
 				print "_multiplicative_expr: secondary_expr did not return tuple"
 				line += str(r_secondary_expr)
@@ -726,18 +725,29 @@ class SvelTraverse(object):
 			line += tree.leaf + " " + code
 
 		# type conversions
-		elif tree.leaf == "string":
-			line += "str(" + self.walk(tree.children[0], verbose=verbose) + ")"
-			_type = "string"
-		elif tree.leaf == "int":
-			line += "int(" + self.walk(tree.children[0], verbose=verbose) + ")"
-			_type = "int"
-		elif tree.leaf == "double":
-			line += "float(" + self.walk(tree.children[0], verbose=verbose) + ")"
-			_type = "double"
-		elif tree.leaf == "boolean":
-			line += "bool(" + self.walk(tree.children[0], verbose=verbose) + ")"
-			_type = "boolean"
+		# -> STRING LPAREN identifier_list RPAREN
+		elif tree.leaf == "string" or tree.leaf == "int" or \
+			tree.leaf == "double" or tree.leaf == "boolean":
+			code, _id_list_type = self.walk(tree.children[0], verbose=verbose)
+			if _id_list_type == "verbose" or _id_list_type == "identifier_list":
+				try:
+					raise InvalidArguments(tree.leaf)
+				except InvalidArguments as e:
+					print str(e)
+				_type = "undefined"
+			else:
+				if tree.leaf == "string":
+					line += "str(" + code + ")"
+					_type = "string"
+				elif tree.leaf == "int":
+					line += "int(" + code + ")"
+					_type = "int"
+				elif tree.leaf == "double":
+					line += "float(" + code + ")"
+					_type = "double"
+				elif tree.leaf == "boolean":
+					line += "bool(" + code + ")"
+					_type = "boolean"
 		
 		# -> ID PERIOD lib_function LPAREN identifier_list RPAREN
 		elif len(tree.children) == 2:
