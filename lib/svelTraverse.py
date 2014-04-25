@@ -139,14 +139,40 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: external_declaration"
 
-		# if function_def
+		# -> function_def
 		if tree.leaf == None:
 			return self.walk(tree.children[0], verbose=verbose)
 
-		# if external var declaration
-		else:
+		# -> type ID SEMICOLON
+		if len(tree.children) == 1:
+			# add to scope/symbol table
+			symbol = tree.leaf
+			if not self._symbol_exists(symbol, True):
+				_type = self.walk(tree.children[0])
+				self._add_scopetable(symbol, True)
+				self._add_symtable(symbol, _type, False, True)
+			else:
+				try:
+					raise DuplicateVariableError(symbol)
+				except DuplicateVariableError as e:
+					print str(e)
 			return ""
-			#return self.walk(tree.children[0]) + " " + tree.leaf
+
+		# -> type ID ASSIGN assignment_expr SEMICOLON
+		else:
+			# add to scope/symbol table
+			symbol = tree.leaf
+			if not self._symbol_exists(symbol, True):
+				_type = self.walk(tree.children[0])
+				self._add_scopetable(symbol, True)
+				self._add_symtable(symbol, _type, True, True)
+			else:
+				try:
+					raise DuplicateVariableError(symbol)
+				except DuplicateVariableError as e:
+					print str(e)
+
+			return symbol + " = " + self.walk(tree.children[1], verbose)
 
 	# returns code
 	def _function_def(self, tree, flags=None, verbose=False):
@@ -374,6 +400,7 @@ class SvelTraverse(object):
 				return line
 
 		# -> type ID ASSIGN assignment_expr
+		# TODO: check if assignment_expr matches with type
 		elif len(tree.children) == 2:
 			# ID check
 			if self._symbol_exists(tree.leaf): # raise exception if ID already in scope/symbol table
@@ -408,6 +435,7 @@ class SvelTraverse(object):
 				return tree.leaf + " = " + str(self.walk(tree.children[1], verbose=verbose))
 
 		# -> ID ASSIGN assignment_expr
+		# TODO: check if assignment_expr matches with type
 		elif len(tree.children) == 1:
 			# ID check
 			if not self._symbol_exists(tree.leaf): # raise exception if ID not in scope/symbol table
