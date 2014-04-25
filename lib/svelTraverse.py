@@ -1018,6 +1018,12 @@ class OperatorCannotBeApplied(Exception):
 	def __str__(self):
 		return "Operator %s cannot be applied to types %s, %s." % (self.operator, self.type_1, self.type_2)
 
+class InvalidArguments(Exception):
+	def __init__(self, function):
+		self.function = function
+	def __str__(self):
+		return "Invalid arguments for %s()" % (self.function)
+
 class UnexpectedSymbol(Exception):
 	def __init__(self, symbol):
 		self.symbol = symbol
