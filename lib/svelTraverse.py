@@ -388,7 +388,7 @@ class SvelTraverse(object):
 			code, _type = self.walk(tree.children[2], verbose=verbose)
 			if _type != "string":
 				try:
-					raise TypeMismatchError("funct type's third argument", "file", _type)
+					raise TypeMismatchError("funct constructor's third argument", "file", _type)
 				except TypeMismatchError as e:
 					print str(e)
 			line += str(code) + ")"
