@@ -1287,7 +1287,7 @@ class InvalidArrayAccess(Exception):
 	def __init__(self, var):
 		self.var = var
 	def __str__(self):
-		return "InvalidArrayAccess : the type of the expression must be an array type."
+		return "InvalidArrayAccess : the type of the expression %s must be an array type." % (self.var)
 
 class UndefinedMethodError(Exception):
 	def __init__(self, method):
@@ -1301,7 +1301,7 @@ class MethodReturnTypeMismatch(Exception):
 		self.expected = expected
 		self.actual = actual
 	def __str__(self):
-		return "TypeMismatchError : method %s return type is %s. Found %s" % (self.method, self.expected, self.actual)
+		return "TypeMismatchError : method %s() return type is %s. Found %s" % (self.method, self.expected, self.actual)
 
 class OperatorCannotBeApplied(Exception):
 	def __init__(self, operator, type_1, type_2):
