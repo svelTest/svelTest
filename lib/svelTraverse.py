@@ -185,7 +185,7 @@ class SvelTraverse(object):
 
 		# new scope
 		self.scope += 1
-		print "New scope: " + str(self.scope)
+		#print "New scope: " + str(self.scope)
 		self.scopes.append({})
 
 		# add to symbol table in GLOBAL scope as ID()
@@ -196,6 +196,7 @@ class SvelTraverse(object):
 		if not isMain:
 			functionName = tree.leaf
 		symbol = functionName + "()" # ID()
+		print symbol + ":"
 		if not self._symbol_exists(symbol, True):
 			_type = "void"
 			if not isMain:
@@ -208,7 +209,7 @@ class SvelTraverse(object):
 			except DuplicateVariableError as e:
 				print str(e)
 		self.currentFunction = functionName
-
+		
 		# -> MAIN LPAREN param_list RPAREN brack_stmt
 		if len(tree.children) == 2:
 			line = "def main("
@@ -1272,32 +1273,32 @@ class TypeMismatchError(Exception):
 		self.expected = expected
 		self.actual = actual
 	def __str__(self):
-		return "TypeMismatchError : %s requires %s type. Found %s." % \
+		return "\tTypeMismatchError : %s requires %s type. Found %s." % \
 				(self.context, self.expected, self.actual)
 
 class DuplicateVariableError(Exception):
 	def __init__(self, var):
 		self.var = var
 	def __str__(self):
-		return "DuplicateVariableError : symbol %s already defined." % (self.var)
+		return "\tDuplicateVariableError : symbol %s already defined." % (self.var)
 
 class SymbolNotFoundError(Exception):
 	def __init__(self, var):
 		self.var = var
 	def __str__(self):
-		return "SymbolNotFoundError : cannot find symbol %s." % (self.var)
+		return "\tSymbolNotFoundError : cannot find symbol %s." % (self.var)
 
 class InvalidArrayAccess(Exception):
 	def __init__(self, var):
 		self.var = var
 	def __str__(self):
-		return "InvalidArrayAccess : the type of the expression %s must be an array type." % (self.var)
+		return "\tInvalidArrayAccess : the type of the expression %s must be an array type." % (self.var)
 
 class UndefinedMethodError(Exception):
 	def __init__(self, method):
 		self.method = method
 	def __str__(self):
-		return "UndefinedMethodError : method %s not defined." (self.method)
+		return "\tUndefinedMethodError : method %s not defined." (self.method)
 
 class MethodReturnTypeMismatch(Exception):
 	def __init__(self, method, expected, actual):
@@ -1305,7 +1306,7 @@ class MethodReturnTypeMismatch(Exception):
 		self.expected = expected
 		self.actual = actual
 	def __str__(self):
-		return "TypeMismatchError : method %s() return type is %s. Found %s" % (self.method, self.expected, self.actual)
+		return "\tTypeMismatchError : method %s() return type is %s. Found %s" % (self.method, self.expected, self.actual)
 
 class OperatorCannotBeApplied(Exception):
 	def __init__(self, operator, type_1, type_2):
@@ -1313,22 +1314,22 @@ class OperatorCannotBeApplied(Exception):
 		self.type_1 = type_1
 		self.type_2 = type_2
 	def __str__(self):
-		return "TypeError : Operator %s cannot be applied to types %s, %s." % (self.operator, self.type_1, self.type_2)
+		return "\tTypeError : Operator %s cannot be applied to types %s, %s." % (self.operator, self.type_1, self.type_2)
 
 class InvalidArguments(Exception):
 	def __init__(self, function):
 		self.function = function
 	def __str__(self):
-		return "TypeError : Invalid arguments for %s()" % (self.function)
+		return "\tTypeError : Invalid arguments for %s()" % (self.function)
 
 class UnexpectedSymbol(Exception):
 	def __init__(self, symbol):
 		self.symbol = symbol
 	def __str__(self):
-		return "Unexpected symbol : %s." % (self.symbol)
+		return "\tUnexpected symbol : %s." % (self.symbol)
 
 class MethodReturnsVoidError(Exception):
 	def __init__(self, method):
 		self.method = method
 	def __str__(self):
-		return "TypeError : method %s returns void" % (self.method)
+		return "\tTypeError : method %s returns void" % (self.method)
