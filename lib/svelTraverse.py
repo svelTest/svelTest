@@ -394,7 +394,7 @@ class SvelTraverse(object):
 			# ==== type check ====
 			# type check third argument -- must be file or string type
 			code, _type = self.walk(tree.children[2], verbose=verbose)
-			if _type != "string":
+			if _type != "string" and _type != "file":
 				try:
 					raise TypeMismatchError("funct constructor's third argument", "file", _type)
 				except TypeMismatchError as e:
@@ -433,7 +433,7 @@ class SvelTraverse(object):
 				# this line serves as pseudo-symbol table until we get one
 				# TODO: (emily) actually use symbol table
 				# assignment_expr must be file or string (string is OK)
-				if _type != "string" or _type != "file":
+				if _type != "string" and _type != "file":
 					try:
 						raise TypeMismatchError("file constructor", "file", _type)
 					except TypeMismatchError as e:
