@@ -839,7 +839,7 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: ref_type"
 
-		# -> ID LBRACKET expression RBRACKET
+		# -> ID LBRACKET assignment_expr RBRACKET
 		line = ""
 		code, id_type = self.walk(tree.children[0], verbose=verbose)
 		# check is variable is an array
@@ -853,9 +853,15 @@ class SvelTraverse(object):
 			_type = id_type[0:-2] # take off '[]'
 		line += code
 		line += '['
+		# assignment_expr
 		returned = self.walk(tree.children[1], verbose=verbose)
 		if isinstance(returned, tuple):
 			code, expr_type = returned
+			if expr_type != "int":
+				try:
+					raise TypeMismatchError("array index", "int", expr_type)
+				except TypeMismatchError as e:
+					print str(e)
 		else:
 			code = returned
 		line += code
