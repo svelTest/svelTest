@@ -1,0 +1,90 @@
+lang = Java;
+
+int add(int x, int y) {
+    return x + 0.5;
+}
+
+void arrays(int x, int y) {
+    int[] array = {};
+    int valid = array[x];
+    valid = array[1+1];
+    valid = array[int(0.5) + 1];
+    valid = array[add(3, 4)];
+
+    double d = 1.0;
+    int invalid = array[0.5];
+    invalid = array[d];
+
+    return invalid;
+}
+
+boolean equality(int x, int y) {
+    string s = "a";
+    int i = 3;
+    double d = 0.5;
+    boolean b = true;
+
+    // OK
+    b = i < i;
+    b = i > d;
+    b = d <= d;
+
+    // Throw OperatorCannotBeApplied
+    s = s < s;      
+    b = b > b;      
+    b = b <= b;     
+    s = s >= i;
+
+    int x = arrays(x, y);
+
+    return i;
+}
+
+int additive(int x, int y) {
+    string s = "a";
+    int i = 3;
+    double d = 0.5;
+    boolean b = True;
+    file f = "Foo.java";
+    input _in = (4, 5);
+    output out = "bar";
+    funct fun = {"foo", (j_int), "Foo.java"};
+
+    // OK
+    i = x + y;      // int + int
+    i = x - y;      // int - int
+    d = i + d;      // int + double
+    d = i - d;      // int - double
+    s = s + s;      // string + string
+
+    // Throw OperatorCannotBeApplied
+    s = s - s;      // string - string
+    b = b + b;      // boolean + boolean
+    b = b - b;      // boolean - boolean
+    s = s - i;      // string - int
+}
+
+int add(int x, int y) {
+    return y * (x, y);
+    print(x, y);
+}
+
+main() {
+    print("hello, world");
+
+    int x = 1;
+    int y = 2;
+    int z = x + y;
+    print(z);           // 3
+
+    int a = x * y;
+    print(a);           // 2
+
+    boolean b = x < y;
+    print(b);           // True
+
+    string n = "hello";
+    double u;
+    //funct f = {"hello", (j_int), "file.java"};
+    funct f = {"hello", (j_int), u};
+}
