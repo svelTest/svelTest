@@ -912,12 +912,14 @@ class SvelTraverse(object):
 
 		# -> identifier_list COMMA VERBOSE
 		elif len(tree.children) == 2 and tree.children[1].leaf=="verbose":
-			line += str(self.walk(tree.children[0], verbose=verbose)) + ", verbose=True"
+			code, _type = self.walk(tree.children[0], verbose=verbose)
+			line += str(code) + ", verbose=True"
 			_type = "verbose"
 
 		# -> identifier_list COMMA expression
 		elif len(tree.children) == 2:
-			line += str(self.walk(tree.children[0], verbose=verbose)) + ", " + str(self.walk(tree.children[1], verbose=verbose))
+			code, _type = self.walk(tree.children[0], verbose=verbose)
+			line += str(code) + ", " + str(self.walk(tree.children[1], verbose=verbose))
 			_type = "identifier_list"
 
 		return line, _type
