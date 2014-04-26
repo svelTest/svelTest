@@ -171,7 +171,9 @@ class SvelTraverse(object):
 					raise DuplicateVariableError(symbol)
 				except DuplicateVariableError as e:
 					print str(e)
-			return symbol + " = " + self.walk(tree.children[1], verbose)
+			# assignment_expr
+			code, _type = self.walk(tree.children[1], verbose)
+			return symbol + " = " + code
 
 	# returns code
 	def _function_def(self, tree, flags=None, verbose=False):
@@ -333,6 +335,7 @@ class SvelTraverse(object):
 		# -> expression SEMICOLON
 		return self.walk(tree.children[0], verbose=verbose)
 
+	# returns code
 	def _expression(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: expression"
@@ -351,10 +354,14 @@ class SvelTraverse(object):
 					print str(e)
 			return symbol + " = None" # not sure if this is the best thing to do?
 
+		returned = self.walk(tree.children[0], verbose=verbose)
 		# -> assignment_expr
+		if isinstance(returned, tuple):
+			code, _type = self.walk(tree.children[0], verbose=verbose)
 		# -> empty
 		else:
-			return self.walk(tree.children[0], verbose=verbose)
+			code = returned
+		return code
 
 	# This is where we update the scope and symbol tables
 	def _assignment_expr(self, tree, flags=None, verbose=False):
@@ -364,8 +371,7 @@ class SvelTraverse(object):
 		# TODO: handle FUNCT!
 		# -> logical_OR_expression
 		if tree.leaf == None:
-			code, _type = self.walk(tree.children[0], verbose=verbose)
-			return code
+			return self.walk(tree.children[0], verbose=verbose)
 
 		# -> FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
 		elif len(tree.children) == 3:
@@ -392,7 +398,7 @@ class SvelTraverse(object):
 				except TypeMismatchError as e:
 					print str(e)
 			line += str(code) + ")"
-			return line
+			return line, "funct"
 
 		# -> type ID ASSIGN assignment_expr
 		# TODO: (emily) check if assignment_expr matches with type
@@ -411,25 +417,37 @@ class SvelTraverse(object):
 				self._add_symtable(tree.leaf, _type, True) # add to symbol table
 
 			# ==== generate code for file type ====
+			# (file) ID ASSIGN assignment_expr
 			if self.walk(tree.children[0], verbose=verbose) == "file":
 				line = "if(not os.path.isfile("
-				line += self.walk(tree.children[1], verbose=verbose) + ")):\n"
+				file_name, _type = self.walk(tree.children[1], verbose=verbose)
+				line += file_name + ")):\n"
 				
 				next_line = "sys.exit('Cannot find "
 				self.level_up()
 				next_line = self.format(next_line)
 				self.level_down()
-				next_line += self.walk(tree.children[1], verbose=verbose) + "')\n"
+				next_line += file_name + "')\n"
 
 				# this line serves as pseudo-symbol table until we get one
 				# TODO: (emily) actually use symbol table
-				file_name = self.walk(tree.children[1], verbose=verbose)
+				# assignment_expr must be file or string (string is OK)
+				if _type != "string" or _type != "file":
+					try:
+						raise TypeMismatchError("file constructor", "file", _type)
+					except TypeMismatchError as e:
+						print str(e)
 				janky_line = tree.leaf + "=" + file_name
 				janky_line = self.format(janky_line)
-
-				return line + next_line + janky_line + '\n'
+				code = line + next_line + janky_line + '\n'
+				return code, "file"
 			else:
-				return tree.leaf + " = " + str(self.walk(tree.children[1], verbose=verbose))
+				# ==== type check ====
+				code, assign_type = self.walk(tree.children[1], verbose=verbose)
+				_type = self._assignment_expr_type_checker(tree.leaf, assign_type)
+
+				code = tree.leaf + " = " + str(code)
+				return code, _type
 
 		# -> ID ASSIGN assignment_expr
 		# TODO (emily): check if assignment_expr matches with type
@@ -443,14 +461,36 @@ class SvelTraverse(object):
 					print str(e)
 			# ==== type check ====
 			else: # TODO (emily) type check to see if type of ID matches assignment_expr
-				sym_type = self._get_symtable_type(tree.leaf)
+				expected_type = self._get_symtable_type(tree.leaf)
 				self._update_symtable(tree.leaf) # update symbol table
-				#assign_expr_type = self.walk(tree.children[0], verbose=verbose)
-				return tree.leaf + " = " + str(self.walk(tree.children[0], verbose=verbose))
+				code, assign_type = self.walk(tree.children[0], verbose=verbose)
+				_type = self._assignment_expr_type_checker(expected_type, assign_type)
+				code = tree.leaf + " = " + str(code)
+				return code, _type
 
 		# never reaches
 		print "WARNING Unreachable code : _assignment_expr"
 		return self.walk(tree.children[0], verbose=verbose)
+
+	def _assignment_expr_type_checker(self, expected_type, _type):
+		if expected_type != _type:
+			if (expected_type == "int" or expected_type == "double") and \
+				(_type == "double" or _type == "int"):
+				expected_type = expected_type
+			elif expected_type == "file" and _type == "string": # file f = string OK
+				expected_type = "file"
+			elif expected_type == "string" and _type == "file":
+				expected_type = "string"
+			elif expected_type == "input" and _type != "file" and _type != "file[]" and \
+				_type != "funct" and _type != "funct[]":
+				expected_type = "input"
+			elif expected_type == "output" and _type != "file" and _type != "file[]" and \
+				_type != "funct" and _type != "funct[]" and \
+				_type != "input" and _type != "input[]":
+				expected_type = "output"
+			else:
+				expected_type = "undefined"
+		return expected_type
 
 	# ===========================================================
 	# 					Evaluation expressions
