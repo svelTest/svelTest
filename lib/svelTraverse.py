@@ -799,7 +799,7 @@ class SvelTraverse(object):
 					print str(e)
 				_type = "undefined"
 			else:
-				_type = self._get_symtable_type(symbol)
+				_type = self._get_symtable_type(symbol, True)
 				if _type == "void":
 					try:
 						raise MethodReturnsVoidError(tree.leaf)
