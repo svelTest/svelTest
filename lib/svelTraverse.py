@@ -20,6 +20,7 @@ class SvelTraverse(object):
 
 		# scope level
 		self.scope = 0;
+		self.currentFunction = "global"
 
 		# keep track of variables defined in each scope
 		self.scopes = [{}]
@@ -206,6 +207,7 @@ class SvelTraverse(object):
 				raise DuplicateVariableError(symbol)
 			except DuplicateVariableError as e:
 				print str(e)
+		self.currentFunction = functionName
 
 		# -> MAIN LPAREN param_list RPAREN brack_stmt
 		if len(tree.children) == 2:
@@ -401,7 +403,6 @@ class SvelTraverse(object):
 			return line, "funct"
 
 		# -> type ID ASSIGN assignment_expr
-		# TODO: (emily) check if assignment_expr matches with type
 		elif len(tree.children) == 2:
 			# ==== ID check ====
 			# error if ID already in symbol table
@@ -450,7 +451,6 @@ class SvelTraverse(object):
 				return code, _type
 
 		# -> ID ASSIGN assignment_expr
-		# TODO (emily): check if assignment_expr matches with type
 		elif len(tree.children) == 1:
 			# ==== ID check ====
 			# error if ID already in symbol table
@@ -460,7 +460,7 @@ class SvelTraverse(object):
 				except SymbolNotFoundError as e:
 					print str(e)
 			# ==== type check ====
-			else: # TODO (emily) type check to see if type of ID matches assignment_expr
+			else:
 				expected_type = self._get_symtable_type(tree.leaf)
 				self._update_symtable(tree.leaf) # update symbol table
 				code, assign_type = self.walk(tree.children[0], verbose=verbose)
@@ -1003,6 +1003,13 @@ class SvelTraverse(object):
 			line += "return "
 			# TODO (emily) : check return type
 			code, _type = self.walk(tree.children[0], verbose=verbose)
+			symbol = self.currentFunction + "()"
+			function_returns = self._get_symtable_type(symbol, True)
+			if function_returns != _type:
+				try:
+					raise MethodReturnTypeMismatch(self.currentFunction, function_returns, _type)
+				except MethodReturnTypeMismatch as e:
+					print str(e)
 			line += code
 
 		return line
