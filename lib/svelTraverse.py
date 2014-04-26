@@ -1306,7 +1306,7 @@ class MethodReturnTypeMismatch(Exception):
 		self.expected = expected
 		self.actual = actual
 	def __str__(self):
-		return "\tTypeMismatchError : method %s() return type is %s. Found %s" % (self.method, self.expected, self.actual)
+		return "\tTypeMismatchError : method %s() return type is %s. Found %s." % (self.method, self.expected, self.actual)
 
 class OperatorCannotBeApplied(Exception):
 	def __init__(self, operator, type_1, type_2):
@@ -1320,7 +1320,7 @@ class InvalidArguments(Exception):
 	def __init__(self, function):
 		self.function = function
 	def __str__(self):
-		return "\tTypeError : Invalid arguments for %s()" % (self.function)
+		return "\tTypeError : Invalid arguments for %s()." % (self.function)
 
 class UnexpectedSymbol(Exception):
 	def __init__(self, symbol):
@@ -1332,4 +1332,4 @@ class MethodReturnsVoidError(Exception):
 	def __init__(self, method):
 		self.method = method
 	def __str__(self):
-		return "\tTypeError : method %s returns void" % (self.method)
+		return "\tTypeError : method %s() returns void." % (self.method)
