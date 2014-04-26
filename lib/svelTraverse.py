@@ -359,7 +359,7 @@ class SvelTraverse(object):
 		returned = self.walk(tree.children[0], verbose=verbose)
 		# -> assignment_expr
 		if isinstance(returned, tuple):
-			code, _type = self.walk(tree.children[0], verbose=verbose)
+			code, _type = returned
 		# -> empty
 		else:
 			code = returned
@@ -683,7 +683,7 @@ class SvelTraverse(object):
 					raise UnexpectedSymbol('(')
 				except UnexpectedSymbol as e:
 					print str(e)
-			line += '[' + str(self.walk(tree.children[0], verbose=verbose)) + ']'
+			line += '[' + str(code) + ']'
 			return line, "undefined"
 
 		# -> LBRACE identifier_list RBRACE
@@ -779,14 +779,14 @@ class SvelTraverse(object):
 			elif function == "readlines":
 				line += "[line.strip() for line in open(%s)]" % (tree.leaf)
 				_type = "array"
-			elif tree.children[0].leaf == "assert":
-				_type = "boolean"
 			else:	
 				if function == "remove":
 					function = "pop"
 				code, _id_list_type = self.walk(tree.children[1], verbose=verbose)
 				line += tree.leaf + "." + function + "(" + code + ")"
 				_type = "undefined"
+				if function == "_assert":
+					_type = "boolean"
 
 		# -> ID LPAREN identifier_list RPAREN
 		elif len(tree.children) == 1:
