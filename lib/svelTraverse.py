@@ -1286,6 +1286,14 @@ class UndefinedMethodError(Exception):
 	def __str__(self):
 		return "UndefinedMethodError : method %s not defined." (self.method)
 
+class MethodReturnTypeMismatch(Exception):
+	def __init__(self, method, expected, actual):
+		self.method = method
+		self.expected = expected
+		self.actual = actual
+	def __str__(self):
+		return "TypeMismatchError : method %s return type is %s. Found %s" % (self.method, self.expected, self.actual)
+
 class OperatorCannotBeApplied(Exception):
 	def __init__(self, operator, type_1, type_2):
 		self.operator = operator
