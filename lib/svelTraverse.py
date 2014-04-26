@@ -626,7 +626,6 @@ class SvelTraverse(object):
 			line += str(code)
 			# check if add_type PLUS/MINUS mult_type are compatible
 			_type = self._additive_expr_type_checker(tree.leaf, add_type, mult_type)
-			print "additive_expr : _type returned from checker: %s" % (_type)
 
 		# -> multiplicative_expr
 		else:
@@ -1033,7 +1032,6 @@ class SvelTraverse(object):
 		returned = self.walk(tree.leaf, verbose=verbose)
 		if isinstance(returned, tuple):
 			code, _type = returned
-			print "_funct_name: (%s, %s)" % (code, _type)
 			if _type != "ID" and _type != "string":
 				try:
 					raise TypeMismatchError("funct first argument", "string", _type)
@@ -1227,8 +1225,8 @@ class SvelTraverse(object):
 			return "boolean"
 		if self._is_int(primary_expr):
 			return "int"
-		if self._is_float(primary_expr):
-			return "float"
+		if self._is_double(primary_expr):
+			return "double"
 		if self._is_string(primary_expr):
 			return "string"
 		return "ID"
@@ -1236,7 +1234,7 @@ class SvelTraverse(object):
 	def _is_boolean(self, primary_expr):
 		return primary_expr == "true" or primary_expr == "false"
 
-	# always check _is_int() before checking _is_float()
+	# always check _is_int() before checking _is_double()
 	def _is_int(self, primary_expr):
 		try:
 			a = float(primary_expr)
@@ -1246,8 +1244,8 @@ class SvelTraverse(object):
 		else:
 			return a == b
 
-	# always check _is_int() before checking _is_float()
-	def _is_float(self, primary_expr):
+	# always check _is_int() before checking _is_double()
+	def _is_double(self, primary_expr):
 		try:
 			a = float(primary_expr)
 		except ValueError:
