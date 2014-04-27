@@ -369,7 +369,6 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: assignment_expr"
 
-		# TODO: handle FUNCT!
 		# -> logical_OR_expression
 		if tree.leaf == None:
 			return self.walk(tree.children[0], verbose=verbose)

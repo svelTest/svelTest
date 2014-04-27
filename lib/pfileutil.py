@@ -19,20 +19,20 @@ def getAbsPath(relPath):
 
 	# from jfileutil -- TODO: DRY...
 	slash = "/"
-    if os.name == "nt":
-        slash = "\\"
+	if os.name == "nt":
+		slash = "\\"
 	cwdArray = os.getcwd().split(slash)[1:]
-    if relPath[0] == slash:
-        return relPath
-    relPathArray = relPath.split(slash)
-    while relPathArray[0] == "..":
-        cwdArray = cwdArray[0 : len(cwdArray) - 1]
-        relPathArray = relPathArray[1:]
-    absPathArray = cwdArray + relPathArray
-    absPath = ""
-    for dir in absPathArray:
-        absPath += slash + dir
-    return absPath
+	if relPath[0] == slash:
+		return relPath
+	relPathArray = relPath.split(slash)
+	while relPathArray[0] == "..":
+		cwdArray = cwdArray[0 : len(cwdArray) - 1]
+		relPathArray = relPathArray[1:]
+	absPathArray = cwdArray + relPathArray
+	absPath = ""
+	for dir in absPathArray:
+		absPath += slash + dir
+	return absPath
 
 def getAbsDir(path):
 	''' Return the absolute path to the directory of the file
@@ -41,14 +41,14 @@ def getAbsDir(path):
 
 	# from jfileutil -- TODO: DRY...
 	slash = "/"
-    if os.name == "nt":
-        slash = "\\"
-    absPath = getAbsPath(path)
-    array = absPath.split(slash)[0:-1]
-    absPath = ""
-    for dir in array:
-        absPath += dir + slash
-    return absPath
+	if os.name == "nt":
+		slash = "\\"
+	absPath = getAbsPath(path)
+	array = absPath.split(slash)[0:-1]
+	absPath = ""
+	for dir in array:
+		absPath += dir + slash
+	return absPath
 
 def getClassName(classFilePath):
 	''' Return the Python class name from the file path
@@ -57,7 +57,7 @@ def getClassName(classFilePath):
 
 	# from jfileutil -- TODO: DRY...
 	slash = "/"
-    if os.name == "nt":
-        slash = "\\"
-    # get "Add" from rel/path/to/Add.java
-    return classFilePath.split(slash)[-1][0:-5]
+	if os.name == "nt":
+		slash = "\\"
+	# get "Add" from rel/path/to/Add.py
+	return classFilePath.split(slash)[-1][0:-3]
