@@ -15,7 +15,9 @@
 # =============================================================================
 
 import os, sys, subprocess
-from pfileutil import *
+
+# don't need this anymore...
+#from pfileutil import *
 
 # modeled after jfunct.py and cfunct.py
 class Funct(object):
@@ -281,5 +283,5 @@ def tests():
     _2._assert([], "Hello World", verbose=True)
 
 # Uncomment if want to run individually; messes up compiled file though
-if __name__ == "__main__":
-    tests()
+#if __name__ == "__main__":
+#    tests()
