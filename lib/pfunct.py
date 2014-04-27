@@ -73,11 +73,9 @@ class Funct(object):
         process = self.runPSvelHelper(inputValues, outputValues)
         # TODO: file cleanup
 
-        print process
-        print process.stdout
-        print process.stdout.read()
-
         console = process.stdout.read().strip()
+        print console
+
         # Testing print output
         if self.retype == "void":
             if outputValue in console.strip():
@@ -89,7 +87,6 @@ class Funct(object):
 
         # Testing a return value
         else:
-            print "console" + console
             if console == "true":
                 message = "PASS"
                 passed = True
@@ -116,7 +113,7 @@ class Funct(object):
         else:
             for val in inputValues:
                 inputstr += str(val) + " "
-        process = subprocess.Popen('python %s %s %s' % (self.psvelClass, inputstr, str(outputValues)), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
+        process = subprocess.Popen('python %s.py %s %s' % (self.psvelClass, inputstr, str(outputValues)), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=getAbsDir(self.file))
 
         return process
 
