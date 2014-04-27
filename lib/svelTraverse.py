@@ -374,7 +374,8 @@ class SvelTraverse(object):
 		# TODO: handle FUNCT!
 		# -> logical_OR_expression
 		if tree.leaf == None:
-			return self.walk(tree.children[0], verbose=verbose)
+			code, _type = self.walk(tree.children[0], verbose=verbose)
+			return code, _type
 
 		# -> FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
 		elif len(tree.children) == 3:
@@ -405,6 +406,7 @@ class SvelTraverse(object):
 
 		# -> type ID ASSIGN assignment_expr
 		elif len(tree.children) == 2:
+			expected_type = tree.children[0].leaf
 			# ==== ID check ====
 			# error if ID already in symbol table
 			if self._symbol_exists(tree.leaf): 
@@ -414,9 +416,9 @@ class SvelTraverse(object):
 					print str(e)
 			# add a new entry in scope and symbol tables
 			else:
-				_type = self.walk(tree.children[0], verbose=verbose)
+				expected_type = self.walk(tree.children[0], verbose=verbose)
 				self._add_scopetable(tree.leaf) # add to scope table
-				self._add_symtable(tree.leaf, _type, True) # add to symbol table
+				self._add_symtable(tree.leaf, expected_type, True) # add to symbol table
 
 			# ==== generate code for file type ====
 			# (file) ID ASSIGN assignment_expr
@@ -446,8 +448,7 @@ class SvelTraverse(object):
 			else:
 				# ==== type check ====
 				code, assign_type = self.walk(tree.children[1], verbose=verbose)
-				_type = self._assignment_expr_type_checker(tree.leaf, assign_type)
-
+				_type = self._assignment_expr_type_checker(expected_type, assign_type)
 				code = tree.leaf + " = " + str(code)
 				return code, _type
 
@@ -483,12 +484,17 @@ class SvelTraverse(object):
 			elif expected_type == "string" and _type == "file":
 				expected_type = "string"
 			elif expected_type == "input" and _type != "file" and _type != "file[]" and \
-				_type != "funct" and _type != "funct[]":
+				_type != "funct" and _type != "funct[]" and _type != "identifier_list":
 				expected_type = "input"
 			elif expected_type == "output" and _type != "file" and _type != "file[]" and \
 				_type != "funct" and _type != "funct[]" and \
 				_type != "input" and _type != "input[]":
 				expected_type = "output"
+			elif expected_type != "input" and _type == "identifier_list":
+				try:
+					raise UnexpectedSymbol('(')
+				except UnexpectedSymbol as e:
+					print str(e)
 			else:
 				expected_type = "undefined"
 		return expected_type
@@ -678,13 +684,8 @@ class SvelTraverse(object):
 		# -> LPAREN (expression) RPAREN
 		elif tree.leaf == '(':
 			code, _type = self.walk(tree.children[0], verbose=verbose)
-			if _type == "identifier_list" or _type == "verbose":
-				try:
-					raise UnexpectedSymbol('(')
-				except UnexpectedSymbol as e:
-					print str(e)
 			line += '[' + str(code) + ']'
-			return line, "undefined"
+			return line, _type
 
 		# -> LBRACE identifier_list RBRACE
 		elif tree.leaf == '{':
@@ -910,7 +911,7 @@ class SvelTraverse(object):
 			print "===> svelTraverse: _identifier_list"
 
 		line = ""
-		_type = "expression"
+		_type = "identifier_list"
 
 		# -> expression
 		if len(tree.children) == 1:
