@@ -1,0 +1,20 @@
+lang = Python;
+
+// similar to C implementation
+main() {
+	// tests the main add
+	file addFile = "Add.py";
+	funct addMain = {"add", (p_int, p_int), addFile};
+
+	input[] _in = {{1, 2}, {-2, 4}, {0, 1}};
+	output[] out = {"3", "2", "1"};
+
+	// main -- console
+	for(int i = 0; i < 3; i = i+1) {
+		if(addMain.assert(_in[i], out[i], verbose)){
+			print ("Test passed.");
+		} else {
+		 	print ("Test failed.");
+		}
+	}
+}
