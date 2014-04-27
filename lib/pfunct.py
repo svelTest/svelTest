@@ -78,7 +78,7 @@ class Funct(object):
 
         # Testing print output
         if self.retype == "void":
-            if outputValue in console.strip():
+            if outputValues in console.strip():
                 message = "PASS"
                 passed = True
             else:
@@ -165,6 +165,7 @@ class Funct(object):
 
 		body = ""
 		paramsStr = "" # string of variables to pass into the method to test
+		imp = "" # import statements
 
 		i = 0;
 		for param in self.params:
@@ -184,23 +185,32 @@ class Funct(object):
 
 		body += "\n"
 
-		# _class = Add()
-		body += "\t_class = %s()" % (className)
-		body += "\n"
+		if self.retype != "void":
+			# _class = Add()
+			body += "\t_class = %s()" % (className)
+			body += "\n"
 
-		body += "\texpected = %s(argv[%s])\n" % (param, i+1)
-		body += "\n"
-		
-		# actual = _class.add(x, y)
-		body += "\tactual = _class.%s(%s)\n" % (self.name, paramsStr)
+			body += "\texpected = %s(argv[%s])\n" % (param, i+1)
+			body += "\n"
+			
+			# actual = _class.add(x, y)
+			body += "\tactual = _class.%s(%s)\n" % (self.name, paramsStr)
 
-		body += "\teq = (expected == actual)\n"
-		body += "\tif eq:\n\t\tprint \"true\"\n"
-		body += "\telse:\n\t\tprint \"returned: \" + str(actual)\n"
-		body += "\n\tsys.stdout.flush()\n"
+			body += "\teq = (expected == actual)\n"
+			body += "\tif eq:\n\t\tprint \"true\"\n"
+			body += "\telse:\n\t\tprint \"returned: \" + str(actual)\n"
+			body += "\n\tsys.stdout.flush()\n"
 
-		# import statement - need to import the class
-		imp = "from %s import *" % (className)
+			# import statement - need to import the class
+			imp = "from %s import *" % (className)
+
+		else:
+			# had to rename main to _main to avoid name collision
+			imp = "from %s import %s as _main" % (className, self.name)
+
+			body += "\t%s(%s)\n" % ("_main", paramsStr)
+
+
 
 		pcode = '''import sys
 %s
@@ -252,7 +262,10 @@ if __name__ == "__main__":
   			Gets the return type of the method to test.
     	'''
     	# check if the function contains the return keyword?
-    	return None
+    	if self.name == "main":
+    		return "void"
+    	else:
+    		return None
 
 def tests():
     _1 = Funct("add", ["p_int", "p_int"], "../test/python_files/Add.py")
@@ -264,8 +277,8 @@ def tests():
         _1._assert(_1_inputs[i], _1_outputs[i], verbose=True)
         i += 1
 
-#    _2 = Funct("main", ["p_String[]"], "../test/java_files/HelloWorld.py")
-#    _2._assert([], "Hello World")
+    _2 = Funct("main", [], "../test/python_files/HelloWorld.py")
+    _2._assert([], "Hello World", verbose=True)
 
 # Uncomment if want to run individually; messes up compiled file though
 if __name__ == "__main__":
