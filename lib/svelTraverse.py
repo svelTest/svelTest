@@ -450,7 +450,7 @@ class SvelTraverse(object):
 			else:
 				# ==== type check ====
 				code, assign_type = self.walk(tree.children[1], verbose=verbose)
-				_type = self._assignment_expr_type_checker(expected_type, assign_type, lineno=tree.lineno)
+				_type = self._assignment_expr_type_checker(tree.leaf, expected_type, assign_type, lineno=tree.lineno)
 				code = tree.leaf + " = " + str(code)
 				return code, _type
 
@@ -468,7 +468,7 @@ class SvelTraverse(object):
 				expected_type = self._get_symtable_type(tree.leaf)
 				self._update_symtable(tree.leaf) # update symbol table
 				code, assign_type = self.walk(tree.children[0], verbose=verbose)
-				_type = self._assignment_expr_type_checker(expected_type, assign_type, lineno=tree.lineno)
+				_type = self._assignment_expr_type_checker(tree.leaf, expected_type, assign_type, lineno=tree.lineno)
 				code = tree.leaf + " = " + str(code)
 				return code, _type
 
@@ -476,7 +476,7 @@ class SvelTraverse(object):
 		print "WARNING Unreachable code : _assignment_expr"
 		return self.walk(tree.children[0], verbose=verbose)
 
-	def _assignment_expr_type_checker(self, expected_type, _type, lineno=None):
+	def _assignment_expr_type_checker(self, var, expected_type, _type, lineno=None):
 		if expected_type != _type:
 			if (expected_type == "int" or expected_type == "double") and \
 				(_type == "double" or _type == "int"):
@@ -498,6 +498,10 @@ class SvelTraverse(object):
 				except UnexpectedSymbol as e:
 					print str(e)
 			else:
+				try:
+					raise TypeMismatchError(var, expected_type, _type, lineno)
+				except TypeMismatchError as e:
+					print str(e)
 				expected_type = "undefined"
 		return expected_type
 
