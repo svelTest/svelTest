@@ -16,3 +16,5 @@ c5 c6 c7 c8 c9
 Straight Flush
 c12 c1 c11 c10 c13
 Royal Flush
+h12 d1 h11 c10 s5
+No Pair
