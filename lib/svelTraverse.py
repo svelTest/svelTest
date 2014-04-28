@@ -486,13 +486,13 @@ class SvelTraverse(object):
 			elif expected_type == "string" and _type == "file":
 				expected_type = "string"
 			elif expected_type == "input" and _type != "file" and _type != "file[]" and \
-				_type != "funct" and _type != "funct[]" and _type != "identifier_list":
+				_type != "funct" and _type != "funct[]" and _type != "verbose":
 				expected_type = "input"
 			elif expected_type == "output" and _type != "file" and _type != "file[]" and \
 				_type != "funct" and _type != "funct[]" and \
 				_type != "input" and _type != "input[]":
 				expected_type = "output"
-			elif expected_type != "input" and (_type == "identifier_list" or _type == "verbose"):
+			elif expected_type != "input" and (_type == "id_list" or _type == "verbose"):
 				try:
 					raise UnexpectedSymbol('(', lineno=lineno)
 				except UnexpectedSymbol as e:
@@ -734,10 +734,10 @@ class SvelTraverse(object):
 		line = ""
 		_type = "undefined"
 
-		# -> PRINT LPAREN identifier_list RPAREN
+		# -> PRINT LPAREN logical_OR_expr RPAREN
 		if tree.leaf == "print":
 			code, _type = self.walk(tree.children[0], verbose=verbose)
-			if _type == "verbose" or _type == "identifier_list":
+			if _type == "verbose" or _type == "id_list":
 				try:
 					raise InvalidArguments("print", lineno=tree.lineno)
 				except InvalidArguments as e:
@@ -745,14 +745,14 @@ class SvelTraverse(object):
 			_type = "undefined"
 			line += tree.leaf + " " + code
 
-		# type conversions
-		# -> STRING LPAREN logical_OR_expr RPAREN
+		# type conversions: STRING | INT | BOOLEAN | DOUBLE
+		# -> <type> LPAREN logical_OR_expr RPAREN
 		elif tree.leaf == "string" or tree.leaf == "int" or \
 			tree.leaf == "double" or tree.leaf == "boolean":
-			code, _id_list_type = self.walk(tree.children[0], verbose=verbose)
-			if _id_list_type == "verbose" or _id_list_type == "identifier_list":
+			code, _or_type = self.walk(tree.children[0], verbose=verbose)
+			if _or_type == "verbose" or _or_type == "id_list" or _or_type == "empty":
 				try:
-					raise InvalidArguments(tree.leaf)
+					raise InvalidArguments(tree.leaf, lineno=tree.lineno)
 				except InvalidArguments as e:
 					print str(e)
 				_type = "undefined"
@@ -818,7 +818,7 @@ class SvelTraverse(object):
 						print str(e)
 					_type = "undefined"
 			code, _id_list_type = self.walk(tree.children[0], verbose=verbose)
-			if _id_list_type == "verbose":
+			if _id_list_type == "verbose": # empty, id_list, <type> OK
 				try:
 					raise InvalidArguments(tree.leaf, lineno=tree.lineno)
 				except InvalidArguments as e:
@@ -911,17 +911,23 @@ class SvelTraverse(object):
 		return self.walk(tree.leaf)
 
 	# returns tuple
-	# _type = expression, verbose, identifier_list
+	# _type = type from logical_OR_expr, empty, verbose, id_list
 	def _identifier_list(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: _identifier_list"
 
 		line = ""
-		_type = "identifier_list"
 
-		# -> expression
 		if len(tree.children) == 1:
-			line += str(self.walk(tree.children[0], verbose=verbose))
+			# -> empty
+			if tree.children[0].type == "empty":
+				line += str(self.walk(tree.children[0], verbose=verbose))
+				_type = "empty"
+			# -> logical_OR_expr
+			else:
+				code, _type = self.walk(tree.children[0], verbose=verbose)
+				line += str(code)
+				_type = _type
 
 		# -> identifier_list COMMA VERBOSE
 		elif len(tree.children) == 2 and tree.children[1].leaf=="verbose":
@@ -929,11 +935,13 @@ class SvelTraverse(object):
 			line += str(code) + ", verbose=True"
 			_type = "verbose"
 
-		# -> identifier_list COMMA expression
+		# -> identifier_list COMMA logical_OR_expr
 		elif len(tree.children) == 2:
 			code, _type = self.walk(tree.children[0], verbose=verbose)
-			line += str(code) + ", " + str(self.walk(tree.children[1], verbose=verbose))
-			_type = "identifier_list"
+			line += str(code) + ", "
+			code, _type = self.walk(tree.children[1], verbose=verbose)
+			line += str(code)
+			_type = "id_list"
 
 		return line, _type
 
