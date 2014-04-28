@@ -108,6 +108,7 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: outer_unit"
 
+		# -> lang_def translation_unit
 		return self.walk(tree.children[0], verbose=verbose) + "\n\n" + self.walk(tree.children[1], verbose=verbose)
 
 	def _lang_def(self, tree, flags=None, verbose=False):
@@ -157,7 +158,7 @@ class SvelTraverse(object):
 					raise DuplicateVariableError(symbol, lineno=tree.lineno)
 				except DuplicateVariableError as e:
 					print str(e)
-			return ""
+			return symbol + " = None"
 
 		# -> type ID ASSIGN assignment_expr SEMICOLON
 		else:
@@ -181,11 +182,8 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: function_def"
 
-		# TODO: use the format function to do indenting
-
 		# new scope
 		self.scope += 1
-		#print "New scope: " + str(self.scope)
 		self.scopes.append({})
 
 		# add to symbol table in GLOBAL scope as ID()
@@ -277,9 +275,13 @@ class SvelTraverse(object):
 
 		# -> type ID
 		_type = self.walk(tree.children[0])
-		if not self._symbol_exists(tree.leaf):
-			self._add_scopetable(tree.leaf) # add to scope table
-			self._add_symtable(tree.leaf, _type, True) # add to symbol table
+		if self._symbol_exists(tree.leaf):
+			try:
+				raise DuplicateVariableError(tree.leaf, lineno=tree.lineno)
+			except DuplicateVariableError as e:
+				print str(e)
+		self._add_scopetable(tree.leaf) # add to scope table
+		self._add_symtable(tree.leaf, _type, True) # add to symbol table
 
 		# put ID in code
 		return tree.leaf
@@ -455,7 +457,7 @@ class SvelTraverse(object):
 		# -> ID ASSIGN assignment_expr
 		elif len(tree.children) == 1:
 			# ==== ID check ====
-			# error if ID already in symbol table
+			# error if ID not in symbol table
 			if not self._symbol_exists(tree.leaf):
 				try:
 					raise SymbolNotFoundError(tree.leaf, lineno=tree.lineno)
@@ -778,9 +780,11 @@ class SvelTraverse(object):
 				line += tree.leaf + "[" + args[0].strip() + "] = " + args[1].strip()
 				_type = "undefined"
 			# TODO: make less hack-y when we have a symbol table
+			# lib_function -> READLINES
 			elif function == "readlines":
 				line += "[line.strip() for line in open(%s)]" % (tree.leaf)
 				_type = "array"
+			# lib_function -> ASSERT | REMOVE | INSERT | REPLACE
 			else:	
 				if function == "remove":
 					function = "pop"
