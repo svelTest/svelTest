@@ -773,7 +773,8 @@ class SvelTraverse(object):
 				line += "len(" + tree.leaf + ")"
 				_type = "int"
 			elif function == "replace":
-				args, _id_list_type = self.walk(tree.children[1], verbose=verbose).split(",")
+				args, _id_list_type = self.walk(tree.children[1], verbose=verbose)
+				args = args.split(",")
 				line += tree.leaf + "[" + args[0].strip() + "] = " + args[1].strip()
 				_type = "undefined"
 			# TODO: make less hack-y when we have a symbol table
