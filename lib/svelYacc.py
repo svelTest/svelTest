@@ -457,9 +457,10 @@ def p_reserved_languages_keyword(p):
 
 def p_identifier_list(p):
     '''
-    identifier_list : expression
+    identifier_list : logical_OR_expr
                     | identifier_list COMMA VERBOSE
-                    | identifier_list COMMA expression
+                    | identifier_list COMMA logical_OR_expr
+                    | empty
     '''
     if p != None:
         lineno = str(p.lexer.lineno)
