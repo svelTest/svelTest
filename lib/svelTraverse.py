@@ -772,12 +772,26 @@ class SvelTraverse(object):
 		
 		# -> ID PERIOD lib_function LPAREN identifier_list RPAREN
 		elif len(tree.children) == 2:
-			# TODO: make less hack-y
+			# ID : check if ID has been defined for use
+			symbol = tree.leaf
+			if not self._symbol_exists(symbol):
+				try:
+					raise SymbolNotFoundError(symbol, lineno=tree.lineno)
+				except SymbolNotFoundError as e:
+					print str(e)
 			function = self.walk(tree.children[0], verbose=verbose)
+			# lib_function -> SIZE
 			if function == "size":
-				# TODO (emily): check if id_list is empty
+				# Check if id_list is "empty"
+				code, _id_list_type = self.walk(tree.children[1], verbose=verbose)
+				if _id_list_type != "empty":
+					try:
+						raise InvalidArguments("size", lineno=tree.lineno)
+					except InvalidArguments as e:
+						print str(e)
 				line += "len(" + tree.leaf + ")"
 				_type = "int"
+			# lib_function -> REPLACE
 			elif function == "replace":
 				args, _id_list_type = self.walk(tree.children[1], verbose=verbose)
 				args = args.split(",")
