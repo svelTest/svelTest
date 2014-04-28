@@ -1238,6 +1238,9 @@ class SvelTraverse(object):
 
 	''' Returns the type of the symbol recorded by the symbol table '''
 	def _get_symtable_type(self, symbol, isGlobal=False):
+		global_entry = self._get_symtable_entry(symbol, True)
+		if global_entry in self.symbols:
+			return self.symbols[global_entry][0]
 		entry = self._get_symtable_entry(symbol, isGlobal)
 		return self.symbols[entry][0]
 
