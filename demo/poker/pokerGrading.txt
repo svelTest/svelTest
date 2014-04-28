@@ -1,0 +1,36 @@
+lang = Java;
+main() {
+    int total = 10; // total number of test cases
+
+    // extract unis of students to grade
+    file uniFile = "unis.txt";
+    string[] unis = uniFile.readlines();
+
+    // extract test cases
+    file testcases = "testcases.txt";
+    string[] lines = testcases.readlines();
+
+    // for each student in the list of unis
+    for (int i = 0; i < unis.size(); i=i+1) {
+        print("===========");
+        // test each student's PokerTest program
+        file pt = unis[i] + "/PokerTest.java";
+        funct poker = {__main__, (j_String[]), pt };
+
+        // test all 10 cases
+        int correct = 0;    // counter to keep track of number correct
+        for (int j = 0; j < lines.size(); j=j+2) {
+            // input line, followed by output line
+            string arg = lines[j];
+            string expect = lines[j+1];
+            if (poker.assert(arg, expect)) {
+                correct = correct + 1;
+            } else {
+                poker.assert(arg, expect, verbose);
+            }
+        }
+
+        print(unis[i] + ": \t" + string(correct) + "/" + string(total) + " correct. Score: " + string(correct*100/total));
+    }
+    
+}

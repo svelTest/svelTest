@@ -16,15 +16,5 @@ c5 c6 c7 c8 c9
 Straight Flush
 c12 c1 c11 c10 c13
 Royal Flush
-d7 c8 h9 s10 d11
-Straight
-d9 c9 h9 s11 d11
-Full House
-d9 c11 h11 s11 d11
-Four of a kind
-s1 c15 c13 d5 h5
-One pair
-c5 h5 c3 c4 c7
-One pair
-d2 d8 d3 d6 d10
-Flush
+h12 d1 h11 c10 s5
+No Pair

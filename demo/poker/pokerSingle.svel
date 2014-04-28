@@ -1,6 +1,6 @@
 lang = Java;
 main() {
-    int total = 9;      // total number of test cases
+    int total = 10;      // total number of test cases
     int correct = 0;    // counter to keep track of number correct
 
     funct poker = {__main__, (j_String[]), "PokerTest.java" };
@@ -15,6 +15,6 @@ main() {
         }
     }
 
-    print(string(correct) + "/" + string(total) + " correct. \tScore: " + string(correct/total*100));
+    print(string(correct) + "/" + string(total) + " correct. \tScore: " + string(correct*100/total));
 
 }
