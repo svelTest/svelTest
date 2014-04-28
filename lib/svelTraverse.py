@@ -497,6 +497,8 @@ class SvelTraverse(object):
 					raise UnexpectedSymbol('(', lineno=lineno)
 				except UnexpectedSymbol as e:
 					print str(e)
+			elif self._type_is_array(expected_type) and _type == "array":
+				expected_type = expected_type
 			else:
 				try:
 					raise TypeMismatchError(var, expected_type, _type, lineno)
