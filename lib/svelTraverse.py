@@ -689,7 +689,8 @@ class SvelTraverse(object):
 
 		# -> LBRACE identifier_list RBRACE
 		elif tree.leaf == '{':
-			line += '[' + str(self.walk(tree.children[0], verbose=verbose)) + ']'
+			code, _type = self.walk(tree.children[0], verbose=verbose)
+			line += '[' + str(code) + ']'
 			return line, "array" # TODO (emily) type of array
 
 		print "WARNING Unreachable code : _secondary_expr"
