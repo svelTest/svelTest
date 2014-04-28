@@ -108,6 +108,7 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: outer_unit"
 
+		# -> lang_def translation_unit
 		return self.walk(tree.children[0], verbose=verbose) + "\n\n" + self.walk(tree.children[1], verbose=verbose)
 
 	def _lang_def(self, tree, flags=None, verbose=False):
@@ -154,10 +155,10 @@ class SvelTraverse(object):
 				self._add_symtable(symbol, _type, False, True)
 			else:
 				try:
-					raise DuplicateVariableError(symbol)
+					raise DuplicateVariableError(symbol, lineno=tree.lineno)
 				except DuplicateVariableError as e:
 					print str(e)
-			return ""
+			return symbol + " = None"
 
 		# -> type ID ASSIGN assignment_expr SEMICOLON
 		else:
@@ -169,7 +170,7 @@ class SvelTraverse(object):
 				self._add_symtable(symbol, _type, True, True)
 			else:
 				try:
-					raise DuplicateVariableError(symbol)
+					raise DuplicateVariableError(symbol, tree.lineno)
 				except DuplicateVariableError as e:
 					print str(e)
 			# assignment_expr
@@ -181,11 +182,8 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: function_def"
 
-		# TODO: use the format function to do indenting
-
 		# new scope
 		self.scope += 1
-		#print "New scope: " + str(self.scope)
 		self.scopes.append({})
 
 		# add to symbol table in GLOBAL scope as ID()
@@ -196,7 +194,7 @@ class SvelTraverse(object):
 		if not isMain:
 			functionName = tree.leaf
 		symbol = functionName + "()" # ID()
-		print symbol + ":"
+		#print symbol + ":"
 		if not self._symbol_exists(symbol, True):
 			_type = "void"
 			if not isMain:
@@ -205,7 +203,7 @@ class SvelTraverse(object):
 			self._add_symtable(symbol, _type, True, True)
 		else:
 			try:
-				raise DuplicateVariableError(symbol)
+				raise DuplicateVariableError(symbol, lineno=tree.lineno)
 			except DuplicateVariableError as e:
 				print str(e)
 		self.currentFunction = functionName
@@ -277,9 +275,13 @@ class SvelTraverse(object):
 
 		# -> type ID
 		_type = self.walk(tree.children[0])
-		if not self._symbol_exists(tree.leaf):
-			self._add_scopetable(tree.leaf) # add to scope table
-			self._add_symtable(tree.leaf, _type, True) # add to symbol table
+		if self._symbol_exists(tree.leaf):
+			try:
+				raise DuplicateVariableError(tree.leaf, lineno=tree.lineno)
+			except DuplicateVariableError as e:
+				print str(e)
+		self._add_scopetable(tree.leaf) # add to scope table
+		self._add_symtable(tree.leaf, _type, True) # add to symbol table
 
 		# put ID in code
 		return tree.leaf
@@ -352,7 +354,7 @@ class SvelTraverse(object):
 				self._add_symtable(symbol, _type, False)
 			else:
 				try:
-					raise DuplicateVariableError(symbol)
+					raise DuplicateVariableError(symbol, lineno=tree.lineno)
 				except DuplicateVariableError as e:
 					print str(e)
 			return symbol + " = None" # not sure if this is the best thing to do?
@@ -374,7 +376,8 @@ class SvelTraverse(object):
 		# TODO: handle FUNCT!
 		# -> logical_OR_expression
 		if tree.leaf == None:
-			return self.walk(tree.children[0], verbose=verbose)
+			code, _type = self.walk(tree.children[0], verbose=verbose)
+			return code, _type
 
 		# -> FUNCT ID ASSIGN LBRACE funct_name COMMA LPAREN reserved_languages_list RPAREN COMMA primary_expr RBRACE
 		elif len(tree.children) == 3:
@@ -382,7 +385,7 @@ class SvelTraverse(object):
 			# error if ID already in symbol table
 			if self._symbol_exists(tree.leaf):
 				try:
-					raise DuplicateVariableError(tree.leaf)
+					raise DuplicateVariableError(tree.leaf, lineno=tree.lineno)
 				except DuplicateVariableError as e:
 					print str(e)
 			# else add a new entry in scope and symbol tables
@@ -397,7 +400,7 @@ class SvelTraverse(object):
 			code, _type = self.walk(tree.children[2], verbose=verbose)
 			if _type != "string" and _type != "file":
 				try:
-					raise TypeMismatchError("funct constructor's third argument", "file", _type)
+					raise TypeMismatchError("funct constructor's third argument", "file", _type, lineno=tree.lineno)
 				except TypeMismatchError as e:
 					print str(e)
 			line += str(code) + ")"
@@ -405,18 +408,19 @@ class SvelTraverse(object):
 
 		# -> type ID ASSIGN assignment_expr
 		elif len(tree.children) == 2:
+			expected_type = tree.children[0].leaf
 			# ==== ID check ====
 			# error if ID already in symbol table
 			if self._symbol_exists(tree.leaf): 
 				try:
-					raise DuplicateVariableError(tree.leaf)
+					raise DuplicateVariableError(tree.leaf, lineno=tree.lineno)
 				except DuplicateVariableError as e:
 					print str(e)
 			# add a new entry in scope and symbol tables
 			else:
-				_type = self.walk(tree.children[0], verbose=verbose)
+				expected_type = self.walk(tree.children[0], verbose=verbose)
 				self._add_scopetable(tree.leaf) # add to scope table
-				self._add_symtable(tree.leaf, _type, True) # add to symbol table
+				self._add_symtable(tree.leaf, expected_type, True) # add to symbol table
 
 			# ==== generate code for file type ====
 			# (file) ID ASSIGN assignment_expr
@@ -436,7 +440,7 @@ class SvelTraverse(object):
 				# assignment_expr must be file or string (string is OK)
 				if _type != "string" and _type != "file":
 					try:
-						raise TypeMismatchError("file constructor", "file", _type)
+						raise TypeMismatchError("file constructor", "file", _type, lineno=tree.lineno)
 					except TypeMismatchError as e:
 						print str(e)
 				janky_line = tree.leaf + "=" + file_name
@@ -446,18 +450,17 @@ class SvelTraverse(object):
 			else:
 				# ==== type check ====
 				code, assign_type = self.walk(tree.children[1], verbose=verbose)
-				_type = self._assignment_expr_type_checker(tree.leaf, assign_type)
-
+				_type = self._assignment_expr_type_checker(tree.leaf, expected_type, assign_type, lineno=tree.lineno)
 				code = tree.leaf + " = " + str(code)
 				return code, _type
 
 		# -> ID ASSIGN assignment_expr
 		elif len(tree.children) == 1:
 			# ==== ID check ====
-			# error if ID already in symbol table
+			# error if ID not in symbol table
 			if not self._symbol_exists(tree.leaf):
 				try:
-					raise SymbolNotFoundError(tree.leaf)
+					raise SymbolNotFoundError(tree.leaf, lineno=tree.lineno)
 				except SymbolNotFoundError as e:
 					print str(e)
 			# ==== type check ====
@@ -465,7 +468,7 @@ class SvelTraverse(object):
 				expected_type = self._get_symtable_type(tree.leaf)
 				self._update_symtable(tree.leaf) # update symbol table
 				code, assign_type = self.walk(tree.children[0], verbose=verbose)
-				_type = self._assignment_expr_type_checker(expected_type, assign_type)
+				_type = self._assignment_expr_type_checker(tree.leaf, expected_type, assign_type, lineno=tree.lineno)
 				code = tree.leaf + " = " + str(code)
 				return code, _type
 
@@ -473,7 +476,7 @@ class SvelTraverse(object):
 		print "WARNING Unreachable code : _assignment_expr"
 		return self.walk(tree.children[0], verbose=verbose)
 
-	def _assignment_expr_type_checker(self, expected_type, _type):
+	def _assignment_expr_type_checker(self, var, expected_type, _type, lineno=None):
 		if expected_type != _type:
 			if (expected_type == "int" or expected_type == "double") and \
 				(_type == "double" or _type == "int"):
@@ -483,13 +486,24 @@ class SvelTraverse(object):
 			elif expected_type == "string" and _type == "file":
 				expected_type = "string"
 			elif expected_type == "input" and _type != "file" and _type != "file[]" and \
-				_type != "funct" and _type != "funct[]":
+				_type != "funct" and _type != "funct[]" and _type != "verbose":
 				expected_type = "input"
 			elif expected_type == "output" and _type != "file" and _type != "file[]" and \
 				_type != "funct" and _type != "funct[]" and \
 				_type != "input" and _type != "input[]":
 				expected_type = "output"
+			elif expected_type != "input" and (_type == "id_list" or _type == "verbose"):
+				try:
+					raise UnexpectedSymbol('(', lineno=lineno)
+				except UnexpectedSymbol as e:
+					print str(e)
+			elif self._type_is_array(expected_type) and _type == "array":
+				expected_type = expected_type
 			else:
+				try:
+					raise TypeMismatchError(var, expected_type, _type, lineno)
+				except TypeMismatchError as e:
+					print str(e)
 				expected_type = "undefined"
 		return expected_type
 
@@ -513,7 +527,7 @@ class SvelTraverse(object):
 			line += " or "
 			# logical_AND_expr
 			code, and_type = self.walk(tree.children[1], verbose=verbose)
-			_type = self._logical_OR_expr_type_checker(tree.leaf, or_type, and_type)
+			_type = self._logical_OR_expr_type_checker(tree.leaf, or_type, and_type, lineno=tree.lineno)
 			line += str(code)
 
 		# go to logical_AND_expr
@@ -541,7 +555,7 @@ class SvelTraverse(object):
 			# equality_expr
 			code, eq_type = self.walk(tree.children[1], verbose=verbose)
 			# check if and_type AND eq_type is compatible
-			_type = self._equality_expr_type_checker(tree.leaf, and_type, eq_type)
+			_type = self._equality_expr_type_checker(tree.leaf, and_type, eq_type, lineno=tree.lineno)
 			line += str(code)
 
 		# -> equality_expr
@@ -569,7 +583,7 @@ class SvelTraverse(object):
 			# relational_expr
 			code, rel_type = self.walk(tree.children[1], verbose=verbose)
 			# check if eq_type EQ/NEQ rel_type is compatible
-			_type = self._equality_expr_type_checker(tree.leaf, eq_type, rel_type)
+			_type = self._equality_expr_type_checker(tree.leaf, eq_type, rel_type, lineno=tree.lineno)
 			line += str(code)
 
 		# -> relational_expr
@@ -597,7 +611,7 @@ class SvelTraverse(object):
 			# additive_expr
 			code, add_type = self.walk(tree.children[1], verbose=verbose)
 			# check if rel_type LS_OP/LE_OP/GR_OP/GE_OP additive_expr are compatible
-			_type = self._relational_expr_type_checker(tree.leaf, rel_type, add_type)
+			_type = self._relational_expr_type_checker(tree.leaf, rel_type, add_type, lineno=tree.lineno)
 			line += str(code)
 
 		# -> additive_expr
@@ -626,7 +640,7 @@ class SvelTraverse(object):
 			code, mult_type = self.walk(tree.children[1], verbose=verbose)
 			line += str(code)
 			# check if add_type PLUS/MINUS mult_type are compatible
-			_type = self._additive_expr_type_checker(tree.leaf, add_type, mult_type)
+			_type = self._additive_expr_type_checker(tree.leaf, add_type, mult_type, lineno=tree.lineno)
 
 		# -> multiplicative_expr
 		else:
@@ -652,7 +666,7 @@ class SvelTraverse(object):
 			# secondary_expr
 			code, secondary_type = self.walk(tree.children[1], verbose=verbose)
 			# check if mult_type TIMES/DIVIDE secondary_type are compatible
-			_type = self._multiplicative_expr_type_checker(tree.leaf, mult_type, secondary_type)
+			_type = self._multiplicative_expr_type_checker(tree.leaf, mult_type, secondary_type, lineno=tree.lineno)
 			line += str(code)
 
 		# -> secondary_expr
@@ -672,19 +686,13 @@ class SvelTraverse(object):
 
 		# -> primary_expr
 		if tree.leaf == None:
-			return self.walk(tree.children[0], verbose=verbose) # returns tuple
+			return self.walk(tree.children[0], verbose=verbose)
 
 		# -> LPAREN identifier_list RPAREN
-		# -> LPAREN (expression) RPAREN
 		elif tree.leaf == '(':
 			code, _type = self.walk(tree.children[0], verbose=verbose)
-			if _type == "identifier_list" or _type == "verbose":
-				try:
-					raise UnexpectedSymbol('(')
-				except UnexpectedSymbol as e:
-					print str(e)
 			line += '[' + str(code) + ']'
-			return line, "undefined"
+			return line, _type
 
 		# -> LBRACE identifier_list RBRACE
 		elif tree.leaf == '{':
@@ -709,7 +717,7 @@ class SvelTraverse(object):
 			symbol = tree.leaf
 			if not self._symbol_exists(symbol):
 				try:
-					raise SymbolNotFoundError(symbol)
+					raise SymbolNotFoundError(symbol, lineno=tree.lineno)
 				except SymbolNotFoundError as e:
 					print str(e)
 				_type = "undefined"
@@ -728,25 +736,25 @@ class SvelTraverse(object):
 		line = ""
 		_type = "undefined"
 
-		# -> PRINT LPAREN identifier_list RPAREN
+		# -> PRINT LPAREN logical_OR_expr RPAREN
 		if tree.leaf == "print":
 			code, _type = self.walk(tree.children[0], verbose=verbose)
-			if _type == "verbose" or _type == "identifier_list":
+			if _type == "verbose" or _type == "id_list":
 				try:
-					raise InvalidArguments("print")
+					raise InvalidArguments("print", lineno=tree.lineno)
 				except InvalidArguments as e:
 					print str(e)
 			_type = "undefined"
 			line += tree.leaf + " " + code
 
-		# type conversions
-		# -> STRING LPAREN identifier_list RPAREN
+		# type conversions: STRING | INT | BOOLEAN | DOUBLE
+		# -> <type> LPAREN logical_OR_expr RPAREN
 		elif tree.leaf == "string" or tree.leaf == "int" or \
 			tree.leaf == "double" or tree.leaf == "boolean":
-			code, _id_list_type = self.walk(tree.children[0], verbose=verbose)
-			if _id_list_type == "verbose" or _id_list_type == "identifier_list":
+			code, _or_type = self.walk(tree.children[0], verbose=verbose)
+			if _or_type == "verbose" or _or_type == "id_list" or _or_type == "empty":
 				try:
-					raise InvalidArguments(tree.leaf)
+					raise InvalidArguments(tree.leaf, lineno=tree.lineno)
 				except InvalidArguments as e:
 					print str(e)
 				_type = "undefined"
@@ -766,20 +774,37 @@ class SvelTraverse(object):
 		
 		# -> ID PERIOD lib_function LPAREN identifier_list RPAREN
 		elif len(tree.children) == 2:
-			# TODO: make less hack-y
+			# ID : check if ID has been defined for use
+			symbol = tree.leaf
+			if not self._symbol_exists(symbol):
+				try:
+					raise SymbolNotFoundError(symbol, lineno=tree.lineno)
+				except SymbolNotFoundError as e:
+					print str(e)
 			function = self.walk(tree.children[0], verbose=verbose)
+			# lib_function -> SIZE
 			if function == "size":
-				# TODO (emily): check if id_list is empty
+				# Check if id_list is "empty"
+				code, _id_list_type = self.walk(tree.children[1], verbose=verbose)
+				if _id_list_type != "empty":
+					try:
+						raise InvalidArguments("size", lineno=tree.lineno)
+					except InvalidArguments as e:
+						print str(e)
 				line += "len(" + tree.leaf + ")"
 				_type = "int"
+			# lib_function -> REPLACE
 			elif function == "replace":
-				args, _id_list_type = self.walk(tree.children[1], verbose=verbose).split(",")
+				args, _id_list_type = self.walk(tree.children[1], verbose=verbose)
+				args = args.split(",")
 				line += tree.leaf + "[" + args[0].strip() + "] = " + args[1].strip()
 				_type = "undefined"
 			# TODO: make less hack-y when we have a symbol table
+			# lib_function -> READLINES
 			elif function == "readlines":
 				line += "[line.strip() for line in open(%s)]" % (tree.leaf)
 				_type = "array"
+			# lib_function -> ASSERT | REMOVE | INSERT | REPLACE
 			else:	
 				if function == "remove":
 					function = "pop"
@@ -796,7 +821,7 @@ class SvelTraverse(object):
 			_type = "undefined"
 			if not self._symbol_exists(symbol, True):
 				try:
-					raise UndefinedMethodError(tree.leaf)
+					raise UndefinedMethodError(tree.leaf, lineno=tree.lineno)
 				except UndefinedMethodError as e:
 					print str(e)
 				_type = "undefined"
@@ -804,14 +829,14 @@ class SvelTraverse(object):
 				_type = self._get_symtable_type(symbol, True)
 				if _type == "void":
 					try:
-						raise MethodReturnsVoidError(tree.leaf)
+						raise MethodReturnsVoidError(tree.leaf, lineno=tree.lineno)
 					except MethodReturnsVoidError as e:
 						print str(e)
 					_type = "undefined"
 			code, _id_list_type = self.walk(tree.children[0], verbose=verbose)
-			if _id_list_type == "verbose":
+			if _id_list_type == "verbose": # empty, id_list, <type> OK
 				try:
-					raise InvalidArguments(tree.leaf)
+					raise InvalidArguments(tree.leaf, lineno=tree.lineno)
 				except InvalidArguments as e:
 					print str(e)
 			line += tree.leaf + "(" + code + ")"
@@ -828,9 +853,6 @@ class SvelTraverse(object):
 			return "_assert"
 		elif tree.leaf == "readlines":
 			# -> READLINE
-			# lines = [line.strip() for line in open(input_file)]
-			#line = "[line.strip() for line in open("
-			#line += self.walk(tree.children[1], verbose=verbose) + ")]"
 			return "readlines"
 		else:
 			# -> REMOVE | SIZE | INSERT | REPLACE
@@ -847,7 +869,7 @@ class SvelTraverse(object):
 		# check is variable is an array
 		if not self._type_is_array(id_type):
 			try:
-				raise InvalidArrayAccess(code)
+				raise InvalidArrayAccess(code, lineno=tree.lineno)
 			except InvalidArrayAccess as e:
 				print str(e)
 			_type = "undefined"
@@ -861,7 +883,7 @@ class SvelTraverse(object):
 			code, expr_type = returned
 			if expr_type != "int":
 				try:
-					raise TypeMismatchError("array index", "int", expr_type)
+					raise TypeMismatchError("array index", "int", expr_type, lineno=tree.lineno)
 				except TypeMismatchError as e:
 					print str(e)
 		else:
@@ -905,17 +927,23 @@ class SvelTraverse(object):
 		return self.walk(tree.leaf)
 
 	# returns tuple
-	# _type = expression, verbose, identifier_list
+	# _type = type from logical_OR_expr, empty, verbose, id_list
 	def _identifier_list(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: _identifier_list"
 
 		line = ""
-		_type = "expression"
 
-		# -> expression
 		if len(tree.children) == 1:
-			line += str(self.walk(tree.children[0], verbose=verbose))
+			# -> empty
+			if tree.children[0].type == "empty":
+				line += str(self.walk(tree.children[0], verbose=verbose))
+				_type = "empty"
+			# -> logical_OR_expr
+			else:
+				code, _type = self.walk(tree.children[0], verbose=verbose)
+				line += str(code)
+				_type = _type
 
 		# -> identifier_list COMMA VERBOSE
 		elif len(tree.children) == 2 and tree.children[1].leaf=="verbose":
@@ -923,11 +951,13 @@ class SvelTraverse(object):
 			line += str(code) + ", verbose=True"
 			_type = "verbose"
 
-		# -> identifier_list COMMA expression
+		# -> identifier_list COMMA logical_OR_expr
 		elif len(tree.children) == 2:
 			code, _type = self.walk(tree.children[0], verbose=verbose)
-			line += str(code) + ", " + str(self.walk(tree.children[1], verbose=verbose))
-			_type = "identifier_list"
+			line += str(code) + ", "
+			code, _type = self.walk(tree.children[1], verbose=verbose)
+			line += str(code)
+			_type = "id_list"
 
 		return line, _type
 
@@ -1016,7 +1046,7 @@ class SvelTraverse(object):
 			function_returns = self._get_symtable_type(symbol, True)
 			if function_returns != _type:
 				try:
-					raise MethodReturnTypeMismatch(self.currentFunction, function_returns, _type)
+					raise MethodReturnTypeMismatch(self.currentFunction, function_returns, _type, lineno=tree.lineno)
 				except MethodReturnTypeMismatch as e:
 					print str(e)
 			line += code
@@ -1042,7 +1072,7 @@ class SvelTraverse(object):
 			code, _type = returned
 			if _type != "ID" and _type != "string":
 				try:
-					raise TypeMismatchError("funct first argument", "string", _type)
+					raise TypeMismatchError("funct first argument", "string", _type, lineno=tree.lineno)
 				except TypeMismatchError as e:
 					print str(e)
 			return code
@@ -1063,21 +1093,21 @@ class SvelTraverse(object):
 	#						 Type checking helper functions 						#
 	#################################################################################
 
-	def _logical_OR_expr_type_checker(self, operator, type_1, type_2):
-		return self._logical_AND_expr_type_checker(operator, type_1, type_2)
+	def _logical_OR_expr_type_checker(self, operator, type_1, type_2, lineno=None):
+		return self._logical_AND_expr_type_checker(operator, type_1, type_2, lineno)
 
-	def _logical_AND_expr_type_checker(self, operator, type_1, type_2):
+	def _logical_AND_expr_type_checker(self, operator, type_1, type_2, lineno=None):
 		if type_1 == "boolean" and type_2 == "boolean":
 			return "boolean"
 		return "undefined"
 
-	def _equality_expr_type_checker(self, operator, type_1, type_2):
+	def _equality_expr_type_checker(self, operator, type_1, type_2, lineno=None):
 		if type_1 == "undefined" or type_2 == "undefined":
 			return "undefined"
 
 		if type_1 == "void" or type_2 == "void":
 			try:
-				raise OperatorCannotBeApplied(operator, type_1, type_2)
+				raise OperatorCannotBeApplied(operator, type_1, type_2, lineno=lineno)
 			except OperatorCannotBeApplied as e:
 				print str(e)
 				return "undefined"
@@ -1087,12 +1117,12 @@ class SvelTraverse(object):
 			return "boolean"
 
 		try:
-			raise OperatorCannotBeApplied(operator, type_1, type_2)
+			raise OperatorCannotBeApplied(operator, type_1, type_2, lineno=lineno)
 		except OperatorCannotBeApplied as e:
 			print str(e)
 			return "undefined"
 
-	def _relational_expr_type_checker(self, operator, type_1, type_2):
+	def _relational_expr_type_checker(self, operator, type_1, type_2, lineno=None):
 		if type_1 == "undefined" or type_2 == "undefined":
 			return "undefined"
 
@@ -1100,13 +1130,13 @@ class SvelTraverse(object):
 			return "boolean"
 
 		try:
-			raise OperatorCannotBeApplied(operator, type_1, type_2)
+			raise OperatorCannotBeApplied(operator, type_1, type_2, lineno=lineno)
 		except OperatorCannotBeApplied as e:
 			print str(e)
 			return "undefined"
 
 	# Checks if type_1 ADD/SUBTRACT type_2 are compatible
-	def _additive_expr_type_checker(self, operator, type_1, type_2):
+	def _additive_expr_type_checker(self, operator, type_1, type_2, lineno=None):
 		if type_1 == "undefined" or type_2 == "undefined":
 			return "undefined"
 
@@ -1120,7 +1150,7 @@ class SvelTraverse(object):
 			type_1 == "input" or type_2 == "input" or \
 			type_1 == "output" or type_2 == "output":
 			try:
-				raise OperatorCannotBeApplied(operator, type_1, type_2)
+				raise OperatorCannotBeApplied(operator, type_1, type_2, lineno=lineno)
 			except OperatorCannotBeApplied as e:
 				print str(e)
 			return "undefined"
@@ -1129,7 +1159,7 @@ class SvelTraverse(object):
 		if operator == "-":
 			if type_1 == "string" and type_2 == "string":
 				try:
-					raise OperatorCannotBeApplied(operator, type_1, type_2)
+					raise OperatorCannotBeApplied(operator, type_1, type_2, lineno=lineno)
 				except OperatorCannotBeApplied as e:
 					print str(e)
 				return "undefined"
@@ -1145,7 +1175,7 @@ class SvelTraverse(object):
 		return "undefined"
 
     # Checks if type_1 TIMES/DIVIDE type_2 are compatible
-	def _multiplicative_expr_type_checker(self, operator, type_1, type_2):
+	def _multiplicative_expr_type_checker(self, operator, type_1, type_2, lineno=None):
 		if type_1 == "undefined" or type_2 == "undefined":
 			return "undefined"
 
@@ -1159,7 +1189,7 @@ class SvelTraverse(object):
 			type_1 == "input" or type_2 == "input" or \
 			type_1 == "output" or type_2 == "output":
 			try:
-				raise OperatorCannotBeApplied(operator, type_1, type_2)
+				raise OperatorCannotBeApplied(operator, type_1, type_2, lineno=lineno)
 			except OperatorCannotBeApplied as e:
 				print str(e)
 			return "undefined"
@@ -1168,7 +1198,7 @@ class SvelTraverse(object):
 		if operator == "/":
 			if type_1 == "string" or type_2 == "string":
 				try:
-					raise OperatorCannotBeApplied(operator, type_1, type_2)
+					raise OperatorCannotBeApplied(operator, type_1, type_2, lineno=lineno)
 				except OperatorCannotBeApplied as e:
 					print str(e)
 				return "undefined"
@@ -1224,6 +1254,9 @@ class SvelTraverse(object):
 
 	''' Returns the type of the symbol recorded by the symbol table '''
 	def _get_symtable_type(self, symbol, isGlobal=False):
+		global_entry = self._get_symtable_entry(symbol, True)
+		if global_entry in self.symbols:
+			return self.symbols[global_entry][0]
 		entry = self._get_symtable_entry(symbol, isGlobal)
 		return self.symbols[entry][0]
 
@@ -1269,68 +1302,99 @@ class SvelTraverse(object):
 #					  svelTest defined Exceptions 								#
 #################################################################################
 class TypeMismatchError(Exception):
-	def __init__(self, context, expected, actual):
+	def __init__(self, context, expected, actual, lineno=None):
 		self.context = context
 		self.expected = expected
 		self.actual = actual
+		self.lineno = lineno
 	def __str__(self):
+		if self.lineno is not None:
+			return "\tTypeMismatchError at line %s : %s requires %s type. Found %s." % \
+				(self.lineno, self.context, self.expected, self.actual)
 		return "\tTypeMismatchError : %s requires %s type. Found %s." % \
 				(self.context, self.expected, self.actual)
 
 class DuplicateVariableError(Exception):
-	def __init__(self, var):
+	def __init__(self, var, lineno=None):
 		self.var = var
+		self.lineno = lineno
 	def __str__(self):
+		if self.lineno is not None:
+			return "\tDuplicateVariableError at line %s : symbol %s already defined." % (self.lineno, self.var)
 		return "\tDuplicateVariableError : symbol %s already defined." % (self.var)
 
 class SymbolNotFoundError(Exception):
-	def __init__(self, var):
+	def __init__(self, var, lineno=None):
 		self.var = var
+		self.lineno = lineno
 	def __str__(self):
+		if self.lineno is not None:
+			return "\tSymbolNotFoundError at line %s : cannot find symbol %s." % (self.lineno, self.var)
 		return "\tSymbolNotFoundError : cannot find symbol %s." % (self.var)
 
 class InvalidArrayAccess(Exception):
-	def __init__(self, var):
+	def __init__(self, var, lineno=None):
 		self.var = var
+		self.lineno = lineno
 	def __str__(self):
+		if self.lineno is not None:
+			return "\tInvalidArrayAccess at line %s : the type of the expression %s must be an array type." % (self.lineno, self.var)
 		return "\tInvalidArrayAccess : the type of the expression %s must be an array type." % (self.var)
 
 class UndefinedMethodError(Exception):
-	def __init__(self, method):
+	def __init__(self, method, lineno=None):
 		self.method = method
+		self.lineno = lineno
 	def __str__(self):
-		return "\tUndefinedMethodError : method %s not defined." (self.method)
+		if self.lineno is not None:
+			return "\tUndefinedMethodError at line %s : method %s not defined." % (self.lineno, self.method)
+		return "\tUndefinedMethodError : method %s not defined." % (self.method)
 
 class MethodReturnTypeMismatch(Exception):
-	def __init__(self, method, expected, actual):
+	def __init__(self, method, expected, actual, lineno=None):
 		self.method = method
 		self.expected = expected
 		self.actual = actual
+		self.lineno = lineno
 	def __str__(self):
+		if self.lineno is not None:
+			return "\tTypeMismatchError at line %s : method %s() return type is %s. Found %s." % (self.lineno, self.method, self.expected, self.actual)
 		return "\tTypeMismatchError : method %s() return type is %s. Found %s." % (self.method, self.expected, self.actual)
 
 class OperatorCannotBeApplied(Exception):
-	def __init__(self, operator, type_1, type_2):
+	def __init__(self, operator, type_1, type_2, lineno=None):
 		self.operator = operator
 		self.type_1 = type_1
 		self.type_2 = type_2
+		self.lineno = lineno
 	def __str__(self):
+		if self.lineno is not None:
+			return "\tTypeError at line %s : Operator %s cannot be applied to types %s, %s." % (self.lineno, self.operator, self.type_1, self.type_2)
 		return "\tTypeError : Operator %s cannot be applied to types %s, %s." % (self.operator, self.type_1, self.type_2)
 
 class InvalidArguments(Exception):
-	def __init__(self, function):
+	def __init__(self, function, lineno=None):
 		self.function = function
+		self.lineno = lineno
 	def __str__(self):
+		if self.lineno is not None:
+			return "\tTypeError at line %s : Invalid arguments for %s()." % (self.lineno, self.function)
 		return "\tTypeError : Invalid arguments for %s()." % (self.function)
 
 class UnexpectedSymbol(Exception):
-	def __init__(self, symbol):
+	def __init__(self, symbol, lineno=None):
 		self.symbol = symbol
+		self.lineno = lineno
 	def __str__(self):
+		if self.lineno is not None:
+			return "\tUnexpected symbol at line %s: %s." % (self.lineno, self.symbol)
 		return "\tUnexpected symbol : %s." % (self.symbol)
 
 class MethodReturnsVoidError(Exception):
-	def __init__(self, method):
+	def __init__(self, method, lineno=None):
 		self.method = method
+		self.lineno = lineno
 	def __str__(self):
+		if self.lineno is not None:
+			return "\tTypeError at line %s : method %s() returns void." % (self.lineno, self.method)
 		return "\tTypeError : method %s() returns void." % (self.method)
