@@ -390,11 +390,11 @@ def p_primary_expr(p):
 def p_function_call(p):
     '''
     function_call : ID LPAREN identifier_list RPAREN
-                  | STRING LPAREN identifier_list RPAREN
-                  | INT LPAREN identifier_list RPAREN
-                  | BOOLEAN LPAREN identifier_list RPAREN
-                  | DOUBLE LPAREN identifier_list RPAREN
-                  | PRINT LPAREN identifier_list RPAREN
+                  | STRING LPAREN logical_OR_expr RPAREN
+                  | INT LPAREN logical_OR_expr RPAREN
+                  | BOOLEAN LPAREN logical_OR_expr RPAREN
+                  | DOUBLE LPAREN logical_OR_expr RPAREN
+                  | PRINT LPAREN logical_OR_expr RPAREN
                   | ID PERIOD lib_function LPAREN identifier_list RPAREN
     '''
     if p != None:

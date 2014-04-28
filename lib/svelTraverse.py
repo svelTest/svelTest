@@ -741,7 +741,7 @@ class SvelTraverse(object):
 			line += tree.leaf + " " + code
 
 		# type conversions
-		# -> STRING LPAREN identifier_list RPAREN
+		# -> STRING LPAREN logical_OR_expr RPAREN
 		elif tree.leaf == "string" or tree.leaf == "int" or \
 			tree.leaf == "double" or tree.leaf == "boolean":
 			code, _id_list_type = self.walk(tree.children[0], verbose=verbose)
