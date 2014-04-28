@@ -41,23 +41,35 @@ def p_outer_unit(p):
     '''
     outer_unit : lang_def translation_unit
     '''
-    p[0] = Node('outer_unit', [p[1], p[2]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
+    else:
+        lineno = None
+    p[0] = Node('outer_unit', [p[1], p[2]], lineno=lineno)
 
 def p_lang_def(p):
     '''
     lang_def : LANG ASSIGN ID SEMICOLON
     '''
-    p[0] = Node('lang_def', [], p[3])
+    if p != None:
+        lineno = str(p.lexer.lineno)
+    else:
+        lineno = None
+    p[0] = Node('lang_def', [], p[3], lineno=lineno)
    
 def p_translation_unit(p):
     '''
     translation_unit : external_declaration
                      | translation_unit external_declaration
     '''
-    if len(p) == 2:
-        p[0] = Node('translation_unit', [p[1]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('translation_unit', [p[1], p[2]])
+        lineno = None
+    if len(p) == 2:
+        p[0] = Node('translation_unit', [p[1]], lineno=lineno)
+    else:
+        p[0] = Node('translation_unit', [p[1], p[2]], lineno=lineno)
 
 def p_external_declaration(p):
     '''
@@ -66,12 +78,16 @@ def p_external_declaration(p):
                          | type ID ASSIGN assignment_expr SEMICOLON
                          
     '''
-    if len(p) == 2:
-        p[0] = Node('external_declaration', [p[1]])
-    elif len(p) == 4:
-        p[0] = Node('external_declaration', [p[1]], p[2])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('external_declaration', [p[1], p[4]], p[2])
+        lineno = None
+    if len(p) == 2:
+        p[0] = Node('external_declaration', [p[1]], lineno=lineno)
+    elif len(p) == 4:
+        p[0] = Node('external_declaration', [p[1]], p[2], lineno=lineno)
+    else:
+        p[0] = Node('external_declaration', [p[1], p[4]], p[2], lineno=lineno)
 
 def p_function_def(p):
     '''
@@ -79,12 +95,16 @@ def p_function_def(p):
                 | type ID LPAREN param_list RPAREN brack_stmt
                 | MAIN LPAREN param_list RPAREN brack_stmt
     '''
-    if p[1] == "void":
-        p[0] = Node('function_def', [Node('VOID', [], p[1]), p[4], p[6]], p[2])
-    elif len(p) == 7:
-        p[0] = Node('function_def', [p[1], p[4], p[6]], p[2])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('function_def', [p[3], p[5]], "main")
+        lineno = None
+    if p[1] == "void":
+        p[0] = Node('function_def', [Node('VOID', [], p[1], lineno=lineno), p[4], p[6]], p[2], lineno=lineno)
+    elif len(p) == 7:
+        p[0] = Node('function_def', [p[1], p[4], p[6]], p[2], lineno=lineno)
+    else:
+        p[0] = Node('function_def', [p[3], p[5]], "main", lineno=lineno)
 
 def p_type(p):
     '''
@@ -99,42 +119,62 @@ def p_type(p):
           | FILE
           | type LBRACKET RBRACKET
     '''
-    if len(p) == 2:
-        p[0] = Node('type', [], p[1])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('type', [], p[1].leaf + p[2] + p[3])
+        lineno = None
+    if len(p) == 2:
+        p[0] = Node('type', [], p[1], lineno=lineno)
+    else:
+        p[0] = Node('type', [], p[1].leaf + p[2] + p[3], lineno=lineno)
 
 def p_ref_type(p):
     '''
     ref_type : ID LBRACKET assignment_expr RBRACKET
     '''
-    p[0] = Node('ref_type', [Node('primary_expr', [], p[1]), p[3]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
+    else:
+        lineno = None
+    p[0] = Node('ref_type', [Node('primary_expr', [], p[1]), p[3]], lineno=lineno)
 
 def p_param_list(p):
     '''
     param_list : param_list COMMA parameter
                | parameter
     '''
-    if len(p) == 4:
-        p[0] = Node('param_list', [p[1], p[3]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('param_list', [p[1]])
+        lineno = None
+    if len(p) == 4:
+        p[0] = Node('param_list', [p[1], p[3]], lineno=lineno)
+    else:
+        p[0] = Node('param_list', [p[1]], lineno=lineno)
 
 def p_parameter(p):
     '''
     parameter : type ID
               | empty
     '''
-    if len(p) == 3:
-        p[0] = Node('parameter', [p[1]], p[2])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('parameter', [p[1]])
+        lineno = None
+    if len(p) == 3:
+        p[0] = Node('parameter', [p[1]], p[2], lineno=lineno)
+    else:
+        p[0] = Node('parameter', [p[1]], lineno=lineno)
 
 def p_brack_stmt(p):
     '''
     brack_stmt : LBRACE stmts RBRACE
     '''
-    p[0] = Node('brack_stmt', [p[2]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
+    else:
+        lineno = None
+    p[0] = Node('brack_stmt', [p[2]], lineno=lineno)
     
 def p_stmts(p):
     '''
@@ -142,10 +182,14 @@ def p_stmts(p):
             | stmt
             | brack_stmt
     '''
-    if len(p) == 3:
-        p[0] = Node('stmts', [p[1], p[2]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('stmts', [p[1]])
+        lineno = None
+    if len(p) == 3:
+        p[0] = Node('stmts', [p[1], p[2]], lineno=lineno)
+    else:
+        p[0] = Node('stmts', [p[1]], lineno=lineno)
 
 def p_stmt(p):
     '''
@@ -154,13 +198,21 @@ def p_stmt(p):
          | loop_stmt
          | jump_stmt
     '''
-    p[0] = Node('stmt', [p[1]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
+    else:
+        lineno = None
+    p[0] = Node('stmt', [p[1]], lineno=lineno)
 
 def p_expression_stmt(p):
     '''
     expression_stmt : expression SEMICOLON
     '''
-    p[0] = Node('expression_stmt', [p[1]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
+    else:
+        lineno = None
+    p[0] = Node('expression_stmt', [p[1]], lineno=lineno)
     
 def p_expression(p):
     '''
@@ -168,10 +220,14 @@ def p_expression(p):
                 | type ID
                 | empty
     '''
-    if len(p) == 3:
-        p[0] = Node('expression', [p[1]], p[2])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('expression', [p[1]])
+        lineno = None
+    if len(p) == 3:
+        p[0] = Node('expression', [p[1]], p[2], lineno=lineno)
+    else:
+        p[0] = Node('expression', [p[1]], lineno=lineno)
     
 def p_assignment_expr(p):
     '''
@@ -180,41 +236,57 @@ def p_assignment_expr(p):
                     | ID ASSIGN assignment_expr
                     | logical_OR_expr
     '''
-    if len(p) == 13:
-        p[0] = Node('assignment_expr',  [p[5], p[8], p[11]], p[2])
-    elif len(p) == 5:
-        p[0] = Node('assignment_expr', [p[1], p[4]], p[2])
-    elif len(p) == 4:
-        p[0] = Node('assignment_expr', [p[3]], p[1])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('assignment_expr', [p[1]])
+        lineno = None
+    if len(p) == 13:
+        p[0] = Node('assignment_expr',  [p[5], p[8], p[11]], p[2], lineno=lineno)
+    elif len(p) == 5:
+        p[0] = Node('assignment_expr', [p[1], p[4]], p[2], lineno=lineno)
+    elif len(p) == 4:
+        p[0] = Node('assignment_expr', [p[3]], p[1], lineno=lineno)
+    else:
+        p[0] = Node('assignment_expr', [p[1]], lineno=lineno)
 
 def p_funct_name(p):
     '''
     funct_name : __MAIN__
                | primary_expr
     '''
-    p[0] = Node('funct_name', [], p[1])
+    if p != None:
+        lineno = str(p.lexer.lineno)
+    else:
+        lineno = None
+    p[0] = Node('funct_name', [], p[1], lineno=lineno)
 
 def p_logical_OR_expr(p):
     '''
     logical_OR_expr : logical_AND_expr
                     | logical_OR_expr OR logical_AND_expr    
     '''
-    if len(p) == 2:
-        p[0] = Node('logical_OR_expr', [p[1]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('logical_OR_expr', [p[1], p[3]], p[2])
+        lineno = None
+    if len(p) == 2:
+        p[0] = Node('logical_OR_expr', [p[1]], lineno=lineno)
+    else:
+        p[0] = Node('logical_OR_expr', [p[1], p[3]], p[2], lineno=lineno)
     
 def p_logical_AND_expr(p):
     '''
     logical_AND_expr : equality_expr
                      | logical_AND_expr AND equality_expr
     '''
-    if len(p) == 2:
-        p[0] = Node('logical_AND_expr', [p[1]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('logical_AND_expr', [p[1], p[3]], p[2])
+        lineno = None
+    if len(p) == 2:
+        p[0] = Node('logical_AND_expr', [p[1]], lineno=lineno)
+    else:
+        p[0] = Node('logical_AND_expr', [p[1], p[3]], p[2], lineno=lineno)
 
 def p_equality_expr(p):
     '''
@@ -222,10 +294,14 @@ def p_equality_expr(p):
                   | equality_expr EQ relational_expr
                   | equality_expr NEQ relational_expr
     '''
-    if len(p) == 2:
-        p[0] = Node('equality_expr', [p[1]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('equality_expr', [p[1], p[3]], p[2])
+        lineno = None
+    if len(p) == 2:
+        p[0] = Node('equality_expr', [p[1]], lineno=lineno)
+    else:
+        p[0] = Node('equality_expr', [p[1], p[3]], p[2], lineno=lineno)
 
 def p_relational_expr(p):
     '''
@@ -235,10 +311,14 @@ def p_relational_expr(p):
                     | relational_expr GR_OP additive_expr
                     | relational_expr GE_OP additive_expr
     '''
-    if len(p) == 2:
-        p[0] = Node('relational_expr', [p[1]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('relational_expr', [p[1], p[3]], p[2])
+        lineno = None
+    if len(p) == 2:
+        p[0] = Node('relational_expr', [p[1]], lineno=lineno)
+    else:
+        p[0] = Node('relational_expr', [p[1], p[3]], p[2], lineno=lineno)
     
 def p_additive_expr(p):
     '''
@@ -246,10 +326,14 @@ def p_additive_expr(p):
                   | additive_expr PLUS multiplicative_expr
                   | additive_expr MINUS multiplicative_expr
     '''
-    if len(p) == 2:
-        p[0] = Node('additive_expr', [p[1]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('additive_expr', [p[1], p[3]], p[2])
+        lineno = None
+    if len(p) == 2:
+        p[0] = Node('additive_expr', [p[1]], lineno=lineno)
+    else:
+        p[0] = Node('additive_expr', [p[1], p[3]], p[2], lineno=lineno)
         
 def p_multiplicative_expr(p):
     '''
@@ -257,10 +341,14 @@ def p_multiplicative_expr(p):
                         | multiplicative_expr TIMES secondary_expr
                         | multiplicative_expr DIVIDE secondary_expr
     '''
-    if len(p) == 2:
-        p[0] = Node('multiplicative_expr', [p[1]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('multiplicative_expr', [p[1], p[3]], p[2])
+        lineno = None
+    if len(p) == 2:
+        p[0] = Node('multiplicative_expr', [p[1]], lineno=lineno)
+    else:
+        p[0] = Node('multiplicative_expr', [p[1], p[3]], p[2], lineno=lineno)
     
 def p_secondary_expr(p):
     '''
@@ -268,10 +356,14 @@ def p_secondary_expr(p):
                    | LPAREN identifier_list RPAREN
                    | LBRACE identifier_list RBRACE
     '''
-    if len(p) == 4:
-        p[0] = Node('secondary_expr', [p[2]], p[1])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('secondary_expr', [p[1]])
+        lineno = None
+    if len(p) == 4:
+        p[0] = Node('secondary_expr', [p[2]], p[1], lineno=lineno)
+    else:
+        p[0] = Node('secondary_expr', [p[1]], lineno=lineno)
 
 def p_primary_expr(p):
     '''
@@ -284,12 +376,16 @@ def p_primary_expr(p):
                  | function_call
                  | ref_type
     '''
-    if not isinstance(p[1], basestring) and not isinstance(p[1], int) and not isinstance(p[1], float) and not isinstance(p[1], bool):
-        p[0] = Node('primary_expr', [p[1]])
-    elif len(p) == 2:
-        p[0] = Node('primary_expr', [], p[1])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('primary_expr', [p[2]])
+        lineno = None
+    if not isinstance(p[1], basestring) and not isinstance(p[1], int) and not isinstance(p[1], float) and not isinstance(p[1], bool):
+        p[0] = Node('primary_expr', [p[1]], lineno=lineno)
+    elif len(p) == 2:
+        p[0] = Node('primary_expr', [], p[1], lineno=lineno)
+    else:
+        p[0] = Node('primary_expr', [p[2]], lineno=lineno)
 
 def p_function_call(p):
     '''
@@ -301,10 +397,14 @@ def p_function_call(p):
                   | PRINT LPAREN identifier_list RPAREN
                   | ID PERIOD lib_function LPAREN identifier_list RPAREN
     '''
-    if len(p) == 7:
-        p[0] = Node('function_call', [p[3], p[5]], p[1])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('function_call',[p[3]], p[1])
+        lineno = None
+    if len(p) == 7:
+        p[0] = Node('function_call', [p[3], p[5]], p[1], lineno=lineno)
+    else:
+        p[0] = Node('function_call',[p[3]], p[1], lineno=lineno)
 
 def p_lib_function(p):
     '''
@@ -315,18 +415,26 @@ def p_lib_function(p):
                  | REPLACE
                  | READLINES
     '''
+    if p != None:
+        lineno = str(p.lexer.lineno)
+    else:
+        lineno = None
     if len(p) == 2:
-        p[0] = Node('lib_function', [], p[1])
+        p[0] = Node('lib_function', [], p[1], lineno=lineno)
     
 def p_reserved_languages_list(p):
     '''
     reserved_languages_list : reserved_language_keyword
                             | reserved_languages_list COMMA reserved_language_keyword
     '''
-    if len(p) == 2:
-        p[0] = Node('reserved_languages_list', [p[1]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('reserved_languages_list', [p[1], p[3]])
+        lineno = None
+    if len(p) == 2:
+        p[0] = Node('reserved_languages_list', [p[1]], lineno=lineno)
+    else:
+        p[0] = Node('reserved_languages_list', [p[1], p[3]], lineno=lineno)
 
 def p_reserved_languages_keyword(p):
     '''
@@ -335,13 +443,17 @@ def p_reserved_languages_keyword(p):
                               | RES_LANG
                               | empty
     '''
+    if p != None:
+        lineno = str(p.lexer.lineno)
+    else:
+        lineno = None
     if len(p) == 4:
-        p[0] = Node('reserved_languages_keyword', [], str(p[1]) + "[]")
+        p[0] = Node('reserved_languages_keyword', [], str(p[1]) + "[]", lineno=lineno)
     elif len(p) == 3:
         # res_lang_keyword * allows for pointers
-        p[0] = Node('reserved_languages_keyword', [p[1]], p[2])
+        p[0] = Node('reserved_languages_keyword', [p[1]], p[2], lineno=lineno)
     else:
-        p[0] = Node('reserved_languages_keyword', [], p[1])
+        p[0] = Node('reserved_languages_keyword', [], p[1], lineno=lineno)
 
 def p_identifier_list(p):
     '''
@@ -349,32 +461,44 @@ def p_identifier_list(p):
                     | identifier_list COMMA VERBOSE
                     | identifier_list COMMA expression
     '''
-    if len(p) == 2:
-        p[0] = Node('identifier_list', [p[1]])
-    elif p[3] == "verbose":
-        p[0] = Node('identifier_list', [p[1], Node('VERBOSE', [], p[3])])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('identifier_list', [p[1], p[3]])
+        lineno = None
+    if len(p) == 2:
+        p[0] = Node('identifier_list', [p[1]], lineno=lineno)
+    elif p[3] == "verbose":
+        p[0] = Node('identifier_list', [p[1], Node('VERBOSE', [], p[3], lineno=lineno)], lineno=lineno)
+    else:
+        p[0] = Node('identifier_list', [p[1], p[3]], lineno=lineno)
     
 def p_ifelse_stmt(p):
     '''
     ifelse_stmt : IF LPAREN expression RPAREN brack_stmt
                 | IF LPAREN expression RPAREN brack_stmt ELSE brack_stmt
     '''
-    if len(p) == 6:
-        p[0] = Node('ifelse_stmt', [p[3], p[5]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('ifelse_stmt', [p[3], p[5], p[7]])
+        lineno = None
+    if len(p) == 6:
+        p[0] = Node('ifelse_stmt', [p[3], p[5]], lineno=lineno)
+    else:
+        p[0] = Node('ifelse_stmt', [p[3], p[5], p[7]], lineno=lineno)
 
 def p_loop_stmt(p):
     '''
     loop_stmt : WHILE LPAREN expression RPAREN brack_stmt
               | FOR LPAREN expression SEMICOLON expression SEMICOLON expression RPAREN brack_stmt
     '''
-    if len(p) == 6:
-        p[0] = Node('loop_stmt', [p[3], p[5]])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('loop_stmt', [p[3], p[5], p[7], p[9]])
+        lineno = None
+    if len(p) == 6:
+        p[0] = Node('loop_stmt', [p[3], p[5]], lineno=lineno)
+    else:
+        p[0] = Node('loop_stmt', [p[3], p[5], p[7], p[9]], lineno=lineno)
 
 def p_jump_stmt(p):
     '''
@@ -382,14 +506,22 @@ def p_jump_stmt(p):
               | CONTINUE SEMICOLON
               | RETURN logical_OR_expr SEMICOLON
     '''
-    if len(p) == 3:
-        p[0] = Node('jump_stmt', [], p[1])
+    if p != None:
+        lineno = str(p.lexer.lineno)
     else:
-        p[0] = Node('jump_stmt', [p[2]], p[1])
+        lineno = None
+    if len(p) == 3:
+        p[0] = Node('jump_stmt', [], p[1], lineno=lineno)
+    else:
+        p[0] = Node('jump_stmt', [p[2]], p[1], lineno=lineno)
     
 def p_empty(p):
     'empty :'
-    p[0] = Node('empty', [])
+    if p != None:
+        lineno = str(p.lexer.lineno)
+    else:
+        lineno = None
+    p[0] = Node('empty', [], lineno=lineno)
 
 def p_error(p):
     # we should throw compiler error in this case 

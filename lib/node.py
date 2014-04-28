@@ -12,7 +12,7 @@
 
 class Node(object):
 
-	def __init__(self, type, children=None, leaf=None, token=None):
+	def __init__(self, type, children=None, leaf=None, token=None, lineno=None):
 		self.type = type
 		if children:
 			self.children = children
@@ -20,13 +20,13 @@ class Node(object):
 			self.children = []
 		self.leaf = leaf
 		self.token = token
+		self.lineno = lineno
 
 	def traverse(self, i):
 		s = self.type
 		indent = "\n" + i*' |'
 		if self.leaf != None:
 			if isinstance(self.leaf, Node):
-				print "Node"
 				s += indent + self.leaf.traverse(i+1)
 			else:
 				s += indent + str(self.leaf)
