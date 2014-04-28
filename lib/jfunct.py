@@ -40,8 +40,8 @@ class Funct(object):
         self.jsvelHelper = self.createJHelperFile()
 
         # Compile Svel<name>.java
-        print 90 * "="
-        print "Compiling %s" % (self.jsvelHelper)
+        #print 90 * "="
+        #print "Compiling %s" % (self.jsvelHelper)
         if self.compileJSvelHelper() == -1:
             print "Compilation failed."
             sys.exit(0)
