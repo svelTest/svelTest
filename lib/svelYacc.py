@@ -106,7 +106,7 @@ def p_type(p):
 
 def p_ref_type(p):
     '''
-    ref_type : ID LBRACKET expression RBRACKET
+    ref_type : ID LBRACKET assignment_expr RBRACKET
     '''
     p[0] = Node('ref_type', [Node('primary_expr', [], p[1]), p[3]])
 
