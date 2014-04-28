@@ -194,7 +194,7 @@ class SvelTraverse(object):
 		if not isMain:
 			functionName = tree.leaf
 		symbol = functionName + "()" # ID()
-		print symbol + ":"
+		#print symbol + ":"
 		if not self._symbol_exists(symbol, True):
 			_type = "void"
 			if not isMain:
