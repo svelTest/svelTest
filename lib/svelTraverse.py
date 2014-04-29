@@ -100,10 +100,6 @@ class SvelTraverse(object):
 	# handle grammar nodes
 	# --------------------
 
-	# passes testsuite tests 0, 1, 2, 3, 5, 8; works for hello.svel
-
-	# TODO: make sure that we return and are concatenating string types
-
 	def _outer_unit(self, tree, flags=None, verbose=False):
 		if(verbose):
 			print "===> svelTraverse: outer_unit"
@@ -124,8 +120,10 @@ class SvelTraverse(object):
 			cfileutil = open("cfileutil.py").read()
 			cfunct = open("cfunct.py").read()
 			return cfileutil + "\n\n" + cfunct
-		#elif tree.leaf == "Python":
-			# implement
+		elif tree.leaf == "Python":
+			pfileutil = open("pfileutil.py").read()
+			pfunct = open("pfunct.py").read()
+			return pfileutil + "\n\n" + pfunct
 		else:
 			sys.exit("ERROR: Unrecognized language type.")
 
@@ -373,7 +371,6 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: assignment_expr"
 
-		# TODO: handle FUNCT!
 		# -> logical_OR_expression
 		if tree.leaf == None:
 			code, _type = self.walk(tree.children[0], verbose=verbose)

@@ -144,7 +144,7 @@ class SvelLexer:
 		|c_long|c_long_int|c_signed_long|c_signed_long_int|c_unsigned_long
 		|c_unsigned_long_int|c_long_long|c_long_long_int|c_signed_long_long
 		|c_signed_long_long_int|c_unsigned_long_long|c_unsigned_long_long_int
-		|c_float|c_double|c_long_double'''
+		|c_float|c_double|c_long_double|p_int|p_bool|p_long|p_float|p_str'''
 		t.type = 'RES_LANG'
 		return t
 

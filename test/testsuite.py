@@ -87,9 +87,9 @@ class Testsuite(object):
 		void helloWorldTest() {
 			file helloFile = "../Hello.java";
 			funct helloMain = {__main__, (), helloFile};
-			input in = ();
+			input _in = ();
 			output out = "Hello World!";
-			helloMain.assert(in, out);
+			helloMain.assert(_in, out);
 		}
 		'''
 
@@ -130,10 +130,10 @@ class Testsuite(object):
 		test_11 = '''
 		lang=None;
 		void createInputArray() {
-			input[] in = {0, 1, 2};
+			input[] _in = {0, 1, 2};
 			output[] out = {0, 1, 2};
 			for (int i = 0; i < 3; i=i+1) {
-				if (in[i] != out[i]) {
+				if (_in[i] != out[i]) {
 					break;
 				}
 			}
@@ -146,9 +146,9 @@ class Testsuite(object):
 		boolean testAdd() {
 			file addFile = "java_files/Add.java";
 			funct addFunct = {"add", (j_int, j_int), addFile};
-			input in = (3, 4);
+			input _in = (3, 4);
 			output out = (7);
-			return addFunct.assert(in, out);
+			return addFunct.assert(_in, out);
 		}
 		'''
 
