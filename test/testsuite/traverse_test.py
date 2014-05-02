@@ -11,7 +11,7 @@ from svelTraverse import SvelTraverse
 
 
 
-class Traverse(unitTest.TestCase):
+class Traverse(unittest.TestCase):
 
 	def setUp(self):
 		self.parser = svelYacc.getParser
