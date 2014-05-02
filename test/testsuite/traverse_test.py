@@ -5,21 +5,22 @@ from testSuite2 import Testsuite
 sys.path.append('../../lib')
 
 import svelYacc
+from svelLex import SvelLexer
 from svelTraverse import SvelTraverse
-
-
-
-
 
 class Traverse(unittest.TestCase):
 
 	def setUp(self):
-		self.parser = svelYacc.getParser
+		self.lex = SvelLexer()
+		self.lex.build()
+		self.lexer = self.lex.get_lexer()
 
-	def hello_test(self):
-		result = self.parser.parse(Testsuite.hello_world)
-		translated = SvelTraverse(result).getpython()
-		print translated
+		self.parser = svelYacc.getParser()
+
+	def test_hello(self):
+		ast = self.parser.parse(Testsuite.hello_world, lexer=self.lexer)
+		code = SvelTraverse(ast).get_code_and_errors()
+		print code
 
 if __name__ == "__main__":
 	unittest.main(verbosity =2)
