@@ -113,16 +113,16 @@ class SvelTraverse(object):
 
 		# if lang=Java, copy in java files
 		if tree.leaf == "Java":
-			jfileutil = open("jfileutil.py").read()
-			jfunct = open("jfunct.py").read()
+			jfileutil = open("helpers/jfileutil.py").read()
+			jfunct = open("helpers/jfunct.py").read()
 			return jfileutil + "\n\n" + jfunct
 		elif tree.leaf == "C":
-			cfileutil = open("cfileutil.py").read()
-			cfunct = open("cfunct.py").read()
+			cfileutil = open("helpers/cfileutil.py").read()
+			cfunct = open("helpers/cfunct.py").read()
 			return cfileutil + "\n\n" + cfunct
 		elif tree.leaf == "Python":
-			pfileutil = open("pfileutil.py").read()
-			pfunct = open("pfunct.py").read()
+			pfileutil = open("helpers/pfileutil.py").read()
+			pfunct = open("helpers/pfunct.py").read()
 			return pfileutil + "\n\n" + pfunct
 		else:
 			sys.exit("ERROR: Unrecognized language type.")
