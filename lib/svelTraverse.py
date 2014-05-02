@@ -32,8 +32,10 @@ class SvelTraverse(object):
 		self.main_args = []
 		self.main_types = []
 
+		self.errors_occurred = False
 		# run
 		self.code = self.beginning() + self.walk(tree, verbose=verbose) + self.end()
+		
 
 	# --------------
 	# helper methods
@@ -58,8 +60,8 @@ class SvelTraverse(object):
 		else:
 			return returned
 
-	def get_code(self):
-		return self.code
+	def get_code_and_errors(self):
+		return (self.code, self.errors_occurred)
 
 	def format(self, line = ""):
 		''' indent a line according to its level '''
@@ -156,6 +158,7 @@ class SvelTraverse(object):
 					raise DuplicateVariableError(symbol, lineno=tree.lineno)
 				except DuplicateVariableError as e:
 					print str(e)
+				self.errors_occurred = True
 			return symbol + " = None"
 
 		# -> type ID ASSIGN assignment_expr SEMICOLON
@@ -171,6 +174,7 @@ class SvelTraverse(object):
 					raise DuplicateVariableError(symbol, tree.lineno)
 				except DuplicateVariableError as e:
 					print str(e)
+				self.errors_occurred = True
 			# assignment_expr
 			code, _type = self.walk(tree.children[1], verbose)
 			return symbol + " = " + code
@@ -204,6 +208,7 @@ class SvelTraverse(object):
 				raise DuplicateVariableError(symbol, lineno=tree.lineno)
 			except DuplicateVariableError as e:
 				print str(e)
+			self.errors_occurred = True
 		self.currentFunction = functionName
 		
 		# -> MAIN LPAREN param_list RPAREN brack_stmt
@@ -278,6 +283,7 @@ class SvelTraverse(object):
 				raise DuplicateVariableError(tree.leaf, lineno=tree.lineno)
 			except DuplicateVariableError as e:
 				print str(e)
+			self.errors_occurred = True
 		self._add_scopetable(tree.leaf) # add to scope table
 		self._add_symtable(tree.leaf, _type, True) # add to symbol table
 
@@ -355,6 +361,7 @@ class SvelTraverse(object):
 					raise DuplicateVariableError(symbol, lineno=tree.lineno)
 				except DuplicateVariableError as e:
 					print str(e)
+				self.errors_occurred = True
 			return symbol + " = None" # not sure if this is the best thing to do?
 
 		returned = self.walk(tree.children[0], verbose=verbose)
@@ -385,6 +392,7 @@ class SvelTraverse(object):
 					raise DuplicateVariableError(tree.leaf, lineno=tree.lineno)
 				except DuplicateVariableError as e:
 					print str(e)
+				self.errors_occurred = True
 			# else add a new entry in scope and symbol tables
 			else:
 				self._add_scopetable(tree.leaf) # add to scope table
@@ -400,6 +408,7 @@ class SvelTraverse(object):
 					raise TypeMismatchError("funct constructor's third argument", "file", _type, lineno=tree.lineno)
 				except TypeMismatchError as e:
 					print str(e)
+				self.errors_occurred = True
 			line += str(code) + ")"
 			return line, "funct"
 
@@ -413,6 +422,7 @@ class SvelTraverse(object):
 					raise DuplicateVariableError(tree.leaf, lineno=tree.lineno)
 				except DuplicateVariableError as e:
 					print str(e)
+				self.errors_occurred = True
 			# add a new entry in scope and symbol tables
 			else:
 				expected_type = self.walk(tree.children[0], verbose=verbose)
@@ -440,6 +450,7 @@ class SvelTraverse(object):
 						raise TypeMismatchError("file constructor", "file", _type, lineno=tree.lineno)
 					except TypeMismatchError as e:
 						print str(e)
+					self.errors_occurred = True
 				janky_line = tree.leaf + "=" + file_name
 				janky_line = self.format(janky_line)
 				code = line + next_line + janky_line + '\n'
@@ -460,6 +471,7 @@ class SvelTraverse(object):
 					raise SymbolNotFoundError(tree.leaf, lineno=tree.lineno)
 				except SymbolNotFoundError as e:
 					print str(e)
+				self.errors_occurred = True
 			# ==== type check ====
 			else:
 				expected_type = self._get_symtable_type(tree.leaf)
@@ -478,6 +490,14 @@ class SvelTraverse(object):
 			if (expected_type == "int" or expected_type == "double") and \
 				(_type == "double" or _type == "int"):
 				expected_type = expected_type
+			#TODO (kaitlin) finish this
+			elif not self._type_is_array(expected_type) and _type == "array":
+				try:
+					raise ArrayIDTypeMismatchError(var, expected_type, type, lineno)
+				except ArrayIDTypeMismatchError as e:
+					print str(e)
+				self.errors_occurred = True
+				expected_type = "undefined"
 			elif expected_type == "file" and _type == "string": # file f = string OK
 				expected_type = "file"
 			elif expected_type == "string" and _type == "file":
@@ -494,6 +514,7 @@ class SvelTraverse(object):
 					raise UnexpectedSymbol('(', lineno=lineno)
 				except UnexpectedSymbol as e:
 					print str(e)
+				self.errors_occurred = True
 			elif self._type_is_array(expected_type) and _type == "array":
 				expected_type = expected_type
 			else:
@@ -501,6 +522,7 @@ class SvelTraverse(object):
 					raise TypeMismatchError(var, expected_type, _type, lineno)
 				except TypeMismatchError as e:
 					print str(e)
+				self.errors_occurred = True
 				expected_type = "undefined"
 		return expected_type
 
@@ -717,6 +739,7 @@ class SvelTraverse(object):
 					raise SymbolNotFoundError(symbol, lineno=tree.lineno)
 				except SymbolNotFoundError as e:
 					print str(e)
+				self.errors_occurred = True
 				_type = "undefined"
 			else:
 				_type = self._get_symtable_type(symbol)
@@ -778,6 +801,7 @@ class SvelTraverse(object):
 					raise SymbolNotFoundError(symbol, lineno=tree.lineno)
 				except SymbolNotFoundError as e:
 					print str(e)
+				self.errors_occurred = True
 			function = self.walk(tree.children[0], verbose=verbose)
 			# lib_function -> SIZE
 			if function == "size":
@@ -821,6 +845,7 @@ class SvelTraverse(object):
 					raise UndefinedMethodError(tree.leaf, lineno=tree.lineno)
 				except UndefinedMethodError as e:
 					print str(e)
+				self.errors_occurred = True
 				_type = "undefined"
 			else:
 				_type = self._get_symtable_type(symbol, True)
@@ -869,6 +894,7 @@ class SvelTraverse(object):
 				raise InvalidArrayAccess(code, lineno=tree.lineno)
 			except InvalidArrayAccess as e:
 				print str(e)
+			self.errors_occurred = True
 			_type = "undefined"
 		else:
 			_type = id_type[0:-2] # take off '[]'
@@ -883,6 +909,7 @@ class SvelTraverse(object):
 					raise TypeMismatchError("array index", "int", expr_type, lineno=tree.lineno)
 				except TypeMismatchError as e:
 					print str(e)
+				self.errors_occurred = True
 		else:
 			code = returned
 		line += code
@@ -1072,6 +1099,7 @@ class SvelTraverse(object):
 					raise TypeMismatchError("funct first argument", "string", _type, lineno=tree.lineno)
 				except TypeMismatchError as e:
 					print str(e)
+				self.errors_occurred = True
 			return code
 		else:
 			return returned
@@ -1310,6 +1338,19 @@ class TypeMismatchError(Exception):
 				(self.lineno, self.context, self.expected, self.actual)
 		return "\tTypeMismatchError : %s requires %s type. Found %s." % \
 				(self.context, self.expected, self.actual)
+
+class ArrayIDTypeMismatchError(Exception):
+	def __init__(self, context, expected, actual, lineno=None):
+		self.context = context
+		self.expected = expected
+		self.actual = actual
+		self.lineno = lineno
+	def __str__(self):
+		if self.lineno is not None:
+			return "\tArrayIDTypeMismatchError at line %s : %s requires %s[] type." % \
+				(self.lineno, self.context, self.expected)
+		return "\tArrayIDTypeMismatchError : %s requires %s[] type." % \
+				(self.context, self.expected)
 
 class DuplicateVariableError(Exception):
 	def __init__(self, var, lineno=None):

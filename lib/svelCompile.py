@@ -73,18 +73,19 @@ def compile(argv):
 
 	# walk the tree and get the compiled code
 	if verbose == None:
-		compiled_code = SvelTraverse(ast).get_code()
+		compiled_code, errors = SvelTraverse(ast).get_code_and_errors()
 	else:
 		print ast
-		compiled_code = SvelTraverse(ast, verbose=True).get_code()
+		compiled_code, errors = SvelTraverse(ast, verbose=True).get_code_and_errors()
 	# if arg3 = -d
 	# compiled_code = SvelTraverse(ast, debug=true).get_code()
 
-	output_file = open(output_filename, 'w')
-	output_file.write(compiled_code)
-
-	#TODO: catch errors with writing
-	print "Success: compiled to " + output_filename
+	if errors == False:
+		output_file = open(output_filename, 'w')
+		output_file.write(compiled_code)	
+		print "Success: compiled to " + output_filename
+	else:
+		print "Errors occurred at compile time"
 
 if __name__ == '__main__':
 	compile(sys.argv)
