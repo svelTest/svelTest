@@ -126,6 +126,8 @@ class SvelTraverse(object):
 			pfileutil = open("helpers/pfileutil.py").read()
 			pfunct = open("helpers/pfunct.py").read()
 			return pfileutil + "\n\n" + pfunct
+		elif tree.leaf == "None":
+			return ""
 		else:
 			sys.exit("ERROR: Unrecognized language type.")
 
