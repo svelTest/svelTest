@@ -37,6 +37,9 @@ precedence = (
 def getParser(**kwargs):
     return yacc.yacc(**kwargs)
 
+#-------------------------------------
+# Gramar rules
+#-------------------------------------
 def p_outer_unit(p):
     '''
     outer_unit : lang_def translation_unit

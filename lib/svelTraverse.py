@@ -69,11 +69,11 @@ class SvelTraverse(object):
 		return " "*spaces + line
 
 	def level_up(self):
-		''' +1 indent; TODO: create new scope '''
+		''' +1 indent '''
 		self.level += 1
 
 	def level_down(self):
-		''' -1 indent; TODO: remove old scope '''
+		''' -1 indent '''
 		self.level -= 1
 
 	def beginning(self):
@@ -490,7 +490,6 @@ class SvelTraverse(object):
 			if (expected_type == "int" or expected_type == "double") and \
 				(_type == "double" or _type == "int"):
 				expected_type = expected_type
-			#TODO (kaitlin) finish this
 			elif not self._type_is_array(expected_type) and _type == "array":
 				try:
 					raise ArrayIDTypeMismatchError(var, expected_type, type, lineno)
