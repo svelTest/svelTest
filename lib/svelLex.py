@@ -69,6 +69,7 @@ class SvelLexer:
 		'in' : 'IN',
 		'is' : 'IS',
 		'lambda' : 'LAMBDA',
+		'None' : 'NONE',
 		'not' : 'NOT',
 		'or' : 'PYTHON_OR',
 		'pass' : 'PASS',
