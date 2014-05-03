@@ -1,8 +1,11 @@
 import unittest
-import sys
+import os, sys
 from testSuite2 import Testsuite
 
-sys.path.append('../../lib')
+lib_path = os.path.abspath('../../lib')
+sys.path.append(lib_path)
+#print str(sys.path)
+#sys.path.append('../../lib')
 
 import svelYacc
 from svelLex import SvelLexer
@@ -19,6 +22,28 @@ class Traverse(unittest.TestCase):
 
 	def test_hello(self):
 		ast = self.parser.parse(Testsuite.hello_world, lexer=self.lexer)
+		code = SvelTraverse(ast).get_code_and_errors()
+		print code
+
+	def test_comments(self):
+		ast = self.parser.parse(Testsuite.comments, lexer =self.lexer)
+		code = SvelTraverse(ast).get_code_and_errors()
+		print code
+
+	'''
+	def test_empty(self):
+		ast = self.parser.parse(Testsuite.empty, lexer = self.lexer)
+		code = SvelTraverse(ast).get_code_and_errors()
+		print code
+	'''
+
+	def test_assignments(self):
+		ast = self.parser.parse(Testsuite.assignments, lexer = self.lexer)
+		code = SvelTraverse(ast).get_code_and_errors()
+		print code
+
+	def test_boolean(self):
+		ast = self.parser.parse(Testsuite.expressions_boolean, lexer = self.lexer)
 		code = SvelTraverse(ast).get_code_and_errors()
 		print code
 
