@@ -53,6 +53,7 @@ def p_outer_unit(p):
 def p_lang_def(p):
     '''
     lang_def : LANG ASSIGN ID SEMICOLON
+             | LANG ASSIGN NONE SEMICOLON
     '''
     if p != None:
         lineno = str(p.lexer.lineno)
