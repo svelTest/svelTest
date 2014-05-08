@@ -16,7 +16,7 @@ int addTestSuite() {
 	input in2 = (-2, 2);
 	output out2 = 0;
 	input[] inArray = {in1, in2};
-	output[] outArray;
+	output[] outArray = {};
 
 	outArray.insert(0, out1);
 	outArray.insert(1, out2);
