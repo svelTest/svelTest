@@ -374,7 +374,9 @@ def p_primary_expr(p):
     primary_expr : ID
                  | STRINGLITERAL
                  | NUMBER
+                 | MINUS NUMBER
                  | DECIMAL
+                 | MINUS DECIMAL
                  | TRUE
                  | FALSE
                  | function_call
@@ -384,10 +386,14 @@ def p_primary_expr(p):
         lineno = str(p.lexer.lineno)
     else:
         lineno = None
-    if not isinstance(p[1], basestring) and not isinstance(p[1], int) and not isinstance(p[1], float) and not isinstance(p[1], bool):
-        p[0] = Node('primary_expr', [p[1]], lineno=lineno)
-    elif len(p) == 2:
-        p[0] = Node('primary_expr', [], p[1], lineno=lineno)
+
+    if len(p) == 2:
+        if not isinstance(p[1], basestring) and not isinstance(p[1], int) and not isinstance(p[1], float) and not isinstance(p[1], bool):
+            p[0] = Node('primary_expr', [p[1]], lineno=lineno)
+        else:
+            p[0] = Node('primary_expr', [], p[1], lineno=lineno)
+    elif len(p) == 3:
+        p[0] = Node('primary_expr', [], (p[1] + str(p[2])), lineno=lineno)
     else:
         p[0] = Node('primary_expr', [p[2]], lineno=lineno)
 
