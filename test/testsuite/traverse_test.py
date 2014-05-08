@@ -49,5 +49,46 @@ class Traverse(unittest.TestCase):
 		code = SvelTraverse(ast).get_code_and_errors()
 		print code
 
+	def test_relational(self):
+		ast = self.parser.parse(Testsuite.expressions_relational, lexer = self.lexer)
+		code = SvelTraverse(ast).get_code_and_errors()
+		print code
+
+	def test_math(self):
+		ast = self.parser.parse(Testsuite.expressions_math, lexer = self.lexer)
+		code = SvelTraverse(ast).get_code_and_errors()
+		print code
+
+	def test_while(self):
+		ast = self.parser.parse(Testsuite.loops_while, lexer = self.lexer)
+		code = SvelTraverse(ast).get_code_and_errors()
+		print code
+
+	def test_for(self):
+		ast = self.parser.parse(Testsuite.loops_for, lexer = self.lexer)
+		code = SvelTraverse(ast).get_code_and_errors()
+		print code
+
+	def test_flow(self):
+		ast = self.parser.parse(Testsuite.flow, lexer = self.lexer)
+		code = SvelTraverse(ast).get_code_and_errors()
+		print code
+
+	def test_array(self):
+		ast = self.parser.parse(Testsuite.array, lexer = self.lexer)
+		code = SvelTraverse(ast).get_code_and_errors()
+		print code
+
+	def test_files(self):
+		ast = self.parser.parse(Testsuite.files, lexer = self.lexer)
+		code = SvelTraverse(ast).get_code_and_errors()
+		print code
+
+	def test_input_output(self):
+		ast = self.parser.parse(Testsuite.input_output, lexer = self.lexer)
+		code = SvelTraverse(ast).get_code_and_errors()
+		print code
+
+
 if __name__ == "__main__":
 	unittest.main(verbosity =2)
