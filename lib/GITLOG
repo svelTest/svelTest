@@ -1,0 +1,3145 @@
+* commit 28b203ea5ff9d1e5cc71f0a49b48c3f9f5237a72
+| Author: emily <emily.j.hsia@gmail.com>
+| Date:   Thu May 8 16:47:54 2014 -0400
+| 
+|     catch NoneType syntax error to avoid python's printed stack trace
+|    
+*   commit e5ecabaed943b9ca4c8a3f88bb32dd9132b85df2
+|\  Merge: 4e8856d f5b0937
+| | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | Date:   Thu May 8 16:30:14 2014 -0400
+| | 
+| |     Merge pull request #77 from chrso/master
+| |     
+| |     hack-y unary minus PLEASE LOOKOVERkthx
+| |     
+| *   commit f5b09379dc716de6d6276cb37af1d97e272863a2
+| |\  Merge: 1f49a3a 4e8856d
+| |/  Author: Christopher So <christopherso92@gmail.com>
+|/|   Date:   Thu May 8 16:26:27 2014 -0400
+| |   
+| |       Merge remote-tracking branch 'upstream/master'
+| |     
+* |   commit 4e8856d368ef5792fc0e7ed7184ef21a927f4ae9
+|\ \  Merge: 021ddf3 70a1391
+| | | Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | | Date:   Thu May 8 16:09:30 2014 -0400
+| | | 
+| | |     Merge pull request #76 from chrso/master
+| | |     
+| | |     added append lib function for arrays
+| | |    
+| | * commit 1f49a3a3f8797a4b07660e2b8e4c3a1d28555224
+| |/  Author: Christopher So <christopherso92@gmail.com>
+| |   Date:   Thu May 8 16:25:49 2014 -0400
+| |   
+| |       added unary minus
+| |   
+| * commit 70a13918a2110b4240077da2d6da6d94c2d164ba
+|/  Author: Christopher So <christopherso92@gmail.com>
+|   Date:   Thu May 8 15:51:46 2014 -0400
+|   
+|       added append lib function for arrays
+|  
+* commit 021ddf39227076e261859ad139517a4e07206659
+| Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| Date:   Wed May 7 21:42:18 2014 -0400
+| 
+|     add test case compiles
+|  
+* commit 85da161a0a3f2b53d2f37f50970189cd5084225f
+| Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| Date:   Wed May 7 21:28:51 2014 -0400
+| 
+|     added tutorial tests, fixed hello.svel test.
+|  
+* commit 1af709b5db85763e0ffcf37a3ec787b1a57b428b
+| Author: Christopher So <christopherso92@gmail.com>
+| Date:   Wed May 7 21:03:10 2014 -0400
+| 
+|     fixed issue with quotes on empty reserved_languages_list in funct declaration
+|  
+* commit be3784519bc2e201f7d0be9dbbb06f03ccad2651
+| Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| Date:   Sat May 3 13:29:43 2014 -0400
+| 
+|     Fixed lang=None declaration
+|  
+* commit 66aaffe41f0cbcb5d6fc20a91327478ea891f1bc
+| Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| Date:   Wed May 7 21:19:56 2014 -0400
+| 
+|     Update README.md
+|  
+* commit 55e78898613bcf10a703f644a575dca8c846e492
+| Author: Mandy <mcswinton@gmail.com>
+| Date:   Wed May 7 22:28:22 2014 -0400
+| 
+|     fixed the path problem (thanks chris))
+|  
+* commit 2a18d69ea2bf14a1bd09612a80f2f8bd8db1f76b
+| Author: Mandy <mcswinton@gmail.com>
+| Date:   Sat May 3 15:06:28 2014 -0400
+| 
+|     started yacc_test
+|  
+* commit 6a95569892e215ed98a46ffb3619c0fc98bcc08d
+| Author: Mandy <mcswinton@gmail.com>
+| Date:   Sat May 3 14:38:35 2014 -0400
+| 
+|     added more tests and included jankety fix in svelLex to fix the file path problem
+|  
+* commit 36b0ee0ec8d5709df4ccd38a042e8b3c9d11e23f
+| Author: Christopher So <christopherso92@gmail.com>
+| Date:   Fri May 2 16:15:01 2014 -0400
+| 
+|     working hello world test
+|  
+* commit aeadd7f6ef0cabc95288292c8e354c4d29f8b3b8
+| Author: Christopher So <christopherso92@gmail.com>
+| Date:   Fri May 2 15:37:11 2014 -0400
+| 
+|     fixed typo
+|  
+* commit d91e80046f9061a94cb9be0990a596a5aeadd7c9
+| Author: mcswint <mcswinton@gmail.com>
+| Date:   Fri May 2 15:23:09 2014 -0400
+| 
+|     added new test files
+|  
+* commit 2e7ea0b0fe75359e2738fb35b6e9a19c28272f1c
+| Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| Date:   Sat May 3 12:54:04 2014 -0400
+| 
+|     Added "None" to reserved words (Python)
+|  
+* commit efa53d6eb497d78e9520d04bfd4aa69415a4e375
+| Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| Date:   Fri May 2 15:14:45 2014 -0400
+| 
+|     Updated README
+|  
+* commit 643fb6c004e2f61df460879a29dc989360eb5a5e
+| Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| Date:   Fri May 2 15:06:59 2014 -0400
+| 
+|     Changed bad lang to new type of error
+|  
+* commit 3326a92ff52c8542643ae4af734c3ef731f67234
+| Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| Date:   Fri May 2 14:59:18 2014 -0400
+| 
+|     Added "lang=None" recognition back in
+|  
+* commit f8e5cda2a939f2ba32bec23ec735d2e33e21bc07
+| Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| Date:   Fri May 2 14:56:38 2014 -0400
+| 
+|     Some code cleanup
+|  
+* commit ba24b794ecc974a76f59c5d3195c94209bc691f5
+| Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| Date:   Fri May 2 14:46:43 2014 -0400
+| 
+|     Fixed compiler to recognize/stop on all errors
+|    
+*   commit 69e9dc550a98f457818aec139b3d45719b36b7da
+|\  Merge: bd5eb09 da980d1
+| | Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | Date:   Fri May 2 14:08:37 2014 -0400
+| | 
+| |     Merge pull request #66 from kaitlinhuben/master
+| |     
+| |     Moved fileutil.py and funct.py files into helpers
+| |     
+| *   commit da980d1703faa122bb0e8e476dbacaccdb6475dd
+| |\  Merge: 486c187 bd5eb09
+| |/  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|/|   Date:   Fri May 2 14:07:48 2014 -0400
+| |   
+| |       Merge branch 'master' of https://github.com/svelTest/svelTest
+| |     
+* |   commit bd5eb0999987aeb7e10670a48ed915b3c9915c98
+|\ \  Merge: d28efaa 020cadf
+| | | Author: Mandy <mcswinton@gmail.com>
+| | | Date:   Fri May 2 13:48:11 2014 -0400
+| | | 
+| | |     Merge pull request #65 from mcswint/master
+| | |     
+| | |     added windows functionality to cfileutil.py
+| | |    
+| * | commit 020cadf8536512f6305175a5bc8f5f84f7016bc0
+| | | Author: mcswint <mcswinton@gmail.com>
+| | | Date:   Fri May 2 13:46:50 2014 -0400
+| | | 
+| | |     added windows functionality to cfileutil.py
+| | |    
+| | * commit 486c18762e7930b3cead9d01b78ce0ac82df604c
+| |/  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|/|   Date:   Fri May 2 14:04:12 2014 -0400
+| |   
+| |       Moved fileutil.py and funct.py files into helpers
+| |     
+* |   commit d28efaa6c292967cbaa54ea6e555642e4a0d3547
+|\ \  Merge: 551fb15 8dba03d
+| |/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+|/|   Date:   Fri May 2 13:43:41 2014 -0400
+| |   
+| |       Merge pull request #64 from kaitlinhuben/master
+| |       
+| |       Fixed syntax error in addTester.svel
+| |   
+| * commit 8dba03d74e8cc5f8603f8ea6af473f3b8caf163b
+|/  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|   Date:   Fri May 2 13:42:29 2014 -0400
+|   
+|       Fixed syntax error in addTester.svel
+|    
+*   commit 551fb157a491ccc984883d993f89fafe45fee73d
+|\  Merge: 765f022 5ab63f5
+| | Author: Christopher So <css2162@columbia.edu>
+| | Date:   Mon Apr 28 20:17:54 2014 -0400
+| | 
+| |     Merge pull request #61 from chrso/python
+| |     
+| |     Testing support for Python
+| |   
+| * commit 5ab63f53d95f26601978ce94234107c32c9bac6a
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Sun Apr 27 15:28:32 2014 -0400
+| | 
+| |     added svel file to test Add.py; svelTest works with python; todo: more testing
+| |   
+| * commit b48eeda1c6c193d719f164efa1cf6f1a2322a8e3
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Sun Apr 27 14:53:59 2014 -0400
+| | 
+| |     commented out lines so that pfunct can be added to target file
+| |   
+| * commit a5df1beb8525ac7d1dc39f76052c622de228c9a8
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Sun Apr 27 14:16:47 2014 -0400
+| | 
+| |     added python reserved words to lex
+| |   
+| * commit 21296a5927ed4ea7aba72f97a116df107367c089
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Sun Apr 27 13:49:00 2014 -0400
+| | 
+| |     added python test files - add and helloworld
+| |   
+| * commit 4728a30ab4a8274593491aa48746bca3cfae3191
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Sun Apr 27 13:47:04 2014 -0400
+| | 
+| |     works for python main functions; todo: more testing
+| |   
+| * commit cf6ba27590045504c7a7098c55585b1ba775ce51
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Sun Apr 27 12:46:54 2014 -0400
+| | 
+| |     reads subprocess stdout; todo: test, main?
+| |   
+| * commit 716062bcce28e880cc2391d0e45f786b5ed1a2dd
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Sun Apr 27 02:00:36 2014 -0400
+| | 
+| |     added pfunct; todo: read subprocess stdout, test
+| |   
+| * commit 12132bdb9863ccc6630a44fc189e82d23d197d6c
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Sat Apr 26 20:32:12 2014 -0400
+| | 
+| |     fixed var name conflict 'in' --> '_in'
+| |   
+| * commit 1b2c699fb925a1ab312045a8e2596e9927bec467
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Sat Apr 26 20:14:08 2014 -0400
+| | 
+| |     recognizes python as LANG
+| |   
+| * commit 7c750b069aa56599a70d4b7437204fe53bdabc91
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Sat Apr 26 20:05:57 2014 -0400
+| | 
+| |     added pfileutil.py
+| |     
+* |   commit 765f0224a3246c9ed2d65f4b5c49d238f3f9e845
+|\ \  Merge: 168e783 aa1f65a
+| | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | Date:   Mon Apr 28 04:06:10 2014 -0400
+| | | 
+| | |     Merge pull request #63 from emilyhsia/treewalk
+| | |     
+| | |     Update treewalker
+| | |      
+| * |   commit aa1f65a1783654d309e267f7e4646325cd5e773f
+| |\ \  Merge: 64f9349 168e783
+| |/ /  Author: emily <emily.j.hsia@gmail.com>
+|/| |   Date:   Mon Apr 28 03:57:40 2014 -0400
+| | |   
+| | |       Merge branch 'master' of https://github.com/svelTest/svelTest into treewalk
+| | |      
+* | |   commit 168e783d5cc9162bc26e2f302b9f536891492269
+|\ \ \  Merge: caa24fa 7e77af2
+| | | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 28 03:50:06 2014 -0400
+| | | | 
+| | | |     Merge pull request #62 from emilyhsia/poker
+| | | |     
+| | | |     Updated poker grading demo
+| | | |       
+| | * |   commit 64f9349287bf34a43f17421469bfe45132a76c5b
+| | |\ \  Merge: 7383145 7e77af2
+| | |/ /  Author: emily <emily.j.hsia@gmail.com>
+| |/| |   Date:   Mon Apr 28 03:48:34 2014 -0400
+| | | |   
+| | | |       Merge branch 'poker' of https://github.com/emilyhsia/svelTest into treewalk
+| | | |     
+| * | | commit 7e77af2321a1b65b151d3eddde1d75181272c691
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 28 03:46:41 2014 -0400
+| | | | 
+| | | |     multiple students poker grading demo
+| | | |       
+| * | |   commit 8841d6b4b92493ad41d9d6a3ec28798c7e5041d8
+| |\ \ \  Merge: 1abce3a caa24fa
+| |/ / /  Author: emily <emily.j.hsia@gmail.com>
+|/| | |   Date:   Mon Apr 28 03:17:33 2014 -0400
+| | | |   
+| | | |       Merge branch 'master' of https://github.com/svelTest/svelTest into poker
+| | | |     
+| * | | commit 1abce3aa6ae26ab2c45f9daed153f1ae45dae987
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 23 23:28:30 2014 -0400
+| | | | 
+| | | |     add testcases to poker demo
+| | | |     
+| | * | commit 7383145dbb8210ad2faa014a0884c7f55e8a1ecc
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 28 03:21:49 2014 -0400
+| | | | 
+| | | |     remove printed lines in svelTraverse
+| | | |     
+| | * | commit 94c574cef8992b9a57516757ef9729c7174e951b
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 28 03:10:13 2014 -0400
+| | | | 
+| | | |     remove printed lines in jfunct
+| | | |     
+| | * | commit ca6a623f1af87c23426180139c3c14155d234439
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 28 03:07:43 2014 -0400
+| | | | 
+| | | |     fix assignment_expr not recognizing "array"
+| | | |     
+| | * | commit 49955d74f7562dcf0a33ee05b58e7bbab2e2e460
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 28 03:04:58 2014 -0400
+| | | | 
+| | | |     add ID check in lib functions. size() also checks if used the correct number of args (0)
+| | | |     
+| | * | commit 94698220ddac11f8f245b1682c090424601c2228
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 28 03:03:23 2014 -0400
+| | | | 
+| | | |     fix bug in getting symbol table entry type when referring to a global symbol
+| | | |     
+| | * | commit 123393e3761b4da4f65fe68f339989d651d7ed42
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 28 03:02:26 2014 -0400
+| | | | 
+| | | |     update svelTraverse to reflect identifier_list changes in svelYacc
+| | | |     
+| | * | commit 79114ff9956477638e41426537607113a7355a8d
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 28 02:49:15 2014 -0400
+| | | | 
+| | | |     change identifier_list rules in yacc : expression -> logical_OR_expr, and add an empty rule(*)
+| | | |     
+| | | |     Change so we get the type from logcial_OR_expr returned tuple
+| | | |     
+| | | |     (*expression -> empty
+| | | |     logical_OR_expr !-> empty)
+| | | |     
+| | * | commit b779df7db95e1fa9669e73b6ea015e2a29a03d72
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 28 02:46:03 2014 -0400
+| | | | 
+| | | |     throw TypeMismatchError with ID in assignment_expr type checker
+| | | |     
+| | * | commit 57c7df5e1f62a8506caf64a8071a2071f03c43f1
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 28 01:18:26 2014 -0400
+| | | | 
+| | | |     check if IDs for params in function_def were already defined in the global scope
+| | | |     
+| | * | commit da63d5489e3b8a4641af55104e260b3893fd01e2
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 28 00:44:46 2014 -0400
+| | | | 
+| | | |     fix tuple.split(",") bug
+| | | |     
+| | * | commit 8c2cb8b2ab6ef0fec1d14aa640b739052fa73da1
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 28 00:37:15 2014 -0400
+| | | | 
+| | | |     svelTraverse: line numbers in error messages
+| | | |     
+| | * | commit 73d2c281bce6c17a80498aab6b35addb65b270d6
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Sun Apr 27 23:42:28 2014 -0400
+| | | | 
+| | | |     change type conversions in function_call from identifier_list -> logical_OR_expr
+| | | |     
+| | * | commit e4594b756b9a71ba0ef924f6704ac74d5f328690
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Sun Apr 27 23:37:23 2014 -0400
+| | | | 
+| | | |     introduce line numbers in Node object so that our tree walker can print line numbers when a semantic error occurs
+| | | |       
+| | * |   commit 8b1d81263aad17139299e0eccbc53780d4d0b31f
+| | |\ \  Merge: b87538e caa24fa
+| |_|/ /  Author: emily <emily.j.hsia@gmail.com>
+|/| | |   Date:   Sun Apr 27 23:00:54 2014 -0400
+| | | |   
+| | | |       Merge branch 'master' of https://github.com/svelTest/svelTest into treewalk
+| | | |       
+* | | |   commit caa24fa5986217a905a581ea07a99a16e58a253f
+|\ \ \ \  Merge: dcd51e3 a94e6e3
+| |_|_|/  Author: Emily Hsia <emily.j.hsia@gmail.com>
+|/| | |   Date:   Sun Apr 27 21:41:26 2014 -0400
+| | | |   
+| | | |       Merge pull request #60 from chrso/master
+| | | |       
+| | | |       fixed issue with 'identifier list' being appended to list conversions
+| | | |     
+| * | | commit a94e6e350b39cad1b1862f78db987b0d7463e6a4
+|/ / /  Author: Christopher So <christopherso92@gmail.com>
+| | |   Date:   Sun Apr 27 14:59:52 2014 -0400
+| | |   
+| | |       fixed issue with 'identifier list' being appended to list conversions
+| | |      
+* | |   commit dcd51e37dd56234a87fa697ffb13cd0f545c309d
+|\ \ \  Merge: 9b6afe7 e3802ea
+| |/ /  Author: Emily Hsia <emily.j.hsia@gmail.com>
+|/| |   Date:   Fri Apr 25 23:09:10 2014 -0400
+| | |   
+| | |       Merge pull request #59 from emilyhsia/treewalk
+| | |       
+| | |       Type checking and symbol/scope table implemented
+| | |    
+| | * commit b87538ec1fff6b86d731c930e82c6ffe5a4f28fa
+| |/  Author: emily <emily.j.hsia@gmail.com>
+| |   Date:   Sun Apr 27 01:29:25 2014 -0400
+| |   
+| |       fix input = identifier_list bug
+| |   
+| * commit e3802ea3dcf12cd3ba92c0a8ecef380c9e441d4e
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 23:04:25 2014 -0400
+| | 
+| |     add example typecheck.svel to catch intentional semantic errors
+| |   
+| * commit 1db299f9fb08324a1a91525d10d2c27fbdfdb0e1
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 23:03:01 2014 -0400
+| | 
+| |     more error message editing
+| |   
+| * commit cbb800cc635b4c2d53dfc8e578d72c6caa4c9156
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 23:01:11 2014 -0400
+| | 
+| |     format error messages
+| |   
+| * commit 0aa765069f99864aa89518bc715b6256c5d9ddd5
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 22:50:02 2014 -0400
+| | 
+| |     fix file assignment_expr bug
+| |   
+| * commit c906d90b7b270e8bb27c86b4c52fbccc89e59f28
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 22:45:58 2014 -0400
+| | 
+| |     function call: fix get symbol table type bug by including the global flag
+| |   
+| * commit ca35c376707cb6d3b9c93bff3b5187b0aaa3566f
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 22:45:15 2014 -0400
+| | 
+| |     change ref_type accessor: expression -> assignment_expr
+| |   
+| * commit 1ab8c3fca6094f87be8180b94beb871171fe342a
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 22:44:39 2014 -0400
+| | 
+| |     typo change float -> double
+| |   
+| * commit 69868bc8ef427bb4e31bca70a5aef73279167504
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 22:43:56 2014 -0400
+| | 
+| |     edit some error messages
+| |   
+| * commit 55100e382b6d2d5bae46b8d6515a7a3e630a0e59
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 20:48:57 2014 -0400
+| | 
+| |     fix assert() code not being generated bug
+| |   
+| * commit bffa74d9e01328d29a2703a16e039b85ca44239f
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 20:48:19 2014 -0400
+| | 
+| |     fix identifier_list bug that accidentally str(tuple)
+| |   
+| * commit 6a988b9254c21e50f1934b53f32121b1ce363bb4
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 20:47:35 2014 -0400
+| | 
+| |     introduce currentFunction variable to indicate the current function being traversed
+| |   
+| * commit e3a0f85609cdbd1a85aa4f5d35e2cb7abe9c3a31
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 20:46:33 2014 -0400
+| | 
+| |     MethodReturnTypeMismatch
+| |   
+| * commit 6995f9e95df5818139b45c80d93748290910ac38
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 20:11:28 2014 -0400
+| | 
+| |     assignment_expr type checking (completed?)
+| |   
+| * commit b89b4af58b84bd93b42e88490e50ff9adde3a9ee
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 19:39:43 2014 -0400
+| | 
+| |     more clean up
+| |   
+| * commit d90c2968699cfffa7a049991efc6efca52a34feb
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 19:34:37 2014 -0400
+| | 
+| |     edit error message
+| |   
+| * commit cd7938f7cbeb008b52c22f5f569944ba4ecc71af
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 19:34:13 2014 -0400
+| | 
+| |     assignment_expr cleanup
+| |   
+| * commit 1fc2fed1ca27bd80f37d4df072446a2cf8b2e663
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 19:27:42 2014 -0400
+| | 
+| |     update assignment_expr to handle returned tuple from logical_OR_expr
+| |   
+| * commit 2bd8877b02a040e7d57aa9e0cdce8a3391e6f6a0
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 19:26:13 2014 -0400
+| | 
+| |     update jump_stmt to handle returned tuple from logical_OR_expr
+| |   
+| * commit ad3cfedba0b265737b4b969538e4b416e24be979
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 19:25:33 2014 -0400
+| | 
+| |     logical_OR_expr type checking: returns code, type
+| |   
+| * commit ec83139bb1f88c20afcafa70025e874405fb7245
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 19:20:31 2014 -0400
+| | 
+| |     logical_AND_expr type checking
+| |   
+| * commit 85052be99bddb36810e2f09311094746d673e302
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 19:20:11 2014 -0400
+| | 
+| |     equality expression type checking
+| |   
+| * commit 11196f3945423db69929f89faeec93dcb0c554c2
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 19:17:04 2014 -0400
+| | 
+| |     implement logical OR/AND type checker
+| |   
+| * commit f9db30f363c75db8377512ccba5a1b3fe9d89117
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 19:13:58 2014 -0400
+| | 
+| |     whoops
+| |   
+| * commit e21b34d46dc968e04f5e4610bc8cc9ed452ada07
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 19:13:42 2014 -0400
+| | 
+| |     multiplicative expr cleanup
+| |   
+| * commit e17c83d16eae80e068eef715a552f7d424cf668e
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 19:11:24 2014 -0400
+| | 
+| |     modify type checkers to return "undefined" instead of False
+| |   
+| * commit b2532b2210919b4a6e1e0511a74a7e7399c9b8b2
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 19:07:55 2014 -0400
+| | 
+| |     equality expression type checker helper
+| |   
+| * commit d49f6eafd39dbe44915e81699d332bde3e413207
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 18:55:03 2014 -0400
+| | 
+| |     relational_expr returns tuple: code and type
+| |   
+| * commit 9e2909072e407b9fc82e3afbde76b252c36323ff
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 18:54:32 2014 -0400
+| | 
+| |     additive_expr returns code and type
+| |   
+| * commit ceaa61ab5d7f6de02d2b2d3a010e178acd6a7864
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 18:54:07 2014 -0400
+| | 
+| |     relatonal_expr type checker implemented
+| |   
+| * commit 541dfdfdc0e13949fcadd6c50fb9c9c21a09bbba
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 18:53:53 2014 -0400
+| | 
+| |     modify self defined exceptions
+| |   
+| * commit 14bc2c7cdf998c5207700e93b1b891af35f9e507
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 18:21:38 2014 -0400
+| | 
+| |     multiplicative_type returns tuple. begin additive_type stuff
+| |   
+| * commit c390eec75ec4932eed694703acd94ac86365d70d
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 18:20:36 2014 -0400
+| | 
+| |     additive type checker checks if two types are compatible for adding/subtracting
+| |   
+| * commit 30a263e003a8c510635b76a00ac923408844c8df
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 05:38:16 2014 -0400
+| | 
+| |     ref_type returns type or "undefined"
+| |   
+| * commit bcaa211925879ec8cbce78bea3d4ed9eaadf499b
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 05:37:46 2014 -0400
+| | 
+| |     move mult_expr helper function to bottom of file
+| |   
+| * commit ac4341eb6caeafc4b2bc268dea21911c06ed1d89
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 05:09:16 2014 -0400
+| | 
+| |     mult_expr_type_checker: tree.leaf -> operator bug fix
+| |   
+| * commit 00dc7a500af95519b09b51c4f4bf061a4a411dff
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 05:06:26 2014 -0400
+| | 
+| |     fix type conversions to unpack the returned tuple from identifier_list
+| |   
+| * commit a7fd4c6c06999febe8fe8037da46447894c77be6
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 05:05:45 2014 -0400
+| | 
+| |     ref_type: ID check to make sure it's an array and returns type
+| |   
+| * commit 03df8d8a89e5b53f811ede0c7f162d639dac3560
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 05:04:59 2014 -0400
+| | 
+| |     fix update_symtable so that it only needs one arg: the symbol to update
+| |   
+| * commit ee16d24d84c82654f803878bc5ebb9bd9034d917
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 04:44:03 2014 -0400
+| | 
+| |     InvalidArrayAccessException
+| |   
+| * commit 94b932ef2f39bedc26ab47a7d979d8fb4f3ccd46
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 04:32:13 2014 -0400
+| | 
+| |     multiplicative_expr type checking implemented
+| |   
+| * commit 8f31fb4a6cc5cac8b965eb4e905ce6174ed60c45
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 04:31:08 2014 -0400
+| | 
+| |     secondary_expr returns tuple. _type = type or "undefined"
+| |   
+| * commit 145dc57a3fd13776cf3c861b97a6e0d2251f3c78
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 04:29:56 2014 -0400
+| | 
+| |     funct_call returns tuple
+| |     _type = type or "undefined" (undefined behavior)
+| |   
+| * commit a90f932602295a4078b157c8d712bd1f8ed2ca9a
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 04:28:24 2014 -0400
+| | 
+| |     _ref_type returns tuple. _type = "array"
+| |   
+| * commit 5ff276d85d94d69ec87115ff6bce6279effe4801
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 04:27:53 2014 -0400
+| | 
+| |     identifier_list returns tuple
+| |     _type = expression, verbose, identifier_list
+| |   
+| * commit b38e9977f4708689738c404d637c09e06c8112db
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 04:02:13 2014 -0400
+| | 
+| |     MethodReturnsVoidError
+| |   
+| * commit 5fae0d0c95619accf8a15dccec562ec4c5ed4642
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 04:01:49 2014 -0400
+| | 
+| |     UndefinedMethodError
+| |   
+| * commit b02a1689957052b92f45f1cd2ddd809f69c6fde7
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 03:52:01 2014 -0400
+| | 
+| |     InvalidArguments expection
+| |   
+| * commit 65ae9540d89eeb1e25f6b48e7ad23a108681c61b
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 03:50:03 2014 -0400
+| | 
+| |     UnexpectedSymbolError
+| |   
+| * commit 0208212a7d9a3cc030157724d34a4437da076c0a
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 02:50:55 2014 -0400
+| | 
+| |     primary_expr : returns "undefined" as _type if
+| |     variable not previously defined
+| |   
+| * commit 09b8c2779a78cd4bb8354eaaad0c239cb75d577e
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 02:49:47 2014 -0400
+| | 
+| |     OperatorCannotBeApplied exception
+| |   
+| * commit 4d5d608abca7732350f46169e9ca98f11c9ee53f
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 02:32:10 2014 -0400
+| | 
+| |     primary_expr: check if ID has been defined for use
+| |   
+| * commit d29ded984b5bf608f7b0ee30dfc49c8939e075d5
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 02:25:57 2014 -0400
+| | 
+| |     external_declaration: add to scope/symbol table
+| |     and put any external declarations in generated python code...
+| |     any reason why weren't we doing this before?
+| |   
+| * commit 929b5dd58e3af5184645f4efdc9739890ec0dc6e
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 02:12:57 2014 -0400
+| | 
+| |     function_def raise exception if function already defined
+| |   
+| * commit 584415eaedbae48cef4ac7ce6ed428c47ab11c43
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 02:10:08 2014 -0400
+| | 
+| |     _expression: add symbol to symbol/scope table
+| |   
+| * commit 18ad87ad3ab14bbc6ba5bbda5d05c1ed8cf1b32d
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 02:00:40 2014 -0400
+| | 
+| |     function_def: add function name to symbol table
+| |   
+| * commit 855b78d9aa1661ac1733ffc5302eb76eac758194
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 01:59:30 2014 -0400
+| | 
+| |     fix assignment_expr type bug
+| |   
+| * commit d17c6891e82b42b92356f5a4e4f9b41b31a4295b
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 01:58:34 2014 -0400
+| | 
+| |     _symbol_exists fix for global scope
+| |   
+| * commit 3e78b479b7bedd757ee6d478b5734cb8f955bb18
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 25 01:57:41 2014 -0400
+| | 
+| |     tree walk comments
+| |   
+| * commit 7c492121fc4d02a4ced017d6f20c42aa297622c6
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 23:17:43 2014 -0400
+| | 
+| |     _symbol_exists additionally checks if symbol is
+| |     in the global scope
+| |   
+| * commit be456f3b422734fee2e922ffafeb1a7c8564edb4
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 22:48:49 2014 -0400
+| | 
+| |     isGlobal flag in symbol/scope table helpers.
+| |     set isGlobal=True when adding function_def ID
+| |     to symbol/scope table
+| |   
+| * commit 0b4330ba5c34706a67552771a06a8244485e765e
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 22:38:49 2014 -0400
+| | 
+| |     _param_list: add symbols to symbol table
+| |   
+| * commit 514212ba30b2b59ad8bbad61671ff4bfb87067a4
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 22:38:03 2014 -0400
+| | 
+| |     remove extra print statements
+| |   
+| * commit 164ebaf45dfab66971c2c317200f70dc37d7a9bb
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 22:37:10 2014 -0400
+| | 
+| |     cast code to string before +
+| |   
+| * commit d28fbfbbec37a87bc880a0e4061ad2234deea013
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 22:35:46 2014 -0400
+| | 
+| |     create new scope in function_def
+| |   
+| * commit 1a22fc83f47eaf045f2d427c050d34dd6870e755
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 05:01:39 2014 -0400
+| | 
+| |     remove unused helper functions
+| |   
+| * commit 3eb096fbf7fc5264b6ff5a90a3183e2eecb84721
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 04:54:20 2014 -0400
+| | 
+| |     begin implement type checks in multiplication_expr
+| |     and assignment_expr
+| |   
+| * commit 413678422c8eb874fccb015b3cb17b5aca823286
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 04:47:39 2014 -0400
+| | 
+| |     implement _get_symtable_type and more comments
+| |   
+| * commit f84808577f6161069effeb45daca28cc82637600
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 04:39:26 2014 -0400
+| | 
+| |     move more helper functions to the bottom
+| |   
+| * commit b249742c4ec85ae18cbf6995d5799d3858c881ef
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 04:37:27 2014 -0400
+| | 
+| |     add comments
+| |   
+| * commit c6d18a3cccff720b84131e34a1b57153db1ae7e4
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 04:34:54 2014 -0400
+| | 
+| |     move type checking helper functions to the bottom
+| |   
+| * commit bd81fed5f50d5543947350fcd7ce1f3297056ee5
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 04:30:55 2014 -0400
+| | 
+| |     SymbolNotFoundError
+| |   
+| * commit bf0caaabd2d7afc446b905e4ede290a09faafff7
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 04:30:36 2014 -0400
+| | 
+| |     update symbol table helper function
+| |   
+| * commit 053fabb23a92dded18fed00a18db03cf30d8a024
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 04:29:58 2014 -0400
+| | 
+| |     assignment_expr: ID checks
+| |   
+| * commit f69e7943252fdd9c79264e10991d855ece16e29f
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 03:55:01 2014 -0400
+| | 
+| |     type check funct third argument (file or string literal)
+| |   
+| * commit 8c077035a7ccc22e92710b0a15dda0360b034f88
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 03:52:23 2014 -0400
+| | 
+| |     update TypeMismatchError
+| |   
+| * commit 8d4ace4903ff2d2b130456ca4165bee82fb8b865
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 03:37:18 2014 -0400
+| | 
+| |     add comments
+| |   
+| * commit af59cb95c73f7e6eacc062ededb86a183768cf2a
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 03:35:15 2014 -0400
+| | 
+| |     assignment_expr: funct ID symbol check
+| |   
+| * commit 2e16b443b4cd1787f7fc58014c1a4c907c2c2039
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 03:34:17 2014 -0400
+| | 
+| |     symbol and scope table helper functions
+| |   
+| * commit 8ed4b009a0f3322c66d6d1be11eb2dfc47c3b790
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 03:33:35 2014 -0400
+| | 
+| |     DuplicateVariableError created
+| |   
+| * commit 7e4bf82f1e346b30c273abc91b85f5c6ce782707
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 02:44:43 2014 -0400
+| | 
+| |     treewalk: secondary_expr returns tuple
+| |   
+| * commit 5bbdabcf2e7519eb793b322024f606cb2fa1ccd7
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 02:43:19 2014 -0400
+| | 
+| |     treewalk: _funct_name type checking
+| |   
+| * commit 059f5a556e56ccc67f430632cd89bc949a9f09e6
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 02:41:02 2014 -0400
+| | 
+| |     create TypeMismatchError Exception class
+| |   
+| * commit bbf5738814eff755f08b13d17aa4ae263ac5e821
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 01:34:38 2014 -0400
+| | 
+| |     begin returning types: primary_expr
+| |   
+| * commit 466763562d7b4022db793384c97b68e6b68e835e
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Thu Apr 24 00:46:31 2014 -0400
+| | 
+| |     implement _recognize_type_helper to determine the type of a primary expr
+| |     
+| *   commit a80b5ea1946b76ffc541924edd86e62c3910a4e1
+| |\  Merge: 0ed3994 9b6afe7
+| |/  Author: emily <emily.j.hsia@gmail.com>
+|/|   Date:   Wed Apr 23 23:31:37 2014 -0400
+| |   
+| |       merge
+| |     
+* |   commit 9b6afe729bdeea478c073ed3c97f230c0381c295
+|\ \  Merge: cde9253 778d1f2
+| | | Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | | Date:   Wed Apr 23 10:58:59 2014 -0400
+| | | 
+| | |     Merge pull request #52 from kaitlinhuben/master
+| | |     
+| | |     More changes to cfunct.py - not done yet (don't merge)
+| | |      
+| * |   commit 778d1f2caf071ead0373da9f2b020dea4c5b7f15
+| |\ \  Merge: dc2d1d8 cde9253
+| |/ /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|/| |   Date:   Wed Apr 23 10:41:32 2014 -0400
+| | |   
+| | |       Fixing merge conflicts in cfunct
+| | |       
+| | |       Conflicts:
+| | |       	lib/cfunct.py
+| | |      
+* | |   commit cde92533cf785f02fbd9254cb7d03fba1ae0922d
+|\ \ \  Merge: 1e005ca 461364d
+| | | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 23 04:05:05 2014 -0400
+| | | | 
+| | | |     Merge pull request #58 from emilyhsia/master
+| | | |     
+| | | |     cfunct for main or single C function*
+| | | |     
+| * | | commit 461364dd35cbfef2d8b40c0f78faef28e728cd37
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 23 04:01:36 2014 -0400
+| | | | 
+| | | |     add return value example in fib.c and update addTester.svel to test fib()
+| | | |     
+| * | | commit bb11eb66762e6a449164a6b3188156d2a03ce4bd
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 23 03:55:32 2014 -0400
+| | | | 
+| | | |     cfunct now tests single C function*
+| | | |     
+| | | |     Note:
+| | | |     C can't compile when there are two main methods in the files.
+| | | |     So if you want to test a single C function in foo.c,
+| | | |     foo.c cannot contain a main method. Also, you must have
+| | | |     header file foo.h for foo.c for #include
+| | | |     
+| | | |     We should think more about how to deal with this... gcc linker/compiler
+| | | |     is super naive and isn't as smart the Java compiler
+| | | |     
+| * | | commit 9d60aae82a6ca27445f2e6d2cb6594b806d41534
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 23 03:44:53 2014 -0400
+| | | | 
+| | | |     jfunct: stop program if fail to compile
+| | | |     
+| * | | commit d14dd6d532aa9202ea50c42ffc1b9d0a6c44cb45
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 23 03:02:41 2014 -0400
+| | | | 
+| | | |     cfunct works for add.c
+| | | |       
+* | | |   commit 1e005cac67cbbd0c2d296b8803df9e9f54024dc8
+|\ \ \ \  Merge: 7549a33 e90d42e
+| |/ / /  Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | |   Date:   Wed Apr 23 03:01:20 2014 -0400
+| | | |   
+| | | |       Merge pull request #57 from emilyhsia/master
+| | | |       
+| | | |       fix bug in treewalker -- convert () to [] for inputs. (ie input i = (1, ...
+| | | |     
+| * | | commit e90d42e6150d8d7ef997ed75a70030d65bcfad5a
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 23 03:00:45 2014 -0400
+| | | | 
+| | | |     fix bug in treewalker -- convert () to [] for inputs. (ie input i = (1, 3) --> i = [1, 3])
+| | | |       
+* | | |   commit 7549a33e17ffced51e837b7ca8a48b4f789e7dd3
+|\ \ \ \  Merge: ced97fb bf4da0b
+| |/ / /  Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | |   Date:   Wed Apr 23 02:11:35 2014 -0400
+| | | |   
+| | | |       Merge pull request #56 from emilyhsia/master
+| | | |       
+| | | |       modify the Java code created by jfunct
+| | | |     
+| * | | commit bf4da0bb94bf39b390343e4192bd082febcd7245
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 23 02:10:05 2014 -0400
+| | | | 
+| | | |     modify the Java code created by jfunct to print either true, or print actual return value for python to capture
+| | | |     
+| * | | commit 17bbfcc6b8ebecc29e4c7d3d6521b632eeff6f0c
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 23 02:06:40 2014 -0400
+| | | | 
+| | | |     add fib demo svel and Java code
+| | | |       
+* | | |   commit ced97fb7c91fcdc3fa7a6b20c363fbe077340940
+|\ \ \ \  Merge: 94c27e4 a21b3c2
+| |/ / /  Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | |   Date:   Wed Apr 23 01:46:49 2014 -0400
+| | | |   
+| | | |       Merge pull request #55 from emilyhsia/master
+| | | |       
+| | | |       poker.svel grading demo
+| | | |     
+| * | | commit a21b3c2f568e598eb091812486d5f7df60bf3219
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 23 01:45:11 2014 -0400
+| | | | 
+| | | |     add comments to poker.svel
+| | | |     
+| * | | commit 01255d832635811856de89a89e05805c7b1d13cf
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 23 01:41:24 2014 -0400
+| | | | 
+| | | |     add svel program to test the demo Java poker program
+| | | |       
+* | | |   commit 94c27e48739b75bdf93cd7e4e0a777dec6800493
+|\ \ \ \  Merge: 63c8603 dd461a7
+| |/ / /  Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | |   Date:   Wed Apr 23 01:40:04 2014 -0400
+| | | |   
+| | | |       Merge pull request #54 from emilyhsia/master
+| | | |       
+| | | |       [mandy] add demo poker Java code and testcases
+| | | |     
+| * | | commit dd461a7ae536ed85de54f5cf7fa1e9f0d0c26c27
+| | | | Author: Mandy <mcswinton@gmail.com>
+| | | | Date:   Wed Apr 23 01:30:49 2014 -0400
+| | | | 
+| | | |     add demo poker Java code and testcases
+| | | |       
+* | | |   commit 63c860300c06a411e459febdde5287f49ac90c8e
+|\ \ \ \  Merge: 609d030 a7508a6
+| |/ / /  Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | |   Date:   Wed Apr 23 01:28:07 2014 -0400
+| | | |   
+| | | |       Merge pull request #53 from emilyhsia/master
+| | | |       
+| | | |       Add type conversion library functions (e.g. int(), string(), double(), boolean())
+| | | |     
+| * | | commit a7508a6918cbe80a42699c4fa3c8105b4a70578e
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 23 01:25:46 2014 -0400
+| | | | 
+| | | |     add type conversion library functions (a little hacky). currently only string(), int(), double(), boolean()
+| | | |     
+| * | | commit 404865f0385356b7a714c0e1811fac06e2642eb8
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 23 01:23:48 2014 -0400
+| | | | 
+| | | |     allow computed values as index accessors into an array. (e.g. a[i+1])
+| | | |     
+| * | | commit 5f284695046f392c64aadd990f6b7cc52c2835e8
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 23 01:22:17 2014 -0400
+| | | | 
+| | | |     fix string comparison in jfunct
+| | | |     
+| * | | commit d8b6005d6c4997dcd08187ca3e94e56fc011b6a0
+|/ / /  Author: emily <emily.j.hsia@gmail.com>
+| | |   Date:   Wed Apr 23 01:21:31 2014 -0400
+| | |   
+| | |       verbose option to report expected vs actual outputs if test fails
+| | |      
+| * |   commit dc2d1d8a1cbe6c7c81d85dbdcaebc3cf05cc479a
+| |\ \  Merge: 5685905 609d030
+| |/ /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|/| |   Date:   Tue Apr 22 23:08:49 2014 -0400
+| | |   
+| | |       Merge branch 'master' of https://github.com/svelTest/svelTest
+| | |      
+* | |   commit 609d03002c322b40acfb14f7b06c1c565a3522a9
+|\ \ \  Merge: eac8176 713c537
+| | | | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | | Date:   Tue Apr 22 22:56:51 2014 -0400
+| | | | 
+| | | |     Merge pull request #51 from JALsnipe/master
+| | | |     
+| | | |     implemented jenky readlines() from file.
+| | | |     
+| * | | commit 713c537f70af63f071f02664ba4f40b9a7032354
+| | | | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | | Date:   Tue Apr 22 22:51:56 2014 -0400
+| | | | 
+| | | |     fixed test suite, removed unnecessary print statement in svelTraverse
+| | | |     
+| * | | commit 4fc8637c51c16fb4e4f2724c6266101072134ed1
+| | | | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | | Date:   Tue Apr 22 01:04:15 2014 -0400
+| | | | 
+| | | |     implemented jenky readlines() from file.
+| | | |       
+* | | |   commit eac81761f8dd408443260f8936b2cfb80c3cd878
+|\ \ \ \  Merge: e6d2201 cedd246
+| | | | | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | | | Date:   Tue Apr 22 22:55:05 2014 -0400
+| | | | | 
+| | | | |     Merge pull request #50 from kaitlinhuben/master
+| | | | |     
+| | | | |     Tried to add C testing; stuck in cfunct.py [don't merge yet?]
+| | | | |      
+| | | * | commit 5685905978e450e8d325d0ca8bf78c16e5ebc4e8
+| | | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | | Date:   Tue Apr 22 23:07:18 2014 -0400
+| | | | | 
+| | | | |     More changes to cfunct.py - not done
+| | | | |      
+| | | * | commit 767abdea1ff1905d951274b3c2e44867ef9a5582
+| | | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | | Date:   Tue Apr 22 22:10:57 2014 -0400
+| | | | | 
+| | | | |     Fixed extra main in add.c
+| | | | |      
+| | | * | commit 0a2c1ac6e0fcfe845e7d1cddeb63a612f0473c56
+| | |/ /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| |/| |   Date:   Tue Apr 22 21:37:02 2014 -0400
+| | | |   
+| | | |       Removed Vagrant stuff (weren't using anyway)
+| | | |       
+| * | |   commit cedd246b7b783551bf32eb738dccc0c870c48ba2
+| |\ \ \  Merge: 53d7d15 e6d2201
+| |/ / /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|/| | |   Date:   Mon Apr 21 22:22:35 2014 -0400
+| | | |   
+| | | |       Merge branch 'master' of https://github.com/svelTest/svelTest
+| | | |       
+* | | |   commit e6d22019cd8822f2c184f8c0b08a73d16649db2f
+|\ \ \ \  Merge: 5ef205d f69c4ca
+| | |/ /  Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| |/| |   Date:   Mon Apr 21 22:18:07 2014 -0400
+| | | |   
+| | | |       Merge pull request #49 from JALsnipe/master
+| | | |       
+| | | |       fixed a typo in the test suite
+| | | |     
+| * | | commit f69c4ca0c728884b1b2a56dc4afa4501e0c82263
+|/ / /  Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | |   Date:   Mon Apr 21 22:17:44 2014 -0400
+| | |   
+| | |       fixed a typo in the test suite
+| | |      
+* | |   commit 5ef205d124bf9a27c71c53d2af71cbee655a07e4
+|\ \ \  Merge: b696b0a b643723
+| | | | Author: Mandy <mcswinton@gmail.com>
+| | | | Date:   Mon Apr 21 22:04:27 2014 -0400
+| | | | 
+| | | |     Merge pull request #45 from mcswint/master
+| | | |     
+| | | |     Added windows functionality
+| | | |     
+| * | | commit b643723eadf2489ad560672ba5a70477004f21b1
+| | | | Author: mcswint <mcswinton@gmail.com>
+| | | | Date:   Mon Apr 21 19:06:09 2014 -0400
+| | | | 
+| | | |     able to compile jfunct.py on windows
+| | | |     
+| * | | commit d05992d59bf8c6ab5e668bee13ceaabfc871e11e
+| | | | Author: mcswint <mcswinton@gmail.com>
+| | | | Date:   Mon Apr 21 17:31:51 2014 -0400
+| | | | 
+| | | |     Added in some robustness for windows
+| | | |       
+* | | |   commit b696b0a02985702230752fc1a1a231dca609881d
+|\ \ \ \  Merge: 7a8847e bc20a8d
+| | | | | Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | | | | Date:   Mon Apr 21 20:32:54 2014 -0400
+| | | | | 
+| | | | |     Merge pull request #48 from kaitlinhuben/master
+| | | | |     
+| | | | |     Added more test cases to possible demo
+| | | | |        
+* | | | |   commit 7a8847ef60955018f518ba8a7cc12ac377d3865b
+|\ \ \ \ \  Merge: 048fcc5 a54c4b5
+| | | | | | Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | | | | | Date:   Mon Apr 21 20:30:52 2014 -0400
+| | | | | | 
+| | | | | |     Merge pull request #47 from kaitlinhuben/master
+| | | | | |     
+| | | | | |     Added "lang=x;" declaration to compiler (including "lang=None;")
+| | | | | |       
+| | | | * | commit 53d7d159b0263096c04e51fbc6910e782a5dc913
+| | | | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | | | Date:   Mon Apr 21 22:18:20 2014 -0400
+| | | | | | 
+| | | | | |     Attempt to change cfunct for C files
+| | | | | |     
+| | | | | |     Unfinished; constructCHelperCode does not work as it should.
+| | | | | |       
+| | | | * | commit 651328df9761c06229240a890e0254288102ff85
+| | | | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | | | Date:   Mon Apr 21 21:30:52 2014 -0400
+| | | | | | 
+| | | | | |     Added pointer notation in yacc/traverse
+| | | | | |     
+| | | | | |     New grammar rule recognizes as many *'s as wanted after res_lang type
+| | | | | |       
+| | | | * | commit cf3f4ed50feb127e52de1ddb7600f844198e6124
+| | | | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | | | Date:   Mon Apr 21 21:18:45 2014 -0400
+| | | | | | 
+| | | | | |     Added negative numbers to lexer
+| | | | | |       
+| | | | * | commit eb2984c21052ce1436ce070d60b0b88a5d084b10
+| | | |/ /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | |/| |   Date:   Mon Apr 21 20:46:46 2014 -0400
+| | | | |   
+| | | | |       Started work on C testing
+| | | | |       
+| | | | |       Added C types in lexer.
+| | | | |       Copied jfileutil.py->cfileutil.py and modified for c files.
+| | | | |       Also added simple files to test in c_files.
+| | | | |      
+| | * | | commit bc20a8db00fc3d251ddaadbda1ae7597af62773c
+| |/ / /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | |   Date:   Mon Apr 21 20:31:32 2014 -0400
+| | | |   
+| | | |       Added more test cases to possible demo
+| | | |       
+| | | |       fibTester.svel now also tests the fib function directly once with correct inputs/ouputs and once with incorrect outputs
+| | | |     
+| * | | commit a54c4b5ff9025ab5c367a40175ebe2765781efff
+| | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | Date:   Mon Apr 21 19:17:07 2014 -0400
+| | | | 
+| | | |     Updated compiler to accept "lang=None;"
+| | | |     
+| | | |     For simple program like cl_add.svel, don't need overhead of jfileutil/jfunct/etc.
+| | | |       
+| * | |   commit 9a9f02ee66c514213229b163e7803965e36c8a4d
+| |\ \ \  Merge: 27d457f 048fcc5
+| |/ / /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|/| | |   Date:   Mon Apr 21 19:14:18 2014 -0400
+| | | |   
+| | | |       Merge branch 'master' of https://github.com/svelTest/svelTest
+| | | |       
+* | | |   commit 048fcc5d1ec1ac56b4fad718b36d73caeff6ef71
+|\ \ \ \  Merge: abcaee4 9c40ebc
+| | | | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | | | Date:   Mon Apr 21 19:09:10 2014 -0400
+| | | | | 
+| | | | |     Merge pull request #46 from emilyhsia/master
+| | | | |     
+| | | | |     fix bug in command line hack
+| | | | |      
+| * | | | commit 9c40ebca8d71497540dde33b6c32d9203623589b
+| | | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | | Date:   Mon Apr 21 19:08:18 2014 -0400
+| | | | | 
+| | | | |     remove extra print statement in tree walker
+| | | | |      
+| * | | | commit 86e032cca490076f43c7f4058d8631b912919f82
+|/ / / /  Author: emily <emily.j.hsia@gmail.com>
+| | | |   Date:   Mon Apr 21 19:07:26 2014 -0400
+| | | |   
+| | | |       fix bug in command line hack
+| | | |       
+| * | |   commit 27d457f3e106f09e3a0caee22df6c441d2242432
+| |\ \ \  Merge: 483c048 abcaee4
+| |/ / /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|/| | |   Date:   Mon Apr 21 18:56:05 2014 -0400
+| | | |   
+| | | |       Merge branch 'master' of https://github.com/svelTest/svelTest
+| | | |       
+* | | |   commit abcaee4df70c2c12331da978a8335c98c65aa1ef
+|\ \ \ \  Merge: 701ad6a c5668d2
+| | | | | Author: Christopher So <css2162@columbia.edu>
+| | | | | Date:   Mon Apr 21 18:47:12 2014 -0400
+| | | | | 
+| | | | |     Merge pull request #44 from chrso/master
+| | | | |     
+| | | | |     list.replace/remove/insert/size
+| | | | |        
+| * | | |   commit c5668d2731a2780a04b14a2153fb3da7611bd289
+| |\ \ \ \  Merge: c5840bf 701ad6a
+| |/ / / /  Author: Christopher So <christopherso92@gmail.com>
+|/| | | |   Date:   Mon Apr 21 18:39:04 2014 -0400
+| | | | |   
+| | | | |       Merge remote-tracking branch 'upstream/master'
+| | | | |        
+* | | | |   commit 701ad6a646864dccba2d705b85754953bc32a81c
+|\ \ \ \ \  Merge: 5ee089c a18dfea
+| | | | | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | | | | Date:   Mon Apr 21 18:35:09 2014 -0400
+| | | | | | 
+| | | | | |     Merge pull request #43 from emilyhsia/master
+| | | | | |     
+| | | | | |     command line arguments hack
+| | | | | |       
+| * | | | | commit a18dfea13e41d57de5bad9468b384cb8c8c032e5
+| | | | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | | | Date:   Mon Apr 21 18:33:41 2014 -0400
+| | | | | | 
+| | | | | |     added simple command line svel program that takes two ints via command line
+| | | | | |         
+| * | | | |   commit 9a41e3aecb53e70e8fd20683da5cd309f6bec77c
+| |\ \ \ \ \  Merge: 6874200 5ee089c
+| |/ / / / /  Author: emily <emily.j.hsia@gmail.com>
+|/| | | | |   Date:   Mon Apr 21 18:30:25 2014 -0400
+| | | | | |   
+| | | | | |       Merge branch 'master' of https://github.com/svelTest/svelTest
+| | | | | |         
+* | | | | |   commit 5ee089c77d226873186497f6cb07251c134a838f
+|\ \ \ \ \ \  Merge: 02e32fb b4a9141
+| |_|_|_|/ /  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+|/| | | | |   Date:   Mon Apr 21 18:26:33 2014 -0400
+| | | | | |   
+| | | | | |       Merge pull request #42 from kaitlinhuben/master
+| | | | | |       
+| | | | | |       Updated compiler to include jfunct & jfileutil directly in compiled file
+| | | | | |       
+| | * | | | commit 68742003c0b9e8be22063ba237a8e692e584e9aa
+| | | | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | | | Date:   Mon Apr 21 18:30:15 2014 -0400
+| | | | | | 
+| | | | | |     command line arguments hack
+| | | | | |       
+| | | * | | commit c5840bf8df394575002e39413c71404b2faf994b
+| | | | | | Author: Christopher So <christopherso92@gmail.com>
+| | | | | | Date:   Mon Apr 21 18:01:49 2014 -0400
+| | | | | | 
+| | | | | |     implemented lib functions for lists
+| | | | | |         
+| | | * | |   commit 30a361211af3248aeecab07787f59f7a84f38a56
+| | | |\ \ \  Merge: 6a8af6b 02e32fb
+| |_|_|/ / /  Author: Christopher So <christopherso92@gmail.com>
+|/| | | | |   Date:   Mon Apr 21 18:01:08 2014 -0400
+| | | | | |   
+| | | | | |       Merge remote-tracking branch 'upstream/master'
+| | | | | |         
+* | | | | |   commit 02e32fba2f320480fcf90d2a696c920b6569d18f
+|\ \ \ \ \ \  Merge: 71c03a9 49d6640
+| | | | | | | Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | | | | | | Date:   Mon Apr 21 17:20:51 2014 -0400
+| | | | | | | 
+| | | | | | |     Merge pull request #41 from kaitlinhuben/master
+| | | | | | |     
+| | | | | | |     Renamed funct to jfunt
+| | | | | | |          
+| | | | * | |   commit 6a8af6b327fce0b10cd6425b4b9dd66fc965d168
+| | | | |\ \ \  Merge: d9f238b 71c03a9
+| |_|_|_|/ / /  Author: Christopher So <christopherso92@gmail.com>
+|/| | | | | |   Date:   Mon Apr 21 16:21:31 2014 -0400
+| | | | | | |   
+| | | | | | |       Merge remote-tracking branch 'upstream/master'
+| | | | | | |          
+| | | | * | |   commit d9f238bcf4461a86046f3c61e5b7562e696efc0e
+| | | | |\ \ \  Merge: 23f67ef 4134de8
+| | | | | | | | Author: Christopher So <christopherso92@gmail.com>
+| | | | | | | | Date:   Sun Apr 20 16:25:35 2014 -0400
+| | | | | | | | 
+| | | | | | | |     Merge remote-tracking branch 'upstream/master'
+| | | | | | | |         
+| | | | * | | | commit 23f67efd16f23e4f4762cafe7738ee4359ed6f75
+| | | | | | | | Author: Christopher So <christopherso92@gmail.com>
+| | | | | | | | Date:   Sun Apr 20 16:20:30 2014 -0400
+| | | | | | | | 
+| | | | | | | |     some merge
+| | | | | | | |         
+| | | | | | * | commit 483c04853d7a79fe47910320c26838cc177793e6
+| | | | | | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | | | | | Date:   Mon Apr 21 18:55:36 2014 -0400
+| | | | | | | | 
+| | | | | | | |     Added Python reserved words to lexer
+| | | | | | | |     
+| | | | | | | |     Also slightly changed "unrecognized language" error message
+| | | | | | | |         
+| | | | | | * | commit 46537685eba7b3c2ae5c4fb14e038ed36a913aac
+| | | |_|_|/ /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | |/| | | |   Date:   Mon Apr 21 18:48:22 2014 -0400
+| | | | | | |   
+| | | | | | |       Added "lang=x;" declaration to grammar
+| | | | | | |       
+| | | | | | |       Every svel file needs to start with a line "lang=x;"
+| | | | | | |       Currently only Java recognized
+| | | | | | |        
+| | * | | | | commit b4a9141184e15684698157ca499728d1ec3be0df
+| | | | | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | | | | Date:   Mon Apr 21 17:45:40 2014 -0400
+| | | | | | | 
+| | | | | | |     Compile script recognizes failed compilation
+| | | | | | |     
+| | | | | | |     Different messages based on whether compiled file is found or not
+| | | | | | |        
+| | * | | | | commit ad81917aee7d7033735a4029305cbca5d40cbc6b
+| | | | | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | | | | Date:   Mon Apr 21 17:32:55 2014 -0400
+| | | | | | | 
+| | | | | | |     Updated compiler to include jfunct & jfileutil
+| | | | | | |     
+| | | | | | |     No longer need "bundles" folder
+| | | | | | |        
+| | * | | | | commit 5eae193b4ac2cbe13a5adb68661ef98a08743668
+| |/ / / / /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | | |   Date:   Mon Apr 21 17:23:17 2014 -0400
+| | | | | |   
+| | | | | |       Added print statements to fibTester for clarification
+| | | | | |       
+| * | | | | commit 49d664001ae48f809564e9b9b7226f65db41d532
+|/ / / / /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | |   Date:   Mon Apr 21 17:20:24 2014 -0400
+| | | | |   
+| | | | |       Renamed funct to jfunt
+| | | | |        
+* | | | |   commit 71c03a9d6c9b9b304941727a6d831452b6fa590c
+|\ \ \ \ \  Merge: dc0046e b0f56b8
+| |/ / / /  Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | | |   Date:   Mon Apr 21 14:16:26 2014 -0400
+| | | | |   
+| | | | |       Merge pull request #40 from emilyhsia/master
+| | | | |       
+| | | | |       print ast when compiling with the verbose flag
+| | | | |      
+| * | | | commit b0f56b824b949a2b4e529f09d86ebf4149bd2e63
+|/ / / /  Author: emily <emily.j.hsia@gmail.com>
+| | | |   Date:   Mon Apr 21 14:15:54 2014 -0400
+| | | |   
+| | | |       print ast when compiling with the verbose flag
+| | | |     
+| | | * commit 0ed3994f94504960b498a526887e049f7fc2844f
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 21 13:59:04 2014 -0400
+| | | | 
+| | | |     fix format_err_msg bug
+| | | |     
+| | | * commit e7e667780b9e856732d8709dc174efab7e76dfca
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 21 13:55:56 2014 -0400
+| | | | 
+| | | |     fix spacing/indentation errors
+| | | |       
+| | | *   commit d45fb3ef4cc93312a8c959c0c3aa688c750e4218
+| | | |\  Merge: 1b6c2cb dc0046e
+| |_|_|/  Author: emily <emily.j.hsia@gmail.com>
+|/| | |   Date:   Sun Apr 20 17:15:55 2014 -0400
+| | | |   
+| | | |       Merge branch 'master' of https://github.com/svelTest/svelTest into treewalk
+| | | |       
+* | | |   commit dc0046e2d763c72598978c1df330fee78cb16a7b
+|\ \ \ \  Merge: 4134de8 955a4a9
+| |_|/ /  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+|/| | |   Date:   Sun Apr 20 17:06:37 2014 -0400
+| | | |   
+| | | |       Merge pull request #39 from kaitlinhuben/master
+| | | |       
+| | | |       Added verbose option to assert()
+| | | |     
+| * | | commit 955a4a99b169a64a77e8e856e3ce9f64e0d2ccd8
+| | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | Date:   Sun Apr 20 17:02:17 2014 -0400
+| | | | 
+| | | |     Added verbose option to assert()
+| | | |     
+| | | |     Optional third argument to svel assert function will either show or not show this line from funct.py:
+| | | |       print "%s(%s)... %s %s" % (self.name, inputstr, 5*"\t", message)
+| | | |     
+| | | |     Updated fibTester.svel to try both ways.
+| | | |       
+| * | |   commit 024399727212c7fd7b605f0f6dc4723fec99d724
+| |\ \ \  Merge: e9ace01 4134de8
+| |/ / /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|/| | |   Date:   Sun Apr 20 16:24:27 2014 -0400
+| | | |   
+| | | |       Merge branch 'master' of https://github.com/svelTest/svelTest
+| | | |       
+| * | |   commit e9ace01a16fc4dcc3bcbb30d307b361ac36b2319
+| |\ \ \  Merge: 6b7be13 b203ff6
+| | |/ /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | |   Date:   Sun Apr 20 16:24:04 2014 -0400
+| | | |   
+| | | |       Merge branch 'master' of https://github.com/svelTest/svelTest
+| | | |       
+| * | |   commit 6b7be133f59efdfcd222f3bb4c2a106e70049749
+| |\ \ \  Merge: 88bc4de b479bb4
+| | | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | | Date:   Sun Apr 20 15:08:36 2014 -0400
+| | | | | 
+| | | | |     Merge branch 'master' of https://github.com/svelTest/svelTest
+| | | | |        
+| * | | |   commit 88bc4dea70c35a312c37461fae06caf1357f673c
+| |\ \ \ \  Merge: a42ddd3 c8ac678
+| | | | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | | | Date:   Sun Apr 20 15:07:56 2014 -0400
+| | | | | | 
+| | | | | |     Fix merge conflicts
+| | | | | |     
+| | | | | |     Conflicts:
+| | | | | |     	test/java_files/fibTester.svel
+| | | | | |       
+| * | | | | commit a42ddd3970dc32d5b7ecf186e0a23c4f427cd584
+| | | | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | | | Date:   Sat Apr 19 16:23:04 2014 -0400
+| | | | | | 
+| | | | | |     Updated Fibonacci test case and wrote .svel draft
+| | | | | |         
+| | | | | *   commit 1b6c2cb9633e3c5aaba8f89bfab21d62c370be9c
+| | | | | |\  Merge: 9a841c4 d35b906
+| | | | | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | | | | Date:   Sun Apr 20 17:15:25 2014 -0400
+| | | | | | | 
+| | | | | | |     Merge branch 'treewalk' of https://github.com/emilyhsia/svelTest into treewalk
+| | | | | | |     
+| | | | | | |     Conflicts:
+| | | | | | |     	lib/svelTraverse.py
+| | | | | | |          
+| | | | | | *   commit d35b906318ec97a31d0144373c207a2d3ecee0a5
+| | | | | | |\  Merge: 52f5113 91f2462
+| | | | | | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | | | | | Date:   Sat Apr 19 16:40:58 2014 -0400
+| | | | | | | | 
+| | | | | | | |     fix merge conflicts
+| | | | | | | |         
+| | | | | | * | commit 52f511368ad6dac452e83cb549a3005ae8df7e87
+| | | | | | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | | | | | Date:   Sat Apr 19 16:12:37 2014 -0400
+| | | | | | | | 
+| | | | | | | |     add chris updated traverse
+| | | | | | | |         
+| | | | | * | | commit 9a841c485340da104806db7ab31795a269e8c0cd
+| | | | | | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | | | | | Date:   Sun Apr 20 16:59:15 2014 -0400
+| | | | | | | | 
+| | | | | | | |     traverse: error msg formatter
+| | | | | | | |         
+| | | | | * | | commit 89766c21dda0cd9b1830d2cd48de261fa2ba6004
+| | | | | | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | | | | | Date:   Sun Apr 20 16:57:56 2014 -0400
+| | | | | | | | 
+| | | | | | | |     traverse: update assignment_helper
+| | | | | | | |           
+| | | | | * | |   commit 0f8562742b7449aa74bcede2d6ac7c4972dec865
+| | | | | |\ \ \  Merge: 056760a 4134de8
+| |_|_|_|_|/ / /  Author: emily <emily.j.hsia@gmail.com>
+|/| | | | | | |   Date:   Sun Apr 20 16:33:33 2014 -0400
+| | | | | | | |   
+| | | | | | | |       Merge branch 'master' of https://github.com/svelTest/svelTest into treewalk
+| | | | | | | |       
+| | | | | | | |       Conflicts:
+| | | | | | | |       	lib/svelTraverse.py
+| | | | | | | |       	lib/svelYacc.py
+| | | | | | | |           
+* | | | | | | |   commit 4134de87bf6192973e2a7f419f20020c97014817
+|\ \ \ \ \ \ \ \  Merge: b203ff6 d9d10d4
+| |_|_|_|/ / / /  Author: Josh Lieberman <josh.lieberman92@gmail.com>
+|/| | | | | | |   Date:   Sun Apr 20 16:24:20 2014 -0400
+| | | | | | | |   
+| | | | | | | |       Merge pull request #38 from JALsnipe/master
+| | | | | | | |       
+| | | | | | | |       fixed print function syntax in svel program.
+| | | | | | | |         
+| * | | | | | | commit d9d10d43442c7143614f15d4e6cccaeb1cf0196d
+|/ / / / / / /  Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | | | | |   Date:   Sun Apr 20 16:23:12 2014 -0400
+| | | | | | |   
+| | | | | | |       fixed print function syntax in svel program.
+| | | | | | |          
+* | | | | | |   commit b203ff6e51d61a6df477f982952a5bd93ccd1ca6
+|\ \ \ \ \ \ \  Merge: b479bb4 2eb8aa5
+| |_|_|/ / / /  Author: Emily Hsia <emily.j.hsia@gmail.com>
+|/| | | | | |   Date:   Sun Apr 20 16:15:52 2014 -0400
+| | | | | | |   
+| | | | | | |       Merge pull request #37 from emilyhsia/master
+| | | | | | |       
+| | | | | | |       parser: fix print statements
+| | | | | | |        
+| * | | | | | commit 2eb8aa5ab4f593733860bd40faae4a261f04ed17
+| | | | | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | | | | Date:   Sun Apr 20 16:14:42 2014 -0400
+| | | | | | | 
+| | | | | | |     update testsuite to test print statements
+| | | | | | |        
+| * | | | | | commit 09a34314143c052ff61bdab0a7e13216dae0a330
+|/ / / / / /  Author: emily <emily.j.hsia@gmail.com>
+| | | | | |   Date:   Sun Apr 20 16:13:10 2014 -0400
+| | | | | |   
+| | | | | |       fix function_call rule causing shift/reduce conflicts
+| | | | | |         
+* | | | | |   commit b479bb4949d0f2b2552152f2792794ae1e2dbe14
+|\ \ \ \ \ \  Merge: c8ac678 534553e
+| |_|/ / / /  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+|/| | | | |   Date:   Sun Apr 20 15:08:31 2014 -0400
+| | | | | |   
+| | | | | |       Merge pull request #35 from JALsnipe/master
+| | | | | |       
+| | | | | |       added verbose (-v) flag to compiler and helper script.
+| | | | | |       
+| * | | | | commit 534553e37b6060b0452a4c757e4e51f5983a9134
+| | | | | | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | | | | Date:   Sun Apr 20 14:52:03 2014 -0400
+| | | | | | 
+| | | | | |     Fixed an error in svelTraverse where string literals were not being passed into the compiler .py file properly.
+| | | | | |       
+| * | | | | commit 985de0c1c2d85ad7d8ac91ec23a2290084c3f6a3
+|/ / / / /  Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | | |   Date:   Sun Apr 20 14:43:47 2014 -0400
+| | | | |   
+| | | | |       added verbose (-v) flag to compiler and helper script.
+| | | | |        
+* | | | |   commit c8ac6789f987ff59edbc92e525c9cc86da9f7aad
+|\ \ \ \ \  Merge: 654685e aeec7f9
+| | | | | | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | | | | Date:   Sat Apr 19 19:08:57 2014 -0400
+| | | | | | 
+| | | | | |     Merge pull request #33 from JALsnipe/master
+| | | | | |     
+| | | | | |     Tree walker: handle test file for demo
+| | | | | |       
+| * | | | | commit aeec7f96f3a9e2ad1cf509eb3f2cf540ee3784a5
+| | | | | | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | | | | Date:   Sat Apr 19 19:08:08 2014 -0400
+| | | | | | 
+| | | | | |     added execute environment to compile script
+| | | | | |       
+| * | | | | commit 9560f3277a392f40c280031fde04b963e0106c25
+| | | | | | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | | | | Date:   Sat Apr 19 19:05:55 2014 -0400
+| | | | | | 
+| | | | | |     created compile.sh to facilitate compilation.
+| | | | | |       
+| * | | | | commit e2232a82db35f335556ae449ba5696ea2bb7eec7
+| | | | | | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | | | | Date:   Sat Apr 19 18:12:30 2014 -0400
+| | | | | | 
+| | | | | |     fixed typo in funct.py.
+| | | | | |     
+| | | | | |     fib svel file compiles.
+| | | | | |       
+| * | | | | commit e338df981b3aa6f20e2e0a7fa3bee850afc2bf85
+| | | | | | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | | | | Date:   Sat Apr 19 17:28:51 2014 -0400
+| | | | | | 
+| | | | | |     compiler now produces properly named file.
+| | | | | |     
+| | | | | |     compiler now checks if a source python file exists before compilation.
+| | | | | |       
+| * | | | | commit 9a07a11489aa0fe703f7a65baf8c88a74d11a667
+| | | | | | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | | | | Date:   Sat Apr 19 17:16:00 2014 -0400
+| | | | | | 
+| | | | | |     handle file declarations in treewalker
+| | | | | |         
+* | | | | |   commit 654685ec38b34cf8a315dac39a30392801ab323d
+|\ \ \ \ \ \  Merge: 37d4680 8a15d65
+| |/ / / / /  Author: Emily Hsia <emily.j.hsia@gmail.com>
+|/| | | | |   Date:   Sat Apr 19 17:45:57 2014 -0400
+| | | | | |   
+| | | | | |       Merge pull request #34 from emilyhsia/master
+| | | | | |       
+| | | | | |       Parser: allow print of an expression
+| | | | | |       
+| * | | | | commit 8a15d653df0f8f4fcbf580379560fe9a94e61746
+| | | | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | | | Date:   Sat Apr 19 17:32:04 2014 -0400
+| | | | | | 
+| | | | | |     parser: allow print of an expression
+| | | | | |       
+| * | | | | commit d0cb6d5d40521888aace212e10149d9d63fa4ffa
+| |/ / / /  Author: emily <emily.j.hsia@gmail.com>
+| | | | |   Date:   Sat Apr 19 16:37:46 2014 -0400
+| | | | |   
+| | | | |       allow variable declaration in parser
+| | | | |        
+* | | | |   commit 37d46801f5fb37ba1a2a26e7a18c2d8a05b0895d
+|\ \ \ \ \  Merge: 6e53db3 91f2462
+| | |_|_|/  Author: Emily Hsia <emily.j.hsia@gmail.com>
+| |/| | |   Date:   Sat Apr 19 16:38:13 2014 -0400
+| | | | |   
+| | | | |       Merge pull request #32 from emilyhsia/master
+| | | | |       
+| | | | |       allow variable declaration in parser
+| | | | |      
+| * | | | commit 91f2462320b054421642667e828bfd2c3669a5a9
+|/ / / /  Author: emily <emily.j.hsia@gmail.com>
+| | | |   Date:   Sat Apr 19 16:37:46 2014 -0400
+| | | |   
+| | | |       allow variable declaration in parser
+| | | |       
+* | | |   commit 6e53db313894f9db16514dd6053c5c21898ade90
+|\ \ \ \  Merge: 4af89d4 fd89fd5
+| |/ / /  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | | |   Date:   Sat Apr 19 16:22:33 2014 -0400
+| | | |   
+| | | |       Merge pull request #31 from kaitlinhuben/master
+| | | |       
+| | | |       Modified svelLex.py and svelYacc.py to parse input file
+| | | |     
+| * | | commit fd89fd51c375b49b8a2591ab0c17c70efee0d706
+| | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | Date:   Sat Apr 19 16:08:31 2014 -0400
+| | | | 
+| | | |     Fixed shift/reduce conflict and added file parsing
+| | | |     
+| | | |     Like svelLex, can now parse input file with call:
+| | | |     ```python svelYacc.py <path_to_input_file>
+| | | |     
+| * | | commit 28fc882788c0d7da9b4c67713219b59e059bde8d
+| | | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | | Date:   Sat Apr 19 15:59:23 2014 -0400
+| | | | 
+| | | |     Modified svelLex.py to tokenize input file
+| | | |     
+| | | |     Used to only tokenize user input; can now tokenize input file with call:
+| | | |     ```python svelLex.py <path_to_input_file>```
+| | | |       
+* | | |   commit 4af89d42fd46f6f18ee7f0b0f845f8493f5a0cd2
+|\ \ \ \  Merge: cd94ab7 e1171fa
+| |/ / /  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | | /   Date:   Sat Apr 19 15:41:02 2014 -0400
+| |_|/    
+|/| |         Merge pull request #30 from kaitlinhuben/master
+| | |         
+| | |         Added comment banners and removed old syntax examples
+| | |      
+| * |   commit e1171fa971499d9faa5014b566b9c7631d81e864
+| |\ \  Merge: fae046d cd94ab7
+| |/ /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|/| |   Date:   Sat Apr 19 15:39:04 2014 -0400
+| | |   
+| | |       Merge branch 'master' of https://github.com/svelTest/svelTest
+| | |    
+| * | commit fae046deaefe1845514339afa9d31490772fce8d
+| | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | Date:   Sat Apr 19 15:38:10 2014 -0400
+| | | 
+| | |     Added comment banners at top of files
+| | |    
+| * | commit 94895f7958f13710dcef8565826e28ef4d77d489
+| | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | Date:   Sat Apr 19 15:23:27 2014 -0400
+| | | 
+| | |     Removed old syntax examples
+| | |    
+| | * commit 056760a5c7e7f9e7eeacd74386cc8911ea3c2a6a
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Sat Apr 19 18:10:35 2014 -0400
+| | | 
+| | |     begin implementing type/value checking
+| | |    
+| | * commit 587b7aee1279fb5afea8cd2511acc9b3946d979c
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Sat Apr 19 17:32:04 2014 -0400
+| | | 
+| | |     parser: allow print of an expression
+| | |    
+| | * commit 68de3312bf38fc49a9bb55f6d3f7ebabe46a9759
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Sat Apr 19 17:32:04 2014 -0400
+| | | 
+| | |     parser: allow print of an expression
+| | |    
+| | * commit e1873b83d70ed0c5a694f71b94d9d14f835bd38e
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Sat Apr 19 16:37:46 2014 -0400
+| | | 
+| | |     allow variable declaration in parser
+| | |    
+| | * commit 56978e8f02d97fec99197663d897c5dd0d03c16d
+| | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | Date:   Sat Apr 19 16:08:31 2014 -0400
+| | | 
+| | |     Fixed shift/reduce conflict and added file parsing
+| | |     
+| | |     Like svelLex, can now parse input file with call:
+| | |     ```python svelYacc.py <path_to_input_file>
+| | |    
+| | * commit 2939993a7b3339fe0c95d0d5981ef768aa980cf9
+| | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | Date:   Sat Apr 19 15:59:23 2014 -0400
+| | | 
+| | |     Modified svelLex.py to tokenize input file
+| | |     
+| | |     Used to only tokenize user input; can now tokenize input file with call:
+| | |     ```python svelLex.py <path_to_input_file>```
+| | |    
+| | * commit 90960c6a1da17395387cd4bf3cc21e95e59e8150
+| | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | Date:   Sat Apr 19 15:38:10 2014 -0400
+| | | 
+| | |     Added comment banners at top of files
+| | |    
+| | * commit 3d145f6a427e64e48bb0711ec1fd4458c2fab9db
+| |/  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|/|   Date:   Sat Apr 19 15:23:27 2014 -0400
+| |   
+| |       Removed old syntax examples
+| |     
+* |   commit cd94ab7b6cc5a28f0fc8e7bd4f6cead55080b4ba
+|\ \  Merge: f3f8d9a c8c60dd
+| | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | Date:   Sat Apr 19 15:32:30 2014 -0400
+| | | 
+| | |     Merge pull request #29 from emilyhsia/master
+| | |     
+| | |     parser: parse external declarations
+| | |      
+| * |   commit c8c60dd4118b1011158bee7f0379a14ec58057c7
+| |\ \  Merge: 27a1758 7ea5d57
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Sat Apr 19 15:30:57 2014 -0400
+| | | | 
+| | | |     Merge branch 'master' of https://github.com/emilyhsia/svelTest
+| | | |       
+| | * |   commit 7ea5d579aa5ee20bb462c886ca2fc9c25b1fd10c
+| | |\ \  Merge: 7f82147 3876994
+| | | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | | Date:   Sat Apr 19 15:29:29 2014 -0400
+| | | | | 
+| | | | |     fix merge conflicts
+| | | | |        
+| * | | |   commit 27a1758b3b222f361ca6db12929af27904864263
+| |\ \ \ \  Merge: 7f82147 3876994
+| | |/ / /  Author: emily <emily.j.hsia@gmail.com>
+| |/| / /   Date:   Sat Apr 19 15:29:29 2014 -0400
+| | |/ /    
+| | | |         fix merge conflicts
+| | | |     
+| | * | commit 3876994fb82055fc948d131e69c407168200ea8a
+| |/ /  Author: emily <emily.j.hsia@gmail.com>
+|/| |   Date:   Sat Apr 19 15:25:55 2014 -0400
+| | |   
+| | |       parse external declarations
+| | |    
+| * | commit 7f821477e4ce2a2ad4e365cbd5df3b7b174b8ac0
+|/ /  Author: emily <emily.j.hsia@gmail.com>
+| |   Date:   Sat Apr 19 15:25:55 2014 -0400
+| |   
+| |       parse external declarations
+| |     
+* |   commit f3f8d9afd5aefe7a6e0a98a9f895e5b364ecebda
+|\ \  Merge: de6444c f28cfd5
+| |/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| |   Date:   Sat Apr 19 15:20:36 2014 -0400
+| |   
+| |       Merge pull request #28 from kaitlinhuben/master
+| |       
+| |       Removed old helloworld folder
+| |   
+| * commit f28cfd5719f0baa65f52aa26e8e56b1a6e16bdfb
+|/  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|   Date:   Sat Apr 19 15:19:05 2014 -0400
+|   
+|       Removed old helloworld folder
+|    
+*   commit de6444cffd258a30e01b33e715262b07cd160ba3
+|\  Merge: 3795102 e346827
+| | Author: Christopher So <css2162@columbia.edu>
+| | Date:   Fri Apr 18 23:08:21 2014 -0400
+| | 
+| |     Merge pull request #25 from chrso/master
+| |     
+| |     Added support for lists/arrays, funct, assert
+| |     
+| *   commit e346827bf5f37e2cc2bc281ea8d7b99c22d13200
+| |\  Merge: 7baefbe 3795102
+| |/  Author: Christopher So <christopherso92@gmail.com>
+|/|   Date:   Fri Apr 18 23:07:13 2014 -0400
+| |   
+| |       Merge remote-tracking branch 'upstream/master'
+| |     
+* |   commit 379510230695ef53a456366ad7d9b6ba0f2d0c74
+|\ \  Merge: f221bd6 7af1418
+| | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | Date:   Fri Apr 18 23:06:08 2014 -0400
+| | | 
+| | |     Merge pull request #27 from emilyhsia/master
+| | |     
+| | |     condense funct_name rule in parser
+| | |    
+| * | commit 7af1418e086fb08188e0b34956bbdfe5d23ae95e
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Fri Apr 18 23:00:34 2014 -0400
+| | | 
+| | |     condense funct_name rule in parser
+| | |    
+| | * commit 7baefbe4ec6d19f36cde7e1b2255596e057ddc1f
+| | | Author: Christopher So <christopherso92@gmail.com>
+| | | Date:   Fri Apr 18 22:57:27 2014 -0400
+| | | 
+| | |     fixed funct param formatting
+| | |      
+| | *   commit 4cc922f92b33b627361449f68977abc3e6832474
+| | |\  Merge: 2d5f6b6 f221bd6
+| |_|/  Author: Christopher So <christopherso92@gmail.com>
+|/| |   Date:   Fri Apr 18 22:51:14 2014 -0400
+| | |   
+| | |       Merge remote-tracking branch 'upstream/master'
+| | |      
+* | |   commit f221bd6ed274a67e4bd717b4adff39ffc1f4eee8
+|\ \ \  Merge: 7eab2c5 081d3e2
+| |/ /  Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | |   Date:   Fri Apr 18 22:46:18 2014 -0400
+| | |   
+| | |       Merge pull request #26 from emilyhsia/master
+| | |       
+| | |       parser: fix input declarations
+| | |    
+| * | commit 081d3e2d18402be1cafefae326643a3a565d4542
+|/ /  Author: emily <emily.j.hsia@gmail.com>
+| |   Date:   Fri Apr 18 22:42:29 2014 -0400
+| |   
+| |       parser: fix input declarations
+| |   
+| * commit 2d5f6b623d6af080ca1e323fd2140ccade59ec42
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Fri Apr 18 22:15:51 2014 -0400
+| | 
+| |     fixed parameter formatting for Funct constructor
+| |   
+| * commit 6f861a845ad092d550dd1485c830c86591192125
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Fri Apr 18 21:39:34 2014 -0400
+| | 
+| |     handle empty array as input to Funct
+| |   
+| * commit 133cf0aaf0f6f6e07be08106c624fb1c933f52a8
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Fri Apr 18 21:28:59 2014 -0400
+| | 
+| |     removed extra characters
+| |   
+| * commit c520200d2148744ba99d51961b3e8965e9a79217
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Fri Apr 18 21:26:25 2014 -0400
+| | 
+| |     implemented remaining productions of function_call; todo: test with funct and assert
+| |   
+| * commit fe3ffa38d768382203fe5bff4fd1b9ed2124b847
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Fri Apr 18 21:19:13 2014 -0400
+| | 
+| |     implemented reserved_languages_list, reserved_languages_keyword
+| |   
+| * commit 7a2996dd524f34d1345cf73f233187619ca20454
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Fri Apr 18 21:16:15 2014 -0400
+| | 
+| |     fixed typo
+| |   
+| * commit 446d73250d2129ed8a7538dc94e3e5a3e446b2dd
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Fri Apr 18 21:10:12 2014 -0400
+| | 
+| |     implemented funct assignment; fixed _funct_name
+| |   
+| * commit 1b9cc74f2e31a38283dfd7d3c1c3f1db4c0366d5
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Fri Apr 18 20:40:22 2014 -0400
+| | 
+| |     implemented ref_type; supports array/list accesses
+| |   
+| * commit 52250b4e1974ec60452a4fc4b4b49a55e3e665c8
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Fri Apr 18 20:37:53 2014 -0400
+| | 
+| |     don't need to create new node for p[3] in ref_type
+| |   
+| * commit dc2b19dea61e3d3dd55835962ac1879a60d3b9ea
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Fri Apr 18 19:55:02 2014 -0400
+| | 
+| |     implemented array initialization - identifier_list
+| |   
+| * commit 08387b17316b0da88b6e212c13976c5c7ff19bd1
+| | Author: Christopher So <christopherso92@gmail.com>
+| | Date:   Fri Apr 18 19:54:40 2014 -0400
+| | 
+| |     differentiate between PAREN and BRACE in secondary_expr
+| |   
+| * commit 0adc1dc155db914311d1822078b4c46cc978c429
+|/  Author: Christopher So <christopherso92@gmail.com>
+|   Date:   Fri Apr 18 19:49:26 2014 -0400
+|   
+|       implemented secondary_expr
+|    
+*   commit 7eab2c57eba2c1e5f68ecd87ca1b510489e66ae7
+|\  Merge: 5681c5b 94be4cf
+| | Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | Date:   Fri Apr 18 17:04:21 2014 -0400
+| | 
+| |     Merge pull request #24 from kaitlinhuben/master
+| |     
+| |     Moved ASCII to different repo
+| |   
+| * commit 94be4cfe8ddfd4b159b09b01d0e227a650b3ad19
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Fri Apr 18 16:53:14 2014 -0400
+| | 
+| |     Moved ASCII to different repo
+| |     
+* |   commit 5681c5b803387637b8e921ddaa8c2599785c76cf
+|\ \  Merge: 87b91f9 4092cc6
+| |/  Author: Emily Hsia <emily.j.hsia@gmail.com>
+|/|   Date:   Fri Apr 18 17:02:58 2014 -0400
+| |   
+| |       Merge pull request #23 from emilyhsia/master
+| |       
+| |       implement array functionality in lexer and parser
+| |   
+| * commit 4092cc669c37d87144e73ede70e6a85609d21cb4
+|/  Author: emily <emily.j.hsia@gmail.com>
+|   Date:   Fri Apr 18 17:02:10 2014 -0400
+|   
+|       implement array functionality in lexer and parser
+|    
+*   commit 87b91f989a5119d4013db3725d4a2ae19dac731c
+|\  Merge: 9b0fe88 a8a2234
+| | Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | Date:   Fri Apr 18 15:47:14 2014 -0400
+| | 
+| |     Merge pull request #20 from kaitlinhuben/master
+| |     
+| |     Removing unnecessary files
+| |     
+| *   commit a8a223400fd9fc14639990edf8a3dd9e92092c7f
+| |\  Merge: 26d47c8 9b0fe88
+| |/  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|/|   Date:   Fri Apr 18 15:44:27 2014 -0400
+| |   
+| |       Merging new changes
+| |     
+* |   commit 9b0fe88575f981d3fc0eebb90f21568a1e83f083
+|\ \  Merge: fd61264 0845c22
+| | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | Date:   Fri Apr 18 15:34:59 2014 -0400
+| | | 
+| | |     Merge pull request #19 from emilyhsia/master
+| | |     
+| | |     added support for double type
+| | |    
+| * | commit 0845c224b7178dcd7d9cbbdf77dede15cb888b0a
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Fri Apr 18 15:34:22 2014 -0400
+| | | 
+| | |     added support for double type
+| | |      
+* | |   commit fd6126448afba42020f9139f4853fb07c2f66bb1
+|\ \ \  Merge: 7d0ea76 cf707a8
+| |/ /  Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | |   Date:   Fri Apr 18 10:47:32 2014 -0400
+| | |   
+| | |       Merge pull request #16 from emilyhsia/master
+| | |       
+| | |       Update input array access in funct
+| | |    
+| * | commit cf707a8c2dbf0c6863ab3b57b3d9c2e2debd8031
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Fri Apr 18 10:46:37 2014 -0400
+| | | 
+| | |     fix input array access in funct
+| | |      
+| * |   commit 6c48a84844a2e135fc5bad799d86a8a0e01bfb3d
+| |\ \  Merge: 3c20a7a 7d0ea76
+| |/ /  Author: emily <emily.j.hsia@gmail.com>
+|/| |   Date:   Fri Apr 18 10:32:44 2014 -0400
+| | |   
+| | |       Merge branch 'master' of https://github.com/svelTest/svelTest
+| | |      
+* | |   commit 7d0ea76116d192d19e97bd855cb31d35dcde81cb
+|\ \ \  Merge: dadec20 94cc0b3
+| | | | Author: Mandy <mcswinton@gmail.com>
+| | | | Date:   Fri Apr 18 10:32:32 2014 -0400
+| | | | 
+| | | |     Merge pull request #15 from mcswint/master
+| | | |     
+| | | |     created Fibonacci.java
+| | | |     
+| * | | commit 94cc0b30dbb4eb6549aef8f4f3f1da65a20f00b0
+|/ / /  Author: mcswint <mcswinton@gmail.com>
+| | |   Date:   Fri Apr 18 10:31:42 2014 -0400
+| | |   
+| | |       created Fibonacci.java
+| | |      
+| * |   commit 3c20a7a91c9b973a879dcb1c05e698dddd8e886f
+| |\ \  Merge: 2a1e6ed dadec20
+| |/ /  Author: emily <emily.j.hsia@gmail.com>
+|/| |   Date:   Fri Apr 18 09:53:17 2014 -0400
+| | |   
+| | |       Merge branch 'master' of https://github.com/svelTest/svelTest
+| | |      
+| * |   commit 2a1e6eda44a37e21ad9312c63c2c292e5b199f45
+| |\ \  Merge: 5836a4e ebb6553
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Wed Apr 9 15:58:15 2014 -0400
+| | | | 
+| | | |     Merge branch 'master' of https://github.com/svelTest/svelTest
+| | | |     
+| * | | commit 5836a4e695e5a4b1bfe4cc89cdded827a56d6a2f
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 7 13:00:31 2014 -0400
+| | | | 
+| | | |     updated lib/Makefile to remove Java class files
+| | | |     
+| * | | commit bfb9580604305d1f8a72adf3b340bb9d876dd874
+| | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | Date:   Mon Apr 7 12:57:26 2014 -0400
+| | | | 
+| | | |     small update to funct.py
+| | | |     
+| | | * commit 26d47c8b4e5d7836d3ec9f28d225d9ee606043d9
+| |_|/  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|/| |   Date:   Fri Apr 18 15:44:08 2014 -0400
+| | |   
+| | |       Refactored testing code
+| | |      
+* | |   commit dadec20155bc3af88b756f0ffd6c9381b60cfc73
+|\ \ \  Merge: ebb6553 c78e307
+| |_|/  Author: Josh Lieberman <josh.lieberman92@gmail.com>
+|/| |   Date:   Wed Apr 9 16:26:45 2014 -0400
+| | |   
+| | |       Merge pull request #13 from chrso/master
+| | |       
+| | |       handles flow control / loop stmts
+| | |      
+| * |   commit c78e307d3bf4e39326477658ba6d09e6451acb52
+| |\ \  Merge: 01ec061 ebb6553
+| |/ /  Author: Christopher So <christopherso92@gmail.com>
+|/| |   Date:   Mon Apr 7 00:23:41 2014 -0400
+| | |   
+| | |       Merge remote-tracking branch 'upstream/master'
+| | |      
+* | |   commit ebb6553d990843627d0ab321a87d6239b7795931
+|\ \ \  Merge: 4fca5a3 b586431
+| | | | Author: Christopher So <css2162@columbia.edu>
+| | | | Date:   Sun Apr 6 22:07:00 2014 -0400
+| | | | 
+| | | |     Merge pull request #10 from chrso/master
+| | | |     
+| | | |     started implementing traverse methods; indentation
+| | | |     
+| | * | commit 01ec061e6855d60dd363b91b3eb0c5b933e116d1
+| | | | Author: Christopher So <christopherso92@gmail.com>
+| | | | Date:   Mon Apr 7 00:23:27 2014 -0400
+| | | | 
+| | | |     implemented loop_stmt and jump_stmt; passes 0, 1, 2, 3, 5, 8
+| | | |     
+| | * | commit 96649d8c1b867d3206bda2a920dccf87cd2e5850
+| | | | Author: Christopher So <christopherso92@gmail.com>
+| | | | Date:   Mon Apr 7 00:15:28 2014 -0400
+| | | | 
+| | | |     hack-y loop_stmt (works); fixed p_loop_stmt in grammar to include for loop brack_stmt
+| | | |     
+| | * | commit 06bf5f830391a9600329adee2a1c7fb58ab97e5a
+| |/ /  Author: Christopher So <christopherso92@gmail.com>
+| | |   Date:   Mon Apr 7 00:02:09 2014 -0400
+| | |   
+| | |       implemented ifelse_stmt; added more newlines to output .py
+| | |    
+| * | commit b58643194868b0a4a65ab176d6a867982dd524e8
+| | | Author: Christopher So <christopherso92@gmail.com>
+| | | Date:   Sun Apr 6 22:02:46 2014 -0400
+| | | 
+| | |     implemented *_expr methods; todo: symbol/value table, checks, more testing
+| | |      
+| * |   commit 554020e0a3b8213c6f2b1c9262c69cdd735a3a1a
+| |\ \  Merge: 9a9ece3 4fca5a3
+| |/ /  Author: Christopher So <christopherso92@gmail.com>
+|/| |   Date:   Sun Apr 6 21:17:41 2014 -0400
+| | |   
+| | |       Merge remote-tracking branch 'upstream/master'
+| | |      
+* | |   commit 4fca5a30682e55f983ddaca62b41511c29471ee9
+|\ \ \  Merge: be1c351 b0456d2
+| | |/  Author: Emily Hsia <emily.j.hsia@gmail.com>
+| |/|   Date:   Sun Apr 6 06:40:48 2014 -0400
+| | |   
+| | |       Merge pull request #12 from emilyhsia/master
+| | |       
+| | |       Updated Python Funct class
+| | |    
+| * | commit b0456d2e742b6bbd2e374ebc3ee7b454e3d015a9
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Sun Apr 6 06:39:52 2014 -0400
+| | | 
+| | |     removed jcreator.py (moved to Funct class)
+| | |    
+| * | commit ea2a10991c9813ac196f9c3717a444e7c5ac2499
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Sun Apr 6 06:35:17 2014 -0400
+| | | 
+| | |     Updated Python Funct class
+| | |     
+| | |     Changed the Funct initializer to create and compile
+| | |     svel's helper Java program. _assert() runs the
+| | |     helper program when invoked
+| | |      
+* | |   commit be1c3510e26a344a5596f91a7c53b0d8b1d2330e
+|\ \ \  Merge: c498868 b8b1f53
+| |/ /  Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | |   Date:   Sun Apr 6 04:51:51 2014 -0400
+| | |   
+| | |       Merge pull request #11 from emilyhsia/master
+| | |       
+| | |       Python Funct class representing svel's funct
+| | |    
+| * | commit b8b1f53ca87a4268a43155fd13a2a84e6ebfb6de
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Sun Apr 6 04:49:45 2014 -0400
+| | | 
+| | |     update Makefile to remove Java class files, removed binarys
+| | |    
+| * | commit 226de843d98ceb6e9762bc69830c227e2186ce14
+|/ /  Author: emily <emily.j.hsia@gmail.com>
+| |   Date:   Sun Apr 6 04:43:01 2014 -0400
+| |   
+| |       Python Funct class representing svel's funct
+| |       
+| |       contains the assert method (called _assert())
+| |       
+| |       assert() : creates new Svel Java file with extracted
+| |       method to test, compiles the file, and runs it to test
+| |       the given the input and output
+| |       
+| |       (refactored old jextractor.py methods, deleted jextractor)
+| |     
+* |   commit c4988680fa6b2a97a5e2b380cffbedebfcfd2607
+|\ \  Merge: 29ebd84 5fd0f8d
+| | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | Date:   Sun Apr 6 01:31:00 2014 -0400
+| | | 
+| | |     Merge pull request #9 from emilyhsia/master
+| | |     
+| | |     Python methods to create, compile, and run Svel Java file to test/assert against inputs and outputs
+| | |    
+| * | commit 5fd0f8d91826c459cf1b9b721eb11fac4b4b1a9d
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Sun Apr 6 01:18:09 2014 -0400
+| | | 
+| | |     Helper methods to create, compile, and run Java
+| | |     files (created by svel compiler) to test the
+| | |     user's Java methods.
+| | |     
+| | |     jextractor:
+| | |     	Provides helper functions to get information about a Java file/class
+| | |     
+| | |     	contains test() function (gloabl) creates new Svel Java file with extracted
+| | |     	method to test, compiles the file, and runs it to test the given the input and output.
+| | |     	test() will print "Test passed" if passed, or "Test failed"
+| | |     ----------
+| | |     jcreator:
+| | |     	This class creates the Java source file (Svel.java) that calls and checks the Java method to test.
+| | |     	Each testcase "input" and "output" will be passed into the Java program as command line inputs.
+| | |     	The first command line args will be the inputs, and the last will be the output
+| | |     	That way, this file can be compiled and run with each testcase.
+| | |     
+| | |     	For example, if we're testing add() in Add.java:
+| | |     	1. We create the file Svel.java that looks something like this
+| | |     	public class Svel {
+| | |         		public static void main(String[] args) {
+| | |             		int _0 = Integer.parseInt(args[0]);
+| | |             		int _1 = Integer.parseInt(args[1]);
+| | |             		int expected = Integer.parseInt(args[2]);
+| | |     
+| | |             		int actual = Add.add(_0, _1);
+| | |     
+| | |             		System.out.println(expected == actual);
+| | |         		}
+| | |     	}
+| | |     
+| | |     	2. Now we can run in jextractor
+| | |         		$ javac Svel.java
+| | |         		$ java Svel 1 1 2
+| | |     
+| | |     jfileutil:
+| | |     Provides helper functions to get information from file paths
+| | |    
+| | * commit 9a9ece363e66a28e923a1e14fdf495543c454d0c
+| | | Author: Christopher So <christopherso92@gmail.com>
+| | | Date:   Sun Apr 6 21:17:32 2014 -0400
+| | | 
+| | |     handles assignment_expr; todo: rest of the *_exprs
+| | |    
+| | * commit 826b41a47ea4a0a022a7061af042ef5b2eb1aa02
+| | | Author: Christopher So <christopherso92@gmail.com>
+| | | Date:   Sun Apr 6 01:32:30 2014 -0400
+| | | 
+| | |     added indentation; tested/works with basic hello, world example
+| | |    
+| | * commit 0986a6725da701b308699c39f0ce2d633d6f508d
+| | | Author: Christopher So <christopherso92@gmail.com>
+| | | Date:   Sun Apr 6 00:59:32 2014 -0400
+| | | 
+| | |     jk - not sure what to do about var declarations
+| | |    
+| | * commit 6047351c17ac1b81b645b3a43f5e18eb48947341
+| | | Author: Christopher So <christopherso92@gmail.com>
+| | | Date:   Sun Apr 6 00:56:56 2014 -0400
+| | | 
+| | |     fixed translation_unit, external_declaration; implemented function_def
+| | |    
+| | * commit 3bfbb484c5b3d1105e13b1f55bd418e2fcf57b39
+| | | Author: Christopher So <christopherso92@gmail.com>
+| | | Date:   Sun Apr 6 00:45:50 2014 -0400
+| | | 
+| | |     implemented param_list, parameter
+| | |      
+| | *   commit dd2156d06d272f088ae6edca6d21dcbc1773129e
+| | |\  Merge: a681378 29ebd84
+| |_|/  Author: Christopher So <christopherso92@gmail.com>
+|/| |   Date:   Sun Apr 6 00:22:27 2014 -0400
+| | |   
+| | |       Merge remote-tracking branch 'upstream/master'
+| | |      
+* | |   commit 29ebd8416789187c2fff191a1f572823e7b4f2eb
+|\ \ \  Merge: f97d23b 3778ad4
+| | | | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | | Date:   Sat Apr 5 22:41:49 2014 -0400
+| | | | 
+| | | |     Merge pull request #8 from chrso/master
+| | | |     
+| | | |     added svelTraverse to lib; renamed old svelTraverse in helloworld to avo...
+| | | |     
+| | | * commit a681378818b19cd916bcff3ebc9bdc46553fc7c2
+| | |/  Author: Christopher So <christopherso92@gmail.com>
+| |/|   Date:   Sun Apr 6 00:21:40 2014 -0400
+| | |   
+| | |       added skeleton for traverse methods; todo: implement
+| | |    
+| * | commit 3778ad4a20387d9c2a749084c1b939ac95d394c6
+| | | Author: Christopher So <christopherso92@gmail.com>
+| | | Date:   Sat Apr 5 22:41:34 2014 -0400
+| | | 
+| | |     fixed output .py format
+| | |    
+| * | commit 0ec55f2880e50cb46263fd946fafffd21a85d969
+| | | Author: Christopher So <christopherso92@gmail.com>
+| | | Date:   Sat Apr 5 22:19:34 2014 -0400
+| | | 
+| | |     added traverse methods to handle hello, world example
+| | |    
+| * | commit 5b9adc9ee32f2ea2a8e89cd46dd10cad340c50cd
+| | | Author: Christopher So <christopherso92@gmail.com>
+| | | Date:   Sat Apr 5 21:58:49 2014 -0400
+| | | 
+| | |     moved files around; todo: update lib/svelTraverse.py to actual grammar
+| | |    
+| * | commit ce23825eebf03c93a4234efafd7a21b8705661b2
+| | | Author: Christopher So <christopherso92@gmail.com>
+| | | Date:   Sat Apr 5 21:42:36 2014 -0400
+| | | 
+| | |     svelTraverse.py to lib
+| | |    
+| * | commit f3fd6f565de4669cd1bc690d72df1eb233ab9a41
+|/ /  Author: Christopher So <christopherso92@gmail.com>
+| |   Date:   Sat Apr 5 21:38:24 2014 -0400
+| |   
+| |       added svelTraverse to lib; renamed old svelTraverse in helloworld to avoid conflicts
+| |     
+* |   commit f97d23b4aa1547589c880ba5d1e4653414bdeb34
+|\ \  Merge: 38e872a b847134
+| |/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+|/|   Date:   Sat Apr 5 19:59:41 2014 -0400
+| |   
+| |       Merge pull request #7 from kaitlinhuben/master
+| |       
+| |       Hello World testing main function & removed PLY warnings from Hello World compiler
+| |   
+| * commit b847134bf0d9b24f3cef16b23edb54b04963b7c9
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Sat Apr 5 19:56:16 2014 -0400
+| | 
+| |     Hello World testing a main function
+| |     
+| |     Syntax isn't correct and everything's pretty janky, but here's the deal:
+| |     
+| |     printhelloworld.py just prints "Hello, World!"
+| |     
+| |     test-helloworldMain.py compiles code that runs printhelloworld.py and compares output for correctness.
+| |     
+| |     That creates a file called test.py.
+| |     
+| |     To test things out:
+| |     ```
+| |     python test-helloworldMain.py
+| |     python test.py
+| |     ```
+| |     
+| |     You should see ```Hello World passed.```
+| |   
+| * commit 9ea8cd4fc76fc45ae5e4cfde52d8602c0645677c
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Sat Apr 5 18:15:25 2014 -0400
+| | 
+| |     Removed PLY warnings from Hello World compiler
+| |     
+| |     That way user doesn't have to be bothered by warning messages. Can be easily turned off by removing "errorlog=...NullLogger()" in svelCompile.py where ... is either lex or yacc.
+| |     
+| |     Left PLY warnings in main lib for now.
+| |     
+* |   commit 38e872a2730b5386fa1dbcf16f3ba8666f5ef01f
+|\ \  Merge: 9cf71a1 3d4d826
+| | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | Date:   Sat Apr 5 18:22:15 2014 -0400
+| | | 
+| | |     Merge pull request #6 from emilyhsia/master
+| | |     
+| | |     created jextractor class (Java extractor)
+| | |    
+| * | commit 3d4d8269a51eabd525acec5a0fdf6419b4f8c299
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Sat Apr 5 18:08:10 2014 -0400
+| | | 
+| | |     removed semicolon mistakes
+| | |    
+| * | commit 7de0886d04fcf6c65a658b8ffe03088a811be095
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Sat Apr 5 18:07:38 2014 -0400
+| | | 
+| | |     removed semicolon mistakes
+| | |    
+| * | commit c53a6b28e4120305d71709acd0e263e6bd14ab51
+|/ /  Author: emily <emily.j.hsia@gmail.com>
+| |   Date:   Sat Apr 5 18:02:32 2014 -0400
+| |   
+| |       created jextractor class (Java extractor) to extract neccessary info from Java files. currently gets method signatures and return types
+| |     
+* |   commit 9cf71a139cdd3311be24d001e3ce95e51de410bd
+|\ \  Merge: 65c45f8 5cfded9
+| |/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| |   Date:   Sat Apr 5 17:53:13 2014 -0400
+| |   
+| |       Merge pull request #5 from kaitlinhuben/master
+| |       
+| |       HELLO WORLD! Basic compiler skeleton up
+| |   
+| * commit 5cfded9ac7ed906459f3db69093330185e36ff68
+|/  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|   Date:   Sat Apr 5 17:50:48 2014 -0400
+|   
+|       HELLO WORLD! Basic compiler skeleton up
+|       
+|       All files in the helloworld folder. Once in folder, can test with:
+|       ```python svelCompile.py helloworld.svel```
+|       Will get an output helloworld.py, which can be run and just prints "Hello World!"
+|  
+* commit 65c45f865b7fad94e2a0b1add39317988565f370
+| Author: Emily Hsia <emily.j.hsia@gmail.com>
+| Date:   Sat Apr 5 16:10:20 2014 -0400
+| 
+|     Update README.md
+|     
+|     Same content as the wiki... putting it here if we want to create a github page for this repository later on
+|    
+*   commit deb66b048cc46073c28e9ddb09e19291b447cb03
+|\  Merge: 6814111 a6926a2
+| | Author: Christopher So <css2162@columbia.edu>
+| | Date:   Sat Apr 5 14:50:12 2014 -0400
+| | 
+| |     Merge pull request #4 from chrso/master
+| |     
+| |     generate .py code for hello world example
+| |     
+| *   commit a6926a2df0f0e9c9926ad55b9574999d536f039d
+| |\  Merge: 42f0e1d 6814111
+| |/  Author: Christopher So <christopherso92@gmail.com>
+|/|   Date:   Sat Apr 5 14:45:50 2014 -0400
+| |   
+| |       Merge remote-tracking branch 'upstream/master'
+| |     
+* |   commit 6814111b5928f081ed3b60487efaf9fb3f3d0ef0
+|\ \  Merge: 6f59e2d 7821f86
+| | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | Date:   Sat Apr 5 14:44:19 2014 -0400
+| | | 
+| | |     Merge pull request #3 from emilyhsia/master
+| | |     
+| | |     small fix in parser
+| | |    
+| * | commit 7821f86f13d0775fa019f8987efd3b0a402e20c2
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Sat Apr 5 14:43:35 2014 -0400
+| | | 
+| | |     added for-loop testcase
+| | |    
+| * | commit 9230d7024188b7f8c3c52c7e0380fc6563eaeb2e
+| | | Author: emily <emily.j.hsia@gmail.com>
+| | | Date:   Sat Apr 5 14:43:01 2014 -0400
+| | | 
+| | |     small fix in parser
+| | |    
+| | * commit 42f0e1db27edb574a4481115ebfa79c4b9349790
+| |/  Author: Christopher <christopherso92@gmail.com>
+|/|   Date:   Sat Apr 5 14:44:44 2014 -0400
+| |   
+| |       added indentation for .py output
+| |     
+* |   commit 6f59e2dce760356aafab5404badf132d7a3073b5
+|\ \  Merge: 6d419cf 9462755
+| |/  Author: Emily Hsia <emily.j.hsia@gmail.com>
+| |   Date:   Sat Apr 5 14:31:53 2014 -0400
+| |   
+| |       Merge pull request #2 from emilyhsia/master
+| |       
+| |       added testcase, updated test Makefile to remove .pyc in ply/
+| |   
+| * commit 94627555e62aae20f3eed6be62136bf37320bf94
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Sat Apr 5 14:31:13 2014 -0400
+| | 
+| |     added testcase, updated test Makefile to remove .pyc in ply/
+| |     
+* |   commit 6d419cfdcb820c890fa9fc93ab24666df534d525
+|\ \  Merge: d8f9eab 3d3e332
+| |/  Author: Emily Hsia <emily.j.hsia@gmail.com>
+| |   Date:   Sat Apr 5 14:28:51 2014 -0400
+| |   
+| |       Merge pull request #1 from emilyhsia/master
+| |       
+| |       updated parser to recognize reslang
+| |   
+| * commit 3d3e33229e47e7f6194ff89049a50f91798052d6
+|/  Author: emily <emily.j.hsia@gmail.com>
+|   Date:   Sat Apr 5 14:19:09 2014 -0400
+|   
+|       updated parser to recognize reslang
+|    
+*   commit d8f9eabaf2d6b27db83705981381f83a055bc830
+|\  Merge: ba5aa2f 3b72265
+| | Author: Christopher So <css2162@columbia.edu>
+| | Date:   Fri Apr 4 21:49:42 2014 -0400
+| | 
+| |     Merge pull request #23 from emilyhsia/master
+| |     
+| |     Created Testsuite class
+| |   
+| * commit 3b72265b90dfcfe1c796f35af79638e23fc4d849
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 4 21:13:56 2014 -0400
+| | 
+| |     update svelYacc so that parser can create AST
+| |   
+| * commit 7684dccbf7ba0989ee43090b2d804f1f717d8ddf
+| | Author: emily <emily.j.hsia@gmail.com>
+| | Date:   Fri Apr 4 21:10:15 2014 -0400
+| | 
+| |     Created testsuite class to collect various testcases. Modified testSvelYacc to utilize the Testsuite class and allows command line inputs
+| |     
+* |   commit ba5aa2f4af4ebe19429466b8964070d285735097
+|\ \  Merge: 93fe3e8 c2f9c33
+| | | Author: Christopher So <css2162@columbia.edu>
+| | | Date:   Fri Apr 4 21:43:11 2014 -0400
+| | | 
+| | |     Merge pull request #22 from chrso/master
+| | |     
+| | |     Basic Tree Walking
+| | |    
+| * | commit c2f9c333a61ecccb22b99bb54193dab43b7ef589
+|/ /  Author: Christopher So <christopherso92@gmail.com>
+| |   Date:   Fri Apr 4 17:08:51 2014 -0400
+| |   
+| |       basic tree walking
+| |     
+* |   commit 93fe3e8ac65ea9d61292966e369d2ddc00c434b8
+|\ \  Merge: a218396 4b50a7a
+| | | Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | | Date:   Fri Apr 4 16:20:17 2014 -0400
+| | | 
+| | |     Merge pull request #21 from kaitlinhuben/khuben/helloworld
+| | |     
+| | |     Hello World AST (creation only - no tree-walking)
+| | |    
+| * | commit 4b50a7af7665f7f5fca4159eff81d1fa4ac00976
+|/ /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| |   Date:   Fri Apr 4 16:15:21 2014 -0400
+| |   
+| |       Hello World AST (creation only - no tree-walking)
+| |       
+| |       Creates an AST for the following code only:
+| |       ```
+| |       main() {
+| |       	print "Hello World";
+| |       }
+| |       ```
+| |       
+| |       Intermediate step toward creating bare-bones compiler.
+| |     
+* |   commit a218396fb483be2164f4ed57c0d154faa112dc02
+|\ \  Merge: fb51014 5821153
+| |/  Author: Emily Hsia <emily.j.hsia@gmail.com>
+| |   Date:   Fri Apr 4 15:53:15 2014 -0400
+| |   
+| |       Merge pull request #20 from emilyhsia/master
+| |       
+| |       add Node class file
+| |   
+| * commit 5821153d390ff73e25f4ababe53c8a90c4961bcf
+|/  Author: emily <emily.j.hsia@gmail.com>
+|   Date:   Fri Apr 4 15:52:51 2014 -0400
+|   
+|       add Node class file
+|    
+*   commit fb510149bbf36c9e88b2d9cdd70cd8eb8ee778fe
+|\  Merge: 2ccb0fd 9e6f069
+| | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | Date:   Mon Mar 31 17:40:37 2014 -0400
+| | 
+| |     Merge pull request #19 from JALsnipe/master
+| |     
+| |     fixing my test commit
+| |     
+| *   commit 9e6f0695ca66757829ec8a9a62587ea13ff684ef
+| |\  Merge: d11488c 2ccb0fd
+| |/  Author: Josh Lieberman <josh.lieberman92@gmail.com>
+|/|   Date:   Mon Mar 31 17:39:19 2014 -0400
+| |   
+| |       Merge remote-tracking branch 'upstream/master'
+| |     
+* |   commit 2ccb0fd2c92ebf9124c12e256bc1ca698410114c
+|\ \  Merge: 42bab36 7bd70db
+| | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | Date:   Mon Mar 31 17:38:44 2014 -0400
+| | | 
+| | |     Merge pull request #18 from emilyhsia/master
+| | |     
+| | |     removed extra ID for void function definition
+| | |    
+| * | commit 7bd70db473596ee30a7a9718d3ab5265631d7cc7
+|/ /  Author: emily <emily.j.hsia@gmail.com>
+| |   Date:   Mon Mar 31 17:35:47 2014 -0400
+| |   
+| |       removed extra ID for void function definition
+| |   
+| * commit d11488c5f35af8edddff71d4dbe30f4bc0979288
+| | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | Date:   Mon Mar 31 17:26:20 2014 -0400
+| | 
+| |     removed test file
+| |   
+| * commit 166b054b9ec251e21e78b9dfbff1dfbecf046d2e
+|/  Author: Josh Lieberman <josh.lieberman92@gmail.com>
+|   Date:   Mon Mar 31 17:25:05 2014 -0400
+|   
+|       test
+|    
+*   commit 42bab36482d8d2e1a80c67119ede4d424872ae25
+|\  Merge: 5567db7 08c4913
+| | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | Date:   Mon Mar 31 16:40:36 2014 -0400
+| | 
+| |     Merge pull request #17 from emilyhsia/master
+| |     
+| |     removed old C lex/yacc
+| |   
+| * commit 08c49133efca2f8a95ae4c74eba6acfd5d912def
+|/  Author: emily <emily.j.hsia@gmail.com>
+|   Date:   Mon Mar 31 16:39:48 2014 -0400
+|   
+|       removed old C lex/yacc
+|    
+*   commit 5567db703a19a9df44be323970e117d781a741a0
+|\  Merge: b8407c7 0be6b50
+| | Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | Date:   Mon Mar 31 16:34:51 2014 -0400
+| | 
+| |     Merge pull request #16 from kaitlinhuben/khuben/testing
+| |     
+| |     Some parser fixes
+| |   
+| * commit 0be6b508399e3ef778465098ba00a6636a7ed88e
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Mon Mar 31 16:32:50 2014 -0400
+| | 
+| |     Fixed some parser test issues, e.g. concatentation
+| |     
+| |     Still doesn't parse "funct ..." statements correctly
+| |   
+| * commit 4115f00718d02351ce7117a7c8aeee5d28638958
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Tue Mar 25 23:14:28 2014 -0400
+| | 
+| |     Removed character literal
+| |     
+* |   commit b8407c772491763c9df1b0aa2dd7ae61cfb48ae1
+|\ \  Merge: b5c9946 5f16f8d
+| | | Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| | | Date:   Tue Mar 25 23:22:23 2014 -0400
+| | | 
+| | |     Merge pull request #15 from JALsnipe/master
+| | |     
+| | |     added ASCII Aho
+| | |    
+| * | commit 5f16f8d5e6b06f8b0bc173c774ab2deadc415706
+|/ /  Author: Josh Lieberman <josh.lieberman92@gmail.com>
+| |   Date:   Tue Mar 25 23:21:13 2014 -0400
+| |   
+| |       added ASCII Aho
+| |     
+* |   commit b5c99465019bbfa4a91290a13d729ddabf7b3bbb
+|\ \  Merge: cc27cf4 1b33a78
+| |/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| |   Date:   Tue Mar 25 22:45:14 2014 -0400
+| |   
+| |       Merge pull request #14 from kaitlinhuben/khuben/testing
+| |       
+| |       Grammar bug fixes
+| |   
+| * commit 1b33a78f3eeafe8a3808480a2d7a544480c6b255
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Tue Mar 25 21:56:14 2014 -0400
+| | 
+| |     Solved all reduce/reduce conflicts
+| |     
+| |     Still have 5 shift/reduce conflicts (3 need to be solved)
+| |   
+| * commit 6873b09b1abbb953bff05e33d18bc71e9d36e1cb
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Tue Mar 25 21:24:39 2014 -0400
+| | 
+| |     More bug fixes
+| |     
+| |     Down from 170+ shift/reduce conflicts to 11, still have 45 reduce/reduce conflicts
+| |   
+| * commit ac273afe7e09652c3876d17514920f050428976e
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Tue Mar 25 20:47:00 2014 -0400
+| | 
+| |     Small bug fixes to grammar
+| |     
+* |   commit cc27cf47a1bfb19e5d211cf88bcf23f6f042c06e
+|\ \  Merge: 594f156 7185a89
+| |/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| |   Date:   Tue Mar 25 01:17:29 2014 -0400
+| |   
+| |       Merge pull request #13 from kaitlinhuben/khuben/testing
+| |       
+| |       Updated syntax in test files
+| |   
+| * commit 7185a895ae3728c57f5b4c555f1d4c0479a41ec4
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Tue Mar 25 01:16:48 2014 -0400
+| | 
+| |     Updated syntax in test files
+| |     
+* |   commit 594f1561685a25eb7d86f76742b350d22df31862
+|\ \  Merge: 05c5029 d32639e
+| |/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| |   Date:   Tue Mar 25 01:08:43 2014 -0400
+| |   
+| |       Merge pull request #12 from kaitlinhuben/khuben/testing
+| |       
+| |       Lexer changes
+| |   
+| * commit d32639e0f7712390e383ef8bdd98b9363ceeabce
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Tue Mar 25 01:01:58 2014 -0400
+| | 
+| |     First attempt at full-grammar parser
+| |     
+| |     Should take string and parse it, then rebuild and return it
+| |     
+| |     Needs to cast empties/ints/etc. to str for success
+| |     
+| |     Also need to fix shift/reduce and reduce/reduce conflicts
+| |   
+| * commit 6a97b0d82e21aa98f9b37d706e374f93d8894288
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Tue Mar 25 01:01:46 2014 -0400
+| | 
+| |     More updates to lexer
+| |   
+| * commit e0c08eb156a31be6dabced80e1e88bb673670d59
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Mon Mar 24 23:53:24 2014 -0400
+| | 
+| |     Added more keywords and reserved language types
+| |     
+* |   commit 05c5029bb1ce02eb038a7643f18f72ec9f061ae2
+|\ \  Merge: cbd451d 2be9ef9
+| |/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| |   Date:   Mon Mar 24 23:53:04 2014 -0400
+| |   
+| |       Merge pull request #11 from kaitlinhuben/khuben/testing
+| |       
+| |       Added make as Vagrant dependency
+| |   
+| * commit 2be9ef9287fd6a54e4b5a780dee44d78b5135768
+|/  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|   Date:   Mon Mar 24 17:31:07 2014 -0400
+|   
+|       Added make as Vagrant dependency
+|       
+|       So can use "make clean" to remove PLY-generated files
+|    
+*   commit cbd451d02029bd2d6ce29b6f1c86dc0b9554fdf7
+|\  Merge: 26dae99 7dc1af1
+| | Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | Date:   Mon Mar 24 17:14:53 2014 -0400
+| | 
+| |     Merge pull request #10 from chrso/master
+| |     
+| |     Vagrant
+| |     
+| *   commit 7dc1af109f513d35b4161d1d70e13e2bffe81c10
+| |\  Merge: 7e525b2 26dae99
+| |/  Author: Christopher So <christopherso92@gmail.com>
+|/|   Date:   Sat Mar 22 16:18:21 2014 -0400
+| |   
+| |       merged Vagrant environment set-up with master; resolved conflicts in gitignore
+| |     
+* |   commit 26dae99fb297f0f86389ad8ff981c8121f8dc862
+|\ \  Merge: af17d5e fb6634d
+| | | Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | | Date:   Fri Mar 21 23:13:49 2014 -0400
+| | | 
+| | |     Merge pull request #9 from kaitlinhuben/khuben/testing
+| | |     
+| | |     Test folder refactoring
+| | |    
+| * | commit fb6634d24ebd6391ba452cddb86051140fceca9c
+| | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | Date:   Fri Mar 21 22:59:21 2014 -0400
+| | | 
+| | |     Test folder refactoring
+| | |    
+| * | commit 210fe4730091292a455345690b3297002c807be2
+| | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | Date:   Fri Mar 21 22:57:16 2014 -0400
+| | | 
+| | |     Moved lexer/parser testing into test folder
+| | |     
+| | |     Also copied Makefile for easy cleanup of generated files
+| | |      
+* | |   commit af17d5e5d0df7072d4656847efffb422ac82ff79
+|\ \ \  Merge: 720c9c2 5a4b030
+| |/ /  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | |   Date:   Fri Mar 21 22:50:28 2014 -0400
+| | |   
+| | |       Merge pull request #8 from kaitlinhuben/khuben/testing
+| | |       
+| | |       Started PLY parser
+| | |    
+| * | commit 5a4b0304866dde31cdae134d0566e4b05a8c6803
+| | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | Date:   Fri Mar 21 22:47:21 2014 -0400
+| | | 
+| | |     Started PLY parser
+| | |     
+| | |     Extremely basic parser that parses the following lines and simply spits text back out (no AST creation, etc.)
+| | |     ```main() {
+| | |     	testcase sysoutTestCase = {noParams, systemOut};
+| | |     }```
+| | |     
+| | |     Can test by doing ```python testSvelYacc.py```
+| | |     Can clean files with ```make clean```
+| | |      
+| * |   commit d123d3428da09ebfadc9019efe7a5008f5365f02
+| |\ \  Merge: e1e0a23 720c9c2
+| |/ /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|/| |   Date:   Thu Mar 20 19:55:34 2014 -0400
+| | |   
+| | |       Merge branch 'master' into khuben/testing
+| | |      
+* | |   commit 720c9c22ba098bb22f8e8ec4d20b71996fa32285
+|\ \ \  Merge: 968046f 2d7fef1
+| | | | Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | | | Date:   Thu Mar 20 19:54:44 2014 -0400
+| | | | 
+| | | |     Merge pull request #7 from kaitlinhuben/khuben/testing
+| | | |     
+| | | |     Added comments, strings, and other symbols to lexer
+| | | |       
+| | * |   commit e1e0a23f65811de30cf422e21bca50eb569c2b70
+| | |\ \  Merge: 2d7fef1 968046f
+| |/ / /  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | / /   Date:   Thu Mar 20 19:54:26 2014 -0400
+| |/ /    
+|/| |         Merge branch 'master' of https://github.com/kaitlinhuben/svelTest into khuben/testing
+| | |    
+| * | commit 2d7fef135aba74dcbef90287195f0c6edd6aab92
+| | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | Date:   Thu Mar 20 19:50:17 2014 -0400
+| | | 
+| | |     Added strings and other symbols to lexer
+| | |     
+| | |     Added strings encased in double quotes ("...") and other symbols
+| | |     Full list of new symbols:
+| | |     +
+| | |     -
+| | |     *
+| | |     /
+| | |     (
+| | |     )
+| | |     =
+| | |     ;
+| | |     :
+| | |     .
+| | |     ,
+| | |     {
+| | |     }
+| | |     [
+| | |     ]
+| | |     >
+| | |     <
+| | |     >=
+| | |     <=
+| | |     &&
+| | |     ||
+| | |     ==
+| | |     !=
+| | |    
+| * | commit 26e49e0d3e0c943fd00d5d11a148d76a3ca1a0af
+| | | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | | Date:   Thu Mar 20 19:35:46 2014 -0400
+| | | 
+| | |     Added /* */ and // style comments
+| | |    
+| | * commit 7e525b29835dc6f443eb381daba29b58bac448dd
+| |/  Author: Christopher So <christopherso92@gmail.com>
+|/|   Date:   Sat Mar 22 16:15:55 2014 -0400
+| |   
+| |       added Vagrantfile and provisioning file
+| |     
+* |   commit 968046f55178a4f7f39e23a0477998cff99f0c41
+|\ \  Merge: 47ac773 878023b
+| |/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| |   Date:   Thu Mar 20 19:09:59 2014 -0400
+| |   
+| |       Merge pull request #6 from kaitlinhuben/khuben/testing
+| |       
+| |       Added more full PLY examples
+| |   
+| * commit 878023b21a05e658cec04008c288341cb5e63639
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Thu Mar 20 19:05:13 2014 -0400
+| | 
+| |     Preliminary svel lexer
+| |     
+| |     Only recognizes reserved words and IDs/numbers
+| |     Can tokenize one line at at time with ```python svelLex.py``` or "test" sample program with ```python testSvelLex.py```
+| |   
+| * commit bc190d8e47c49a1361a4cf30aadee1b63f49734c
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Thu Mar 20 18:31:16 2014 -0400
+| | 
+| |     Changed path to ply for ply examples
+| |   
+| * commit 1f36bb8d73f43e563f242ea462c3af473e605ade
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Thu Mar 20 18:29:17 2014 -0400
+| | 
+| |     Moved old C lex/yacc examples to own folder
+| |   
+| * commit 9599541e3d3656261a132958a5ba34ea19aeb1b7
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Thu Mar 20 18:27:07 2014 -0400
+| | 
+| |     Cleaned up PLY examples; added .gitignore
+| |   
+| * commit c9116878f372241e634d8042c9636169bbd68453
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Sun Mar 16 23:41:06 2014 -0400
+| | 
+| |     Added PLY example (calculator) that uses classes
+| |   
+| * commit bd28e28121764448484e938419a679442428f0b2
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Sun Mar 16 23:21:57 2014 -0400
+| | 
+| |     Added full PLY calculator example
+| |     
+| |     Run with ```python calc.py```
+| |     End input loop with CTRL-D
+| |     
+* |   commit 47ac773116f02b38f3e4faf76ca343cf174d0a8c
+|\ \  Merge: a1adc0a d670321
+| |/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| |   Date:   Sat Mar 15 11:13:52 2014 -0400
+| |   
+| |       Merge pull request #5 from kaitlinhuben/khuben/testing
+| |       
+| |       Added PLY lexer example
+| |   
+| * commit d670321435b75649ed0bb073fb4189e99f7cb10a
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Sat Mar 15 11:12:35 2014 -0400
+| | 
+| |     Added PLY lexer example
+| |     
+| |     Run with ```python calclex.py```
+| |     
+* |   commit a1adc0a0f007296f9e0205c84273951039e20250
+|\ \  Merge: 9d73744 5b0b9c0
+| |/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| |   Date:   Fri Mar 14 12:13:16 2014 -0400
+| |   
+| |       Merge pull request #4 from kaitlinhuben/khuben/testing
+| |       
+| |       Added HelloWorld example
+| |   
+| * commit 5b0b9c085e6496a78dfc9a311a592e6af76a004a
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Fri Mar 14 12:11:50 2014 -0400
+| | 
+| |     Added HelloWorld example
+| |     
+| |     Can now start building parser/lexer/compiler
+| |     
+* |   commit 9d73744a50addaf157104e304ea5ff3d5d14d5ed
+|\ \  Merge: c9583f9 a574c9a
+| |/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| |   Date:   Tue Mar 11 01:09:02 2014 -0400
+| |   
+| |       Merge pull request #3 from kaitlinhuben/khuben/testing
+| |       
+| |       Added basic file/lexer for Emily's syntax proposal
+| |   
+| * commit a574c9a1cb2b3c470bd96c847a8cd6853b04dfc8
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Tue Mar 11 01:07:47 2014 -0400
+| | 
+| |     Added sample output file
+| |     
+| |     This is what the output of running ```./analyzeSvelFile <syntax_example.svel``` should look like.
+| |   
+| * commit 1ce139ee8cc30c21889a2842fb4c62cf01af5b9f
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Tue Mar 11 01:03:59 2014 -0400
+| | 
+| |     Distinguish test (type) from test() (function)
+| |   
+| * commit b4e1273c53ba13238b9e8e16a627b8b9871b51eb
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Tue Mar 11 01:00:38 2014 -0400
+| | 
+| |     Added basic file/lexer for Emily's syntax proposal
+| |     
+| |     Moved previous work into file "first_attempt"
+| |     Added Makefile for easy make/clean
+| |     
+* |   commit c9583f91c085816504f74e77434e324f866f7831
+|\ \  Merge: 47a9c8c 56eed9f
+| |/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| |   Date:   Sat Mar 8 16:47:11 2014 -0500
+| |   
+| |       Merge pull request #2 from kaitlinhuben/khuben/testing
+| |       
+| |       Started work on Yacc
+| |   
+| * commit 56eed9feacd73c78311513e837c630c67cfe0e8a
+| | Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| | Date:   Sat Mar 8 16:45:19 2014 -0500
+| | 
+| |     Started work on Yacc
+| |     
+| |     Does not successfully parse yet
+| |     
+* |   commit 47a9c8c7c94fe06823b5258a70d5401d66ac457a
+|\ \  Merge: 4f72eab bc49152
+| |/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| |   Date:   Sat Mar 8 16:43:13 2014 -0500
+| |   
+| |       Merge pull request #1 from kaitlinhuben/khuben/testing
+| |       
+| |       First lexer example
+| |   
+| * commit bc49152ee13c0edac4a38b9d742f2bd7add7e091
+|/  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+|   Date:   Sat Mar 8 16:41:14 2014 -0500
+|   
+|       First lexer example
+|       
+|       Successfully reads and prints back out sample "hello world" program
+|       To run:
+|       	make
+|       	./main <example.svel
+|  
+* commit 4f72eabd4e8336067aa83ad826318d5785f8657e
+| Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| Date:   Sat Mar 8 14:47:34 2014 -0500
+| 
+|     Remove args add for testing
+|  
+* commit c7541eb612d14d051ea80817e31a66ba8b78504e
+| Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| Date:   Sat Mar 8 14:21:00 2014 -0500
+| 
+|     Added Java file to test
+|     
+|     Compile with:
+|     	javac Add.java
+|     Run with:
+|     	java Add <number> <number>
+|  
+* commit 6bc4c0419055fb58e9017b8b5053229c24de7d03
+  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+  Date:   Wed Mar 5 13:32:30 2014 -0800
+  
+      Initial commit
