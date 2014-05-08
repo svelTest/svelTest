@@ -733,7 +733,7 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: primary_expr"
 
-		# ID, STRINGLITERAL, NUMBER (INT), DECIMAL (DOUBLE), TRUE/FALSE (BOOLEAN)
+		# ID, STRINGLITERAL, NUMBER (INT), DECIMAL (DOUBLE), TRUE/FALSE (BOOLEAN), MINUS NUMBER, MINUS DECIMAL
 		if len(tree.children) == 0:
 			_type = self._recognize_type_helper(tree.leaf)
 			if _type != "ID":
