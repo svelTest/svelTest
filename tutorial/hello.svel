@@ -1,0 +1,6 @@
+//prints ‘Hello World!’ to console 
+lang = None;
+main() {
+	string hello = “Hello World!”;
+	print(hello);
+}

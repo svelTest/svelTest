@@ -1,16 +1,17 @@
 // output: "hello, world"
 
+lang = Java;
 main() {
-    print "hello, world";
+    print("hello, world");
 
 	int x = 1;
 	int y = 2;
 	int z = x + y;
-	print z;			// 3
+	print(z);			// 3
 
 	int a = x * y;
-	print a;			// 2
+	print(a);			// 2
 
 	boolean b = x < y;
-	print b;			// True
+	print(b);			// True
 }

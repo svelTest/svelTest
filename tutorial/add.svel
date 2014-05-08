@@ -1,0 +1,41 @@
+//test suite for add function in Add.java
+lang = Java;
+int addTestSuite() {
+	int addSuccessCounter = 0;
+
+	// svelTest test idiom:
+	//	1. declare a file
+	//	2. declare a funct (ie: the source program or method to test)
+	//	3. create input(s) and corresponding output(s)
+	//	4. call assert() on the funct with the input(s) and output(s)
+	
+	file addFile = "Add.java";
+	funct add = {"add", (j_int, j_int), addFile};
+	input in1 = (1, 2);
+	output out1 = 3;
+	input in2 = (-2, 2);
+	output out2 = 0;
+	input[] inArray = {in1, in2};
+	output[] outArray;
+
+	outArray.insert(0, out1);
+	outArray.insert(1, out2);
+
+	for(int i = 0; i < inArray.size(); i = i+1) {
+		if (add.assert(inArray[i], outArray[i])) {
+			addSuccessCounter = addSuccessCounter + 1;
+		}
+	}
+
+	return addSuccessCounter;
+}
+
+main() {
+	int successNumber = addTestSuite();
+	
+	if (successNumber == 2) {
+		print("2/2 cases are successful");
+	} else {
+		print("method did not work as intended");
+	}
+}

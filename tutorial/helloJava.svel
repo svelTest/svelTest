@@ -1,0 +1,19 @@
+//tests Hello.java
+lang = Java;
+
+boolean helloWorldTest() {
+file helloFile = "HelloWorld.java";
+funct helloMain = {__main__, (j_String[]), helloFile};
+input _in = ();
+output out = "Hello World!";
+
+	return helloMain.assert(_in, out);
+}
+
+main() {
+	if (helloWorldTest()) {
+		print("Hello World passed!");
+	} else {
+		print("Hello World failed.");
+	}
+}

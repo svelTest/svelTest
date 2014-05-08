@@ -1,0 +1,13 @@
+//more succinct test suite for add function in Add.java
+lang = Java;
+
+main() {
+	funct add = {"add", (j_int, j_int), "Add.java"};
+	input[] inArray = {(1,2), (-2,2), (4, 5)};
+	output[] outArray = {3, 0, 10};
+
+	// the third test case should fail (4+5 != 10)
+	for(int i = 0; i < inArray.size(); i = i+1) {
+		add.assert(inArray[i], outArray[i], verbose);
+	}
+}
