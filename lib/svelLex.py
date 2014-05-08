@@ -48,6 +48,7 @@ class SvelLexer:
 		'size' : 'SIZE',
 		'insert' : 'INSERT',
 		'replace' : 'REPLACE',
+		'append' : 'APPEND',
 		'break' : 'BREAK',
 		'continue' : 'CONTINUE',
 		'return' : 'RETURN',
