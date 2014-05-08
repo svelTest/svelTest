@@ -48,14 +48,19 @@ class SvelTraverse(object):
 				self.walk(item, flags, verbose)
 			return
 
-		method = getattr(self, '_'+tree.type)
+		if tree is None:
+			try:
+				raise SyntaxError()
+			except SyntaxError as e:
+				sys.exit(str(e))
+		else:
+			method = getattr(self, '_'+tree.type)
 
 		# for type checks that are implemented so far, _method() will return
 		# two values [code, _type]. Otherwise, returns one value (just the code)
 		returned = method(tree, flags, verbose)
 		if isinstance(returned, tuple):
 			code, _type = returned
-			#print "%s: (%s, %s)" % (tree.type, code, _type)
 			return code, _type
 		else:
 			return returned
@@ -1335,6 +1340,14 @@ class SvelTraverse(object):
 #################################################################################
 #					  svelTest defined Exceptions 								#
 #################################################################################
+class SyntaxError(Exception):
+	def __init__(self, lineno=None):
+		self.lineno = lineno
+	def __str__(self, lineno=None):
+		if self.lineno is not None:
+			return "\tSyntax error at line : %s." % str(self.lineno)
+		return "\tSyntax error."
+
 class UnrecognizedLangError(Exception):
 	def __init__(self, actual, lineno=None):
 		self.actual = actual
