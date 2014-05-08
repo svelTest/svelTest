@@ -831,7 +831,7 @@ class SvelTraverse(object):
 			elif function == "readlines":
 				line += "[line.strip() for line in open(%s)]" % (tree.leaf)
 				_type = "array"
-			# lib_function -> ASSERT | REMOVE | INSERT | REPLACE
+			# lib_function -> ASSERT | REMOVE | INSERT | REPLACE | APPEND
 			else:	
 				if function == "remove":
 					function = "pop"
