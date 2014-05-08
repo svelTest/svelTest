@@ -934,7 +934,10 @@ class SvelTraverse(object):
 		line = ""
 		if len(tree.children) == 1:
 			# -> reserved_languages_keyword
-			line += "\"" + self.walk(tree.children[0], verbose=verbose) + "\""
+			keyword = self.walk(tree.children[0], verbose=verbose)
+
+			if(len(keyword) > 0):
+				line += "\"" + self.walk(tree.children[0], verbose=verbose) + "\""
 
 		elif len(tree.children) == 2:
 			# -> reserved_languages_list COMMA reserved_languages_keyword
