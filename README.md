@@ -11,20 +11,20 @@ svelTest
 ## Project & Contributors
 
 ### Deliverables
-1. Whitepaper ([GDOC] (https://docs.google.com/document/d/153WFuabcumkn7Wo-ne4FiyEzbwGChfMImohJrg47NK4/edit))
-2. Language Tutorial ([HTML] (https://svelTest.github.io/tutorial) | [GDOC](https://docs.google.com/document/d/1Jlvgt7bFuxl1FKmwID8w9gefvy7QOWRC7YnWgSUJQVY/edit?usp=sharing))
-3. Language Reference Manual ([GDOC] (https://docs.google.com/document/d/11q1Y8ffmkp-IT7JVnWYSrp-OCFPGAVzYU3rPH-81z40/edit))
+1. Whitepaper ([GDOC] (https://docs.google.com/document/d/1Z7Xzvcv0Aax7_WevoXOm4fF4oYqJ9_yP1PLgtqTIJ4w/edit?usp=sharing))
+2. Language Tutorial ([HTML] (https://svelTest.github.io/tutorial) | [GDOC](https://docs.google.com/document/d/1Zh-MP_gr9qH-466IiityswVk1Wd6GZtAT1-l0jpcYhU/edit?usp=sharing))
+3. Language Reference Manual ([GDOC] (https://docs.google.com/document/d/1sn5K1YFt0yfNsU4QQjW1xewVx-IlDh8yKmCrAinI2wY/edit?usp=sharing))
 
 ### Contributors
-Project Manager: Kaitlin Huben (kjh2141)
+Project Manager: Kaitlin Huben ([@kaitlinhuben](https://github.com/kaitlinhuben))
 
-Language Guru: Emily Hsia (ejh2170)
+Language Guru: Emily Hsia ([@emilyhsia](https://github.com/emilyhsia))
 
-System Architect: Joshua Lieberman (jal2238)
+System Architect: Joshua Lieberman ([@JALsnipe](https://github.com/JALsnipe))
 
-System Integrator: Christopher So (css2162)
+System Integrator: Christopher So ([@chrso](https://github.com/chrso))
 
-Verification and Validation Person: Amanda Swinton (acs2211)
+Verification and Validation Person: Amanda Swinton ([@mcswint](https://github.com/mcswint))
 
 
 ## Git Workflow
