@@ -116,6 +116,7 @@ class Testsuite(object):
 		b.insert(1);
 		a.remove(0);
 		a.replace(0,1);
+		a.append(3);
 
 		print (b.size());
 		print (a);
