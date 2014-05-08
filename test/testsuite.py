@@ -170,6 +170,9 @@ class Testsuite(object):
 			int[] f = {1, 2, 3};
 			f.replace(0, 4); // {4, 2, 3}
 
+			int[] g = {1, 2, 3};
+			f.append(4); // {1, 2, 3, 4}
+
 		}
 		'''
 
@@ -180,7 +183,7 @@ class Testsuite(object):
 
 	def getAll(self):
 		return self.cases
-
+'''
 from jfunct import Funct
 class FunctTests(object):
 
@@ -221,3 +224,4 @@ class FunctTests(object):
 	def testAll(self):
 		for case in self.cases:
 			case()
+'''

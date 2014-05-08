@@ -417,6 +417,7 @@ def p_lib_function(p):
                  | SIZE
                  | INSERT
                  | REPLACE
+                 | APPEND
                  | READLINES
     '''
     if p != None:
