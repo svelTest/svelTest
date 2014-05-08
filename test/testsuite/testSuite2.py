@@ -19,6 +19,7 @@ class Testsuite(object):
 	empty = '''
 	lang=None;
 	main(){
+		;
 	}
 	'''
 

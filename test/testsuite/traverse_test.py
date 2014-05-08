@@ -4,6 +4,8 @@ from testSuite2 import Testsuite
 
 lib_path = os.path.abspath('../../lib')
 sys.path.append(lib_path)
+lib_path = os.path.abspath('../../lib/ply-3.4')
+sys.path.append(lib_path)
 #print str(sys.path)
 #sys.path.append('../../lib')
 
@@ -30,12 +32,12 @@ class Traverse(unittest.TestCase):
 		code = SvelTraverse(ast).get_code_and_errors()
 		print code
 
-	'''
+	
 	def test_empty(self):
 		ast = self.parser.parse(Testsuite.empty, lexer = self.lexer)
 		code = SvelTraverse(ast).get_code_and_errors()
 		print code
-	'''
+	
 
 	def test_assignments(self):
 		ast = self.parser.parse(Testsuite.assignments, lexer = self.lexer)

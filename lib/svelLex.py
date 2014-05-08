@@ -13,8 +13,7 @@
 # be able to go into the ply directory to get to the 
 # ply modules
 import os, sys
-#lib_path = os.path.join('ply-3.4')
-lib_path = os.path.abspath('../../lib/ply-3.4')
+lib_path = os.path.join('ply-3.4')
 sys.path.append(lib_path)
 
 
