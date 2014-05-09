@@ -83,3 +83,9 @@ Base fork: svelTest/svelTest
 base: master
 Head fork: <yourname>/svelTest
 compare: master (//or whatever branch you want to push)
+
+### Updating GITLOG
+```
+$ git log --graph > GITLOG // in the root directory
+```
+Then push the updated log.
