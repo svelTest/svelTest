@@ -13,7 +13,7 @@ svelTest
 ### Deliverables
 1. Whitepaper ([GDOC] (https://docs.google.com/document/d/1Z7Xzvcv0Aax7_WevoXOm4fF4oYqJ9_yP1PLgtqTIJ4w/edit?usp=sharing))
 2. Language Tutorial ([HTML] (https://svelTest.github.io/tutorial) | [GDOC](https://docs.google.com/document/d/1Zh-MP_gr9qH-466IiityswVk1Wd6GZtAT1-l0jpcYhU/edit?usp=sharing))
-3. Language Reference Manual ([GDOC] (https://docs.google.com/document/d/1sn5K1YFt0yfNsU4QQjW1xewVx-IlDh8yKmCrAinI2wY/edit?usp=sharing))
+3. Language Reference Manual ([HTML] (https://svelTest.github.io/manual) | [GDOC] (https://docs.google.com/document/d/1sn5K1YFt0yfNsU4QQjW1xewVx-IlDh8yKmCrAinI2wY/edit?usp=sharing))
 
 ### Contributors
 Project Manager: Kaitlin Huben ([@kaitlinhuben](https://github.com/kaitlinhuben))
