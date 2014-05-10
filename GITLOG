@@ -1,96 +1,155 @@
-* commit 6c0c9a34e614fc6ea5c7d18f1430722d52bf0082
-| Author: Emily Hsia <emily.j.hsia@gmail.com>
-| Date:   Sat May 10 03:34:24 2014 -0400
-| 
-|     add link to LRM
-|  
-* commit a5da549de49bb51e787da969a84e3b1fb28e22b3
-| Author: Emily Hsia <emily.j.hsia@gmail.com>
-| Date:   Thu May 8 20:57:24 2014 -0400
-| 
-|     git log instruction to README
-|    
-*   commit 6cb9553a996ef27ad2ae94c3f4a620b6c87c8d1e
-|\  Merge: ba27071 23e491a
-| | Author: Emily Hsia <emily.j.hsia@gmail.com>
-| | Date:   Thu May 8 17:10:48 2014 -0400
-| | 
-| |     Merge pull request #82 from emilyhsia/master
-| |     
-| |     moved GITLOG
-| |   
-| * commit 23e491ac1ca57c2af659beec810aa0f8cb41f9ef
+*   commit a2a9458f184fb54cdf8264d84a3532eb3431cd12
+|\  Merge: 1e785ce be25921
 | | Author: emily <emily.j.hsia@gmail.com>
-| | Date:   Thu May 8 17:10:10 2014 -0400
+| | Date:   Sat May 10 12:38:32 2014 -0400
 | | 
-| |     moved GITLOG
+| |     Merge branch 'master' of https://github.com/svelTest/svelTest
 | |     
-* |   commit ba270715ab30c367f551e02c0e2f481ec91220ed
-|\ \  Merge: 7f55864 37f1f96
-| |/  Author: Emily Hsia <emily.j.hsia@gmail.com>
-| |   Date:   Thu May 8 17:09:07 2014 -0400
-| |   
-| |       Merge pull request #81 from emilyhsia/master
-| |       
-| |       add GITLOG
-| |   
-| * commit 37f1f964e8cdba1b4da28684df3fa9920f881cad
-| | Author: emily <emily.j.hsia@gmail.com>
-| | Date:   Thu May 8 17:08:40 2014 -0400
-| | 
-| |     add GITLOG
-| |   
-* | commit 7f5586491d9a9df9a70624e4a2e8e59c0db414f8
-| | Author: Mandy <mcswinton@gmail.com>
-| | Date:   Thu May 8 17:08:56 2014 -0400
-| | 
-| |     Delete traverse_test.py
-| |   
-* | commit d60af7d59bed5667b5211910cb2fe8edbbe0b38c
-| | Author: Mandy <mcswinton@gmail.com>
-| | Date:   Thu May 8 17:08:47 2014 -0400
-| | 
-| |     Delete yacc_test.py
-| |     
-* |   commit cb62b459deb237dd30d886f1562feb80bf9ac396
-|\ \  Merge: def3efa 28b203e
-| |/  Author: Emily Hsia <emily.j.hsia@gmail.com>
-| |   Date:   Thu May 8 16:48:35 2014 -0400
-| |   
-| |       Merge pull request #80 from emilyhsia/master
-| |       
-| |       catch NoneType syntax error to avoid python's printed stack trace
-| |   
-| * commit 28b203ea5ff9d1e5cc71f0a49b48c3f9f5237a72
-| | Author: emily <emily.j.hsia@gmail.com>
-| | Date:   Thu May 8 16:47:54 2014 -0400
-| | 
-| |     catch NoneType syntax error to avoid python's printed stack trace
-| |     
-* |   commit def3efadd2f73d180148fa09e20578270c712513
-|\ \  Merge: e5ecaba bc44bde
-| |/  Author: Mandy <mcswinton@gmail.com>
-|/|   Date:   Thu May 8 16:41:48 2014 -0400
-| |   
-| |       Merge pull request #79 from mcswint/master
-| |       
-| |       test suite things (2)
-| |     
-| *   commit bc44bdee51eb9e0a70b993613eb3bebf92da971a
-| |\  Merge: 2e76361 e5ecaba
-| |/  Author: Mandy <mcswinton@gmail.com>
-|/|   Date:   Thu May 8 16:40:18 2014 -0400
-| |   
-| |       Merge remote-tracking branch 'upstream/master'
-| |     
-* |   commit e5ecabaed943b9ca4c8a3f88bb32dd9132b85df2
-|\ \  Merge: 4e8856d f5b0937
-| | | Author: Emily Hsia <emily.j.hsia@gmail.com>
-| | | Date:   Thu May 8 16:30:14 2014 -0400
+| *   commit be25921e4952eca807576b29412f9a6422f7722a
+| |\  Merge: 6c0c9a3 824b04c
+| | | Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+| | | Date:   Sat May 10 09:51:33 2014 -0400
 | | | 
-| | |     Merge pull request #77 from chrso/master
+| | |     Merge pull request #84 from kaitlinhuben/master
 | | |     
-| | |     hack-y unary minus PLEASE LOOKOVERkthx
+| | |     Updated GITLOG
+| | |    
+| | * commit 824b04c33973f2674c2082f895a5d59195537c27
+| |/  Author: Kaitlin Huben <kaitlin.huben@gmail.com>
+| |   Date:   Sat May 10 09:50:47 2014 -0400
+| |   
+| |       Updated GITLOG
+| |   
+| * commit 6c0c9a34e614fc6ea5c7d18f1430722d52bf0082
+| | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | Date:   Sat May 10 03:34:24 2014 -0400
+| | 
+| |     add link to LRM
+| |   
+| * commit a5da549de49bb51e787da969a84e3b1fb28e22b3
+| | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | Date:   Thu May 8 20:57:24 2014 -0400
+| | 
+| |     git log instruction to README
+| |     
+| *   commit 6cb9553a996ef27ad2ae94c3f4a620b6c87c8d1e
+| |\  Merge: ba27071 23e491a
+| | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | Date:   Thu May 8 17:10:48 2014 -0400
+| | | 
+| | |     Merge pull request #82 from emilyhsia/master
+| | |     
+| | |     moved GITLOG
+| | |      
+| * |   commit ba270715ab30c367f551e02c0e2f481ec91220ed
+| |\ \  Merge: 7f55864 37f1f96
+| | | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | | Date:   Thu May 8 17:09:07 2014 -0400
+| | | | 
+| | | |     Merge pull request #81 from emilyhsia/master
+| | | |     
+| | | |     add GITLOG
+| | | |     
+| * | | commit 7f5586491d9a9df9a70624e4a2e8e59c0db414f8
+| | | | Author: Mandy <mcswinton@gmail.com>
+| | | | Date:   Thu May 8 17:08:56 2014 -0400
+| | | | 
+| | | |     Delete traverse_test.py
+| | | |     
+| * | | commit d60af7d59bed5667b5211910cb2fe8edbbe0b38c
+| | | | Author: Mandy <mcswinton@gmail.com>
+| | | | Date:   Thu May 8 17:08:47 2014 -0400
+| | | | 
+| | | |     Delete yacc_test.py
+| | | |       
+| * | |   commit cb62b459deb237dd30d886f1562feb80bf9ac396
+| |\ \ \  Merge: def3efa 28b203e
+| | | | | Author: Emily Hsia <emily.j.hsia@gmail.com>
+| | | | | Date:   Thu May 8 16:48:35 2014 -0400
+| | | | | 
+| | | | |     Merge pull request #80 from emilyhsia/master
+| | | | |     
+| | | | |     catch NoneType syntax error to avoid python's printed stack trace
+| | | | |        
+| * | | |   commit def3efadd2f73d180148fa09e20578270c712513
+| |\ \ \ \  Merge: e5ecaba bc44bde
+| | | | | | Author: Mandy <mcswinton@gmail.com>
+| | | | | | Date:   Thu May 8 16:41:48 2014 -0400
+| | | | | | 
+| | | | | |     Merge pull request #79 from mcswint/master
+| | | | | |     
+| | | | | |     test suite things (2)
+| | | | | |         
+| | * | | |   commit bc44bdee51eb9e0a70b993613eb3bebf92da971a
+| | |\ \ \ \  Merge: 2e76361 e5ecaba
+| | |/ / / /  Author: Mandy <mcswinton@gmail.com>
+| |/| | | |   Date:   Thu May 8 16:40:18 2014 -0400
+| | | | | |   
+| | | | | |       Merge remote-tracking branch 'upstream/master'
+| | | | | |       
+| | * | | | commit 2e76361883d51cd3b397167eb67e703a9cd5cf40
+| | | | | | Author: Mandy <mcswinton@gmail.com>
+| | | | | | Date:   Thu May 8 16:37:10 2014 -0400
+| | | | | | 
+| | | | | |     modified test suite
+| | | | | |       
+| | * | | | commit eadbfad5f0b85c0daa3e2a4dc1d91bcb5cb16b8a
+| | | | | | Author: Mandy <mcswinton@gmail.com>
+| | | | | | Date:   Thu May 8 16:36:21 2014 -0400
+| | | | | | 
+| | | | | |     added a testAll file and renamed some tests
+| | | | | |         
+| | * | | |   commit 021ae7fb98fa6e9b5dd50ffc4e5507ad09969b90
+| | |\ \ \ \  Merge: b1058f2 4e8856d
+| | | | | | | Author: Mandy <mcswinton@gmail.com>
+| | | | | | | Date:   Thu May 8 16:12:15 2014 -0400
+| | | | | | | 
+| | | | | | |     Merge branch 'master' of https://github.com/svelTest/svelTest
+| | | | | | |        
+| | * | | | | commit b1058f2caa66b8bb208030fe465e620c799dc9a3
+| | | | | | | Author: Mandy <mcswinton@gmail.com>
+| | | | | | | Date:   Thu May 8 16:02:47 2014 -0400
+| | | | | | | 
+| | | | | | |     added more tests to testsuite2
+| | | | | | |        
+* | | | | | | commit 1e785cebac46634ce474f9ff37853d5118a08fbf
+| | | | | | | Author: emily <emily.j.hsia@gmail.com>
+| | | | | | | Date:   Sat May 10 12:38:11 2014 -0400
+| | | | | | | 
+| | | | | | |     remove TODOs in svelTraverse
+| | | | | | |        
+* | | | | | | commit 89549d5ad3b3455c30a5d727f8d93949aa60eb2e
+| |_|_|_|_|/  Author: emily <emily.j.hsia@gmail.com>
+|/| | | | |   Date:   Sat May 10 12:37:57 2014 -0400
+| | | | | |   
+| | | | | |       update jfunct to handle print statements in tested return value methods
+| | | | | |       
+* | | | | | commit 23e491ac1ca57c2af659beec810aa0f8cb41f9ef
+| |_|_|_|/  Author: emily <emily.j.hsia@gmail.com>
+|/| | | |   Date:   Thu May 8 17:10:10 2014 -0400
+| | | | |   
+| | | | |       moved GITLOG
+| | | | |      
+* | | | | commit 37f1f964e8cdba1b4da28684df3fa9920f881cad
+| |_|_|/  Author: emily <emily.j.hsia@gmail.com>
+|/| | |   Date:   Thu May 8 17:08:40 2014 -0400
+| | | |   
+| | | |       add GITLOG
+| | | |     
+* | | | commit 28b203ea5ff9d1e5cc71f0a49b48c3f9f5237a72
+|/ / /  Author: emily <emily.j.hsia@gmail.com>
+| | |   Date:   Thu May 8 16:47:54 2014 -0400
+| | |   
+| | |       catch NoneType syntax error to avoid python's printed stack trace
+| | |      
+* | |   commit e5ecabaed943b9ca4c8a3f88bb32dd9132b85df2
+|\ \ \  Merge: 4e8856d f5b0937
+| |_|/  Author: Emily Hsia <emily.j.hsia@gmail.com>
+|/| |   Date:   Thu May 8 16:30:14 2014 -0400
+| | |   
+| | |       Merge pull request #77 from chrso/master
+| | |       
+| | |       hack-y unary minus PLEASE LOOKOVERkthx
 | | |      
 | * |   commit f5b09379dc716de6d6276cb37af1d97e272863a2
 | |\ \  Merge: 1f49a3a 4e8856d
@@ -98,52 +157,27 @@
 |/| |   Date:   Thu May 8 16:26:27 2014 -0400
 | | |   
 | | |       Merge remote-tracking branch 'upstream/master'
-| | |    
-| * | commit 1f49a3a3f8797a4b07660e2b8e4c3a1d28555224
-| | | Author: Christopher So <christopherso92@gmail.com>
-| | | Date:   Thu May 8 16:25:49 2014 -0400
-| | | 
-| | |     added unary minus
-| | |    
-| | * commit 2e76361883d51cd3b397167eb67e703a9cd5cf40
-| | | Author: Mandy <mcswinton@gmail.com>
-| | | Date:   Thu May 8 16:37:10 2014 -0400
-| | | 
-| | |     modified test suite
-| | |    
-| | * commit eadbfad5f0b85c0daa3e2a4dc1d91bcb5cb16b8a
-| | | Author: Mandy <mcswinton@gmail.com>
-| | | Date:   Thu May 8 16:36:21 2014 -0400
-| | | 
-| | |     added a testAll file and renamed some tests
-| | |      
-| | *   commit 021ae7fb98fa6e9b5dd50ffc4e5507ad09969b90
-| | |\  Merge: b1058f2 4e8856d
-| |_|/  Author: Mandy <mcswinton@gmail.com>
-|/| |   Date:   Thu May 8 16:12:15 2014 -0400
-| | |   
-| | |       Merge branch 'master' of https://github.com/svelTest/svelTest
 | | |      
 * | |   commit 4e8856d368ef5792fc0e7ed7184ef21a927f4ae9
 |\ \ \  Merge: 021ddf3 70a1391
-| |/ /  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
-| | |   Date:   Thu May 8 16:09:30 2014 -0400
+| |_|/  Author: Kaitlin Huben <kaitlinhuben@users.noreply.github.com>
+|/| |   Date:   Thu May 8 16:09:30 2014 -0400
 | | |   
 | | |       Merge pull request #76 from chrso/master
 | | |       
 | | |       added append lib function for arrays
 | | |    
-| * | commit 70a13918a2110b4240077da2d6da6d94c2d164ba
-|/ /  Author: Christopher So <christopherso92@gmail.com>
-| |   Date:   Thu May 8 15:51:46 2014 -0400
+| | * commit 1f49a3a3f8797a4b07660e2b8e4c3a1d28555224
+| |/  Author: Christopher So <christopherso92@gmail.com>
+| |   Date:   Thu May 8 16:25:49 2014 -0400
 | |   
-| |       added append lib function for arrays
+| |       added unary minus
 | |   
-| * commit b1058f2caa66b8bb208030fe465e620c799dc9a3
-|/  Author: Mandy <mcswinton@gmail.com>
-|   Date:   Thu May 8 16:02:47 2014 -0400
+| * commit 70a13918a2110b4240077da2d6da6d94c2d164ba
+|/  Author: Christopher So <christopherso92@gmail.com>
+|   Date:   Thu May 8 15:51:46 2014 -0400
 |   
-|       added more tests to testsuite2
+|       added append lib function for arrays
 |  
 * commit 021ddf39227076e261859ad139517a4e07206659
 | Author: Josh Lieberman <josh.lieberman92@gmail.com>

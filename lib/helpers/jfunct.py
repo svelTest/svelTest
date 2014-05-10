@@ -80,7 +80,7 @@ class Funct(object):
 
         # Testing a return value
         else:
-            if console == "true":
+            if "true" in console:
                 message = "PASS"
                 passed = True
             else:
@@ -205,7 +205,7 @@ class Funct(object):
                 body += "\t\tboolean eq = (expected == actual);\n"
             else:
                 body += "\t\tboolean eq = (expected.equals(actual));\n"
-            body += "\t\tif (eq) System.out.println(\"true\");\n"
+            body += "\t\tif (eq) System.out.println(\"Sveltest : true\");\n"
             body += "\t\telse System.out.println(\"returned: \" + actual);\n"
 
         else:

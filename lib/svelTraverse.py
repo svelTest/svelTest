@@ -28,7 +28,6 @@ class SvelTraverse(object):
 		# symbol table (dict)
 		self.symbols = {}
 
-		# TODO command line args hack
 		self.main_args = []
 		self.main_types = []
 
@@ -280,7 +279,6 @@ class SvelTraverse(object):
 		if(verbose):
 			print "===> svelTraverse: parameter"
 
-		# TODO command line args hack
 		if flags and len(flags) == 1 and flags[0] == "main":
 			self.main_types.append(tree.children[0].leaf)
 
@@ -455,7 +453,6 @@ class SvelTraverse(object):
 				next_line += file_name + "')\n"
 
 				# this line serves as pseudo-symbol table until we get one
-				# TODO: (emily) actually use symbol table
 				# assignment_expr must be file or string (string is OK)
 				if _type != "string" and _type != "file":
 					try:
@@ -728,7 +725,7 @@ class SvelTraverse(object):
 		elif tree.leaf == '{':
 			code, _type = self.walk(tree.children[0], verbose=verbose)
 			line += '[' + str(code) + ']'
-			return line, "array" # TODO (emily) type of array
+			return line, "array"
 
 		print "WARNING Unreachable code : _secondary_expr"
 		return line
@@ -831,7 +828,6 @@ class SvelTraverse(object):
 				args = args.split(",")
 				line += tree.leaf + "[" + args[0].strip() + "] = " + args[1].strip()
 				_type = "undefined"
-			# TODO: make less hack-y when we have a symbol table
 			# lib_function -> READLINES
 			elif function == "readlines":
 				line += "[line.strip() for line in open(%s)]" % (tree.leaf)
@@ -889,7 +885,7 @@ class SvelTraverse(object):
 			return "readlines"
 		else:
 			# -> REMOVE | SIZE | INSERT | REPLACE
-			return tree.leaf # TODO: will need to do type checking somewhere to make sure this is being called on an array/list
+			return tree.leaf
 
 	# returns tuple
 	def _ref_type(self, tree, flags=None, verbose=False):
@@ -1049,14 +1045,12 @@ class SvelTraverse(object):
 			self.level_down()
 
 		elif len(tree.children) == 4:
-			# for TODO: refactor -- very hack-y atm
 			line += self.walk(tree.children[0], verbose=verbose) + '\n'
 			line += self.format("while ")
 			line += self.walk(tree.children[1], verbose=verbose)
 			line += ":\n"
 
 			self.level_up()
-			# TODO: insert statements inside the for loop
 			line += self.walk(tree.children[3], verbose=verbose) + '\n'
 			line += self.format(self.walk(tree.children[2], verbose=verbose))
 			self.level_down()
@@ -1078,7 +1072,6 @@ class SvelTraverse(object):
 		# -> RETURN logical_OR_expr SEMICOLON
 		elif tree.leaf == 'return':
 			line += "return "
-			# TODO (emily) : check return type
 			code, _type = self.walk(tree.children[0], verbose=verbose)
 			symbol = self.currentFunction + "()"
 			function_returns = self._get_symtable_type(symbol, True)
